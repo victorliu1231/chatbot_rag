@@ -1,0 +1,253 @@
+Total chunks: 63
+============================================================
+HEADING: 1Introduction
+TEXT (1841 chars): Numericalsimulationsmakeitpossibletounderstandcomplexphysicalenvironmentsstartingfromfirst principles. Cloudyisdesignedtodojustthat. Itdeterminesthephysicalconditionswithina non-equilibriumgas,possiblyexposedtoanexternalsourceofradiation,andpredictstheresulting spectrum. Thismakesitpossibletopredictmanyobservedquantitiesbyspecifyingonlythepropertiesof thecloudandtheradiationfieldstrikingit. Thisisaquick-startguidetoCloudy. Itbeginswithanintroductiontothecode’swebsite,outlineshow tosetupthecode,andisfollowedbyadescriptionof HAZY,thecode’sdocumentation. Thisdocument onlygivesanoutlineofthecodeandthecommandsthatdriveit. Sectionsof HAZYthatgointogreater detailarereferencedandshouldbeconsultedtofindoutmore. Osterbrock &Ferland(2006;hereafter Table1: Major CLOUDY releasepapers AGN3)givemanymoredetailsabout Version Year Citation photoionizedclouds. Thisisanactive C33−87 1983−1998 Ferland(1991,1993,1996)+ researchfield. Ferland(2003)reviews C90 1998 Ferlandetal.(1998) recentadvancesandcurrentq
+
+============================================================
+HEADING: 1.2Thereleaseversion
+TEXT (779 chars): Likeallsoftware,Cloudygoesthroughversionsasitisdeveloped. Thefidelityofthesimulationimproves asprocessorsbecomefaster. Atomicandmolecularratecoefficientsbecomebetterastheoryand experimentmakesprogress. Bugsarefixed. Asaresultthecodegoesthroughversionsanditspredictions improveovertime. Thereleaseversionshouldbeusedforallpublications. Papersshouldsayexactlywhatversionofthe codewasused. AllversionsofCloudythateverhavebeenthereleaseversionarestillonthewebsite. This makesitpossibletoreproduceresultsobtainedyearsagoshouldaquestionaboutresultseverarise. Severaldevelopmentversionsarealsoonthewebsiteandinthesubversionrepository. Theseare experimentalandshouldnotbeusedinpublishedwork. Newversionsofthecode,andpatchestothecurrentversion,areannouncedon cloudyastrophysics.groups.io.
+
+============================================================
+HEADING: 1.3HAZY,thedocumentation
+TEXT (1059 chars): Cloudy’sdocumentation HAZYcomesinfourvolumes. ThisQuickStartGuidegivesanoverview. Part1 givesacompletelistofallcommands. Part2describestheoutputthatisgenerated,showshowtoextract observedquantitiesfromthepredictions,andexplainshowtocallCloudyaspartofalargerprogram. The QuickStartGuide,andParts1and2,arekeptuptodateandPDFversionsareincludedinthedownloadin thedirectorycloudy/docs. Part3,whichisbadlyoutofdateatthetimeofthiswriting,describesthephysicsbehindthesimulation. Thepastfewyearshaveseenmanyexpansionsofthecode’scapabilities,especiallyininfraredemission, molecularphysics,dynamicsandadvectiveflows,andtimedependentsimulations. Unfortunately,Part3of HAZYhasnothadahighenoughprioritytobeupdatedwithavailableresources. Ihavenotgivenupanddo intendtoupdatethissectioneventually. Fornow,anADSsearchonFerlandwillfindthemostrecentpapers thatdescribeadvancesinthephysics. TheLATEXsourceneededtobuildthedocumentationisincludedincloudy/docs/latex. ThePerl scriptCompileAll.plwillcompileallfourpartsofthedo
+
+============================================================
+HEADING: 1.4Assumptions
+TEXT (1084 chars): Thecodecomputesthenon-equilibriumionization,thermal,andchemicalstateofacloudthatmay(ormay not)beexposedtoanexternalsourceofradiation. Theusualassumptionisthatatomicprocesseshavehad timetobecometimesteady. Thedensityofaspeciesorleveliisgivenbyabalanceequationoftheform (cid:32) (cid:33) ∂n i =∑n R +Source−n ∑R +Sink =0[cm−3s−1] (1) j ji i ij ∂t j̸=i ji HereR representstherate[s−1]thataspecies j goestoi,Sourceistherateperunitvolume[cm−3 s−1] ji thatnewatomsappearini,andSinkistherate[s−1]theyarelost. This,togetherwithequations representingconservationofenergy,mass,andcharge,fullyspecifytheproblem. Mostcalculationsassumethatthecloudisstatic. Theabilitytododynamicalandtime-dependent calculationsisnowinthecodealthoughthispartisnotfullymature. Henneyetal.(2005)andHenneyetal. (2007)presentexamplesofdynamicalcalculations. TheIntroductionchapterinHAZYPart1givesmoredetailsontheassumptions. ThesectionTheFuture onwww.nublado.orgoutlinesthedirectionsfuturedevelopmentwilltake. ALIlineradiativetransfer
+
+============================================================
+HEADING: 1.5WhatCloudycando
+TEXT (177 chars): Giventheseassumptionsthecodewilldeterminetheionization,temperature,andchemicalstateofacloud andthenpredictitsspectrum. Allofthisisdoneself-consistentlywiththeminimumnumberoffree
+
+============================================================
+HEADING: 1.6Definitions
+TEXT (1747 chars): parameters. Theequationsofstatisticalequilibrium,chargeconservation,andconservationofenergyaresolved. Thesedeterminethelevelofionization,theparticledensity,thegaskinetictemperature,thechemicalstate, populationsoflevelswithinatoms,andthefullspectrum,whichoftenincludeshundredsofthousandsof lines. Averylargenumberofobservablesresultfromaveryfewfreeparameters. Oftenthegoalisto determinethesefreeparametersfromobservations. ThisapproachisoutlinedinSection8ofFerland Thefollowingsectionsoutlinehowtosetuptheboundaryconditionsforacalculation. Youcreatean inputscriptthatspecifiesthecloud’sgeometry,composition,density,andthickness. Theradiationfield strikingthecloud,oftenitsonlysourceofheatandionization,isspecified,andothersourcesofheatcan alsobeincluded. Thecodethencomputesthethermal,ionization,andchemicalpropertiesofthecloud,and itsobservedspectrum. AgeneralintroductiontosuchenvironmentsisgiveninChapters1and2ofAGN3. ThefirstchapterofPart1of HAZYgivesamoreextensiveoverviewofthecode. Theformatofth
+
+============================================================
+HEADING: 1.7CitingtheuseofCLOUDY
+TEXT (501 chars): Publicationsshouldcitethecodebygivingtheversionnumberandareferencetothelastmajorreviewof Cloudy’sdevelopment,Gunasekeraetal.(2025b). Anexamplewouldbe“Weusedversion07.02.01of Cloudy,lastdescribedbyGunasekeraetal.(2025b).” Citationsareimportantforsustainingthe developmentofCloudy. Theexactversionshouldbegivensothat,yearsfromnow,itwillbepossibleto findhowaparticularresultwasobtained. Thecommandprintcitationwillprintthecorrectcitationina LATEX-friendlyformat. Pleasefollowthecitationexampleshownabove.
+
+============================================================
+HEADING: 1.8Collaborations
+TEXT (136 chars): Someofthemostusefuladditionstothecodehavebeensurprisesdonatedbyvolunteers. Thereisagreat dealofworklefttobedone. Youarewelcometohelpout!
+
+============================================================
+HEADING: 2Twoverysimplemodels
+TEXT (366 chars): Asasimpleintroductionlet’screatetwosimplemodels. Thefirstisaplanetarynebula(seeChapter10of AGN3)andthesecondisacloudintheBroadEmissionLineRegionofaquasar(Chapter13ofAGN3). As aminimumyoumustspecifyafewparameters. Theseincludetheshapeandluminosityoftheradiation fieldstrikingthecloud,thecloud’sdensity,radius,andcomposition(ifitisnotsolar). Wegooverthese brieflyhere.
+
+============================================================
+HEADING: 2.1Whatmustbespecified
+TEXT (684 chars): Cloudyneedstobeabletodeducethefollowinginformationbeforeitcanpredictconditionswithinacloud; • Theshapeandbrightnessoftheradiationfieldstrikingthecloud. • Thetotalhydrogendensity. • Thecompositionofthegasandwhethergrainsarepresent. • Thethicknessofthecloud. Unlessotherwisespecifiedthegas-phaseabundanceswillbeclosetosolarvaluesandgrainswillnotbe included. Thetotalhydrogendensitywillbekeptconstantacrossthecloudsincethisisthedefault. Constantpressure,hydrostaticequilibrium,windmodelsandseveralothergeometriescouldhavebeen done. Thecode’sphilosophyisforareasonablesetofconditionstobeassumedbydefault. Thesearelistedin Section3.3ofPart1of HAZY. Commandsareaddedtochangetheseconditions.
+
+============================================================
+HEADING: 2.2Runningamodel
+TEXT (877 chars): Eachlineintheinputfilegivesacommand. Thesecommandsaredescribedfurtherbelow. Commentscan beenteredinseveralways,asdescribedinthesubsectionCommentsinthechapterIntroductionto CommandsinPart1of HAZY. Inexamplesbelowlinesbeginningwith“#”arecomments. Thefileends withablanklineortheendoffile. Iftheexecutableiscalledcloudy.exethenasinglesimulationcouldberunwiththecommand cloudy.exe -r sim Thiswillreadfromtheinputfilesim.inandproducetheoutputfilesim.out. Alternativelyyoucansupplythe CLOUDY commandsonthecommandline. Thisisusefulif youquicklywanttoexecuteaone-ortwo-linescript. Anexampleis: cloudy.exe -e test whichwillexecutethecommandtest(the“smoketest”,see HAZY 1fordetails). Thewww.nublado.orgwebsitehasmanymoredetailsaboutrunningthisversionof CLOUDY in thepageRunCode. Itisalsopossibleforalargerprogramtodrive CLOUDY directlybytreatingitasasubroutine. SeeRunCodeformoredetails.
+
+============================================================
+HEADING: 2.3Commandformat
+TEXT (684 chars): AseriesofcommandstellCloudywhattodo. Theyareentered,onecommandperline,intoan inputfilethatisreadbythecode. Withafewimportantexceptions,thecommandscanbeentered inanyorder. Eachcommandisidentifiedbythefirst4or5lettersontheline. Theformatfor commandsisdescribedfurtherinthechapterIntroductiontocommandsofPart1of HAZY. Parametersarespecifiedbynumbersthatappearonthecommandline. Manynumbersare enteredaslogs. Itisimportanttoread HAZY toseewhatisexpectedfornumericalinput. For instance,numbersrepresentingtemperaturesareinterpretedaslogsiftheyarelessthanorequalto 10andasthelineartemperatureifgreaterthan10. Manycommandshavethekeywordslogand lineartochangethedefaultinterpretationofanumber.
+
+============================================================
+HEADING: 2.4Asimpleplanetarynebula
+TEXT (4126 chars): Aplanetarynebulaisacloudofgasanddustthathasbeenejectedbyadyingstar(seeChapter10 ofAGN3). Thetemperatureandluminosityofthecentralstararespecifiedsincestarlightisthe energysource. Thecentralstarisacoolingwhitedwarf. Weapproximateitsradiationfieldasa hotblackbodyattheEddingtonlimitforonesolarmass. Wesetthestellarcontinuumshapeand luminositywithseparatecommands: blackbody, T=1e5 K # the continuum shape luminosity total 38 # the luminosity, log erg s-1 Thespectralenergydistributionisa105Kblackbodywithatotalluminosityof1038ergs−1. The blackbodycommandspecifiestheshapeoftheincidentradiationfieldandtheluminosity commandspecifiesitsbrightness. LuminosityandshapecommandsaredescribedinSection5on page22. Thebrightnessoftheincidentradiationfieldisspecifiedaseitheraluminosityor intensityasdescribedonpage22below. Thisexamplespecifiesaluminositysotheinnerradiusofthecloudmustalsobespecified. This istheluminositycasedescribedonpage22. Atypicalinnerradiusfortheshellofaplanetary nebulaisafractionofaparsec
+
+============================================================
+HEADING: 2.5Aquasarcloud
+TEXT (4453 chars): Nextcomputeasimplemodelofacloudinthequasarbroademission-lineregion(BLR).The BLRcloudsarelocatedclosetothecentralengineofanactivenucleus(seeChapters13and14of AGN3)andtheyprobeconditionsnearthemostmassivestructuresthatformedintheyoung universe. Theshapeofaquasarcontinuumisoftenfittedbyasetofpowerlaws. Mostofthe literatureinthisfielddescribesthecontinuumintensityintermsofthefluxofphotonsinthe hydrogen-ionizingcontinuumϕ(H)[cm−2 s−1]. ThisistheintensitycasedescribedinSection 5.1onpage22. table power law # a built-in power-law continuum phi(H) 18.5 # the log of the flux of H-ionizing photons [cm-2 s-1] Anumberofdifferentspectralshapesarestoredinthecodeaslook-uptables. Thistable commandusesapower-lawcontinuumwithaslope f ∝ν−1 inthevisible/UVandwitharoll ν overintheX-raysandinfrared. Theintensityoftheincidentradiationfieldisgivenasafluxof photonsthatarecapableofionizinghydrogen[cm−2 s−1]. Astartingradiusdoesnotneedtobe specifiedsincethisistheintensitycase. goL Radius (cm) Figure1: Thegaskinet
+
+============================================================
+HEADING: 3.1Zonesanditerations
+TEXT (1511 chars): Thecodeworksbydividingacloudintoalargenumberofthinlayerscalledzones. Thereisa defaultlimitof1400zones,butthiscanbechangedwiththesetnendcommand. Thecodewill generateawarningifthecalculationstopsbecausethedefaultlimittothenumberofzoneswas reachedsincethisprobablywasnotintended. Bydefaultthecodewilldooneiteration,onecompletesimulationofacloud. Iflineor continuumtransferisimportantthenmorethanoneiterationwillbenecessaryforavalidsolution sincetheopticaldepthsmustbeknown. Thenumberofiterationsiscontrolledwiththeiterate command. Thecodewillcomplainiftoofewiterationswereperformedfortheopticaldepthscale tobeconverged. 3.1.1 Commandsnormallyused Frequently-usedcommandsfollow: setnendchangesthedefaultlimittothenumberofzones. stopzonetellsthecodetostopataparticularzone. Thisismainlyusedfordebugging,or,in thecaseofstopzone1,toonlycomputethecloud’silluminatedface. iteratesetsthenumberofiterationstobeperformed. Thedefaultisasingleiterationandmore willbeneededwhenradiativetransfereffectsareimportant. 
+
+============================================================
+HEADING: 3.2Thegeometry—intensity&luminositycases
+TEXT (1466 chars): Thebrightnessoftheradiationfieldstrikingthecloudcanbespecifiedasanintensityor luminosity. Itmustbepossibleforthecodetodeducetheenergystrikingaunitareaofthecloud. ThesubsectionIntensityvsluminositycommandsofPart1of HAZY describesthedistinction betweenthesetwocases. Intheintensitycasetheenergyflux(ergcm−2 s−1)orphotonflux(cm−2 s−1)strikingaunit areaofcloudisset. Theinnerradiusdoesnotneedtobespecified. Theemissionperunitarea[erg cm−2 s−1]ispredicted2. Intheluminositycasethetotalluminosityofthecentralsourceofradiationisspecifiedandthe innerradiusofthecloudmustbeset. Theluminositiesofemissionlines[ergs−1]arepredicted. ThegascoveringfactorΩ/4π (AGN3Section5.9)isthefractionof4πsrcoveredbygasas seenfromthecentralobject. IfthecentralobjecthasatotalluminosityL thenthenebula interceptsLΩ/4π oftheradiationfield. Thecoveringfactorwilllinearlyaffectlineluminosities buthaveonlysecond-ordereffectsonlineintensities. Ifthecodecandeterminetheseparation[cm]betweenthecontinuumsourceandthecloudthen itwillpr
+
+============================================================
+HEADING: 3.3Openorclosedgeometry
+TEXT (929 chars): ThechapterDefinitionsofPart1of HAZY definesopenandclosedgeometriesandthechapter Geometrygoesintomoredetails. Theseconsiderationsaffectthetransferofdiffusefieldsand onlychangethepredictedlineintensitiesatthe∼10%level. Anopengeometryisthedefault. Thisisonewherediffuseemissionfromtheilluminatedface ofthecloudescapesfromthesystemwithoutstrikingotherclouds. Aclosedgeometryisonewheregascoversmostofthecontinuumsource. Thesphere commandsetsthiscase. Emissionfromtheilluminatedfaceofthecloudpassesthecontinuum sourceandstrikesgasonthefarside. Therearetwoclassesofclosedgeometries,staticandexpanding. Intheexpandingcase,the defaultwhenthespherecommandisincluded,linephotonsthatcrossthecentralcavitywillnot 2Theemissionperunitareaiscalledthe“intensity”inthisdocument,inthecode,andin HAZY. Foranoptically thickslabthisisactuallytheemittance.Foranopticallythinsourcethisis4πJwhereJisthemeanintensityasdefined inmostradiativetransfertexts.
+
+============================================================
+HEADING: 3.4Isthegasstaticorawind?Isitturbulent?
+TEXT (2764 chars): beabsorbedbygasonthefarsideduetoDopplershifts. Inthestaticcase(thespherestatic command)emissionlinescrossthecentralholeandareabsorbedonthefarside. These considerationshavelittleeffectonmostlinesbutdoaffectemissivityofhigher-nLymanlinesof hydrogen. ThisisdescribedfurtherinthesectioninPart1ofHAZYwherethespherecommandis discussed. 3.3.1 Commandsnormallyused Frequently-usedcommandsfollow: sphere[expanding,static]tellsthecodetoassumeaclosedgeometry. Theshellcanbeeither staticorexpanding. Bydefaulttheshellisassumedtobeexpandingrapidlyenoughthatlines escapingfromtheilluminatedfaceoftheshelldonotinteractwiththegasonthefarsideofthe centralhole. Ifthestatickeywordappearsonthespherecommandthenlinesescapingfromone sidewillbeabsorbedbygasonthefarside. Theexpandingoptiondoesnotchangetheintrinsic linewidth,whichisstillassumedtobethermal. Itonlychangeswhetherlinesformedinopposite sidesoftheshellinteract. 3.3.2 Headsup! Theseconsiderationsaffectthetransportofthediffusefieldsandhaveonlysecond-ordereffec
+
+============================================================
+HEADING: 3.5Whatsetstheouteredgetothecloud?Whyshouldthecalculationstop?
+TEXT (1958 chars): Thecodestartsattheilluminatedfaceofthecloudandworksitswayintodeeperregions. This integrationmuststopforsomereason. Inmanycasestheouteredgeofthesimulationisnotthe outeredgeofthecloudbutrathertheregionwherethegashasbecomecoldandneutral. Inother casesthecolumndensityofthecloudmaybeknownfromobservations. Manydifferentstopping criteriacanbespecifiedandthecodewillstopwhenthefirstoneisreached. Cloudywasoriginallydesignedtointerpretoptical/UVemissionlinesinquasars. Theselines areproducedinwarmionizedgassothedefaultistostopthecalculationwhenthegas temperaturefallsbelow4000K.Thiswilloftenbenearthehydrogenionizationfront. Thiswould beamistakeifyouwanttoconsidercoolatomicormolecularregions. Youshouldunderstandwhatsetstheouteredgeofthecloudyouwishtosimulateandthen confirmthatthecodereachedthatpoint. TheintroductiontothechapterStoppingCriteriaof Part1of HAZY goesintothisinmoredetail. 3.5.1 Commandsnormallyused Frequently-usedcommandsfollow. Theseareonlyasmallfractionofthemanywaysthata calculationcan
+
+============================================================
+HEADING: 3.6Whataboutclumping?
+TEXT (4811 chars): extinction,appropriateforextinctionacrossacloud,isspecifiedwiththekeywordextended. doubleThisdoublesthecomputedopticaldepthsattheendofaniteration. Thiscommand shouldbeusediftheregionbeingsimulatedisonlyalayeronamuchlargerstructure. Thisisthe caseinaPDRcalculation,whereanunmodeledmolecularcloudisassumedtoliebeyondthe shieldedfaceofthePDR.Lineswillbequiteopticallythickatthisouteredge. Emissionfromthe shieldedfacewillbesuppressedifthiscommandisusedsincewethenassumethatthelayeristhe midplaneofthecloud. Werethiscommandnotincludedthecodewouldassumethattheouter edgeofthemodelistheouteredgeofthecloudandopticallythicklineswouldfreelyradiatefrom theshieldedface. Thisisunphysical. ThephysicsisdescribedfurtherinthechapterOptical DepthsandRadiativeTransfer ofPart1of HAZY. 3.5.2 Headsup! ThestoptemperatureandstopefraccommandsareusefulwaystostopacalculationinthePDR ormolecularcloud. Usethestoptemperaturecommandbyitselftostopthecalculationatalow temperature. Setthestoppingtemperaturetoaverylowvalueand
+
+============================================================
+HEADING: 4Compositionanddensity
+TEXT (425 chars): Whatisthechemicalcompositionofthegas? Shouldgrainsbeincluded? ShouldPAHsalsobe included? CommandsthatsetthecompositionarediscussedinthechapterChemicalComposition ofPart1of HAZY. Thedefaultcompositionisclosetosolarandgrainsarenotincluded. Thedensityattheilluminatedfaceofthecloud,andadescriptionofhowthisdensityvaries withdepth,mustalsobegiven. Bydefaultthecodewillassumethatthedensityandcomposition donotchangeacrossthecloud.
+
+============================================================
+HEADING: 4.1Chemicalcomposition
+TEXT (1006 chars): Thecompositionissetbyspecifyingtheabundancesofthelightest30elements. Abundancesare specifiedbynumberrelativetohydrogen. Onthisscaleatypicalcarbonabundanceis n(C)/n(H)≈2×10−4. 4.1.1 Commandsnormallyused Frequently-usedcommandsfollow: abundancessetstheabundancesofallelementstothevaluesgivenontheline. Ifnonumbers arepresentbutakeywordisgiventhenthecompositionissettoastandardmixture. Examples includethelocalISMoratypicalplanetarynebula. Grainsareincludedinsomeabundancessets. ConsulttheChemicalCompositionchapterofPart1of HAZY tofindoutmore. elementsetstheabundanceofaparticularelement,removestheelementfromthecalculation, orspecifiesitsionizationstate. grainsdeterminesthetypeandabundanceofgrains. Ifgrainsareincludedthen,bydefault, theirabundancewillbethesameacrossthecloudandquantumheatingwillbeincludedwhenitis important. Thefunctionkeywordwillmakethegrainabundancedependonpositionandtheno qheatkeywordwillturnoffquantumheating. Byitselfthiscommandspecifiesclassicalorlarge grainsbutdoesnotinclud
+
+============================================================
+HEADING: 4.2Whatisthecloud’sdensity?Doesitvarywithdepth?
+TEXT (2157 chars): grainsPAHincludesPAHs. Bydefaulttheirabundancewillbeproportionaltotheratio n(H0)/n(H )assuggestedbyobservationsoftheOrionBar(Section8.5ofAGN3). tot Itiseasytocreatenewtypesofgrainsbyspecifyingtheirrefractiveindexandsizedistribution data. ThisisdescribedintheappendixUsingtheGrainCodeinCloudyinPart1of HAZY. metalschangestheabundancesofthe“metals”(allelementsheavierthanhelium)bythescale factorgivenonthecommandline. Itcanalsochangethegastodustratioorsetdepletionfactors forthegas-phaseabundancesoftheelements. 4.1.2 Headsup! Grainsublimation: Awarningwillbeprintedifgrainsbecomehotterthantheirsublimation temperature. Theywillnotberemovedfromthecalculation. Theeffectsofgrainsublimationcan bemimickedbymakingthegrainabundancevarywithdepthwiththefunctionoptiononthe grainscommandbutthisrequireswritinganewroutine. Notealsothatifgrainsaredestroyedthe materialcontainedwithinthemmustbereturnedtothegasphasetobeselfconsistent. Thisalsois notdoneautomatically. Finally,anotewillbeprintedifgrainsarenotpres
+
+============================================================
+HEADING: 4.3Commandsnormallyused
+TEXT (1644 chars): Frequently-usedcommandsfollow: hdenspecifiesthelogofthehydrogendensity[cm−3]. Constantdensityisthedefault. This includeshydrogeninallforms. constantpressure Thecloudwillbeisobaricorinhydrostaticequilibrium. Theequationof stateincludespressuretermsfromthermalgasmotions,turbulentmotions,amagneticfield,the nearlyisotropicradiationpressureproducedbytrappedemissionlines,andtheoutwardpushof theincidentradiationfieldonthegas. Thekeywordgassaystokeepthegaspressure,ratherthan thetotalpressure,constant. ThisisdiscussedintheOpticalDepthsandRadiativeTransfer chapterinPart1of HAZY. Self-gravityofthegascanbeincludedwiththegravitycommand, describedinchapterDensityLaws. fillingfactor Thegasisnormallyassumedtofullyfilltheavailablespace. Thiscommandsets afillingfactor f,thefractionofthevolumethatcontainsgas(AGN3Section5.9). Theremainder ofthevolumeisavacuum. magneticfield Theseareignoredbydefault. Magneticfieldswillcontributetothetotal pressure,and,optionally,totheturbulentvelocityfield. Theparameterssp
+
+============================================================
+HEADING: 5Theincidentradiationfield
+TEXT (431 chars): Oftentheradiationfieldstrikingthecloudisitsonlyenergysource. Theradiationfieldisspecified byitsshape,whichdescribeshowitdependsonwavelengthorfrequency,andbyitsintensityor luminosity. Theshapeandintensityareusuallyspecifiedwithdifferentcommands. Thechapter DefiningtheContinuumofPart1of HAZY givesanoverviewofhowthisisdone. Morethanone continuumsourcecanbeincluded. Thefollowingsectionsdescribehowtospecifyboththeshape andintensity.
+
+============================================================
+HEADING: 5.1Luminosityvsintensitycases
+TEXT (242 chars): Ingeneraltheradiationfieldstrikingthecloudcanbespecifiedeitheroftwoways. Inthe luminositycasethetotalluminosityemittedbythecentralobjectandtheinnerradiusofthecloud aregiven. Intheintensitycaseonlythefluxofradiationstrikingthecloudisspecified.
+
+============================================================
+HEADING: 5.2Theluminosityorintensityoftheincidentradiationfield
+TEXT (284 chars): Therearemanywaystospecifytheintensityorluminosity. Thesearedescribedinthechapter ContinuumLuminosityofPart1of HAZY. Bydefaultmostluminosityorintensitycommands specifythequantityintegratedoverhydrogen-ionizingenergies. Mostalsohavetherangeoption, whichallowsthisenergyrangetobechanged.
+
+============================================================
+HEADING: 5.3Theshapeoftheincidentradiationfield
+TEXT (5313 chars): 5.2.1 Commandsnormallyused Frequently-usedcommandsfollow: Q(H)specifiesthenumberofhydrogen-ionizingphotonsemittedbythecentralobjectinto 4πsr[s−1](AGN3Section2.1). phi(H)istheintensity[cm−2s−1]equivalentoftheQ(H)command. Itsetsφ(H),thefluxof hydrogen-ionizingphotonsstrikingthefaceofthecloud. luminosityspecifiestheluminosityemittedbythecentralobjectinto4πsr[ergs−1]. Bydefault thisistheluminosityinH0-ionizingradiation. intensityistheintensity[ergcm−2 s−1]equivalentoftheluminositycommand. Itgivesthe intensityofradiationstrikingthecloudface. Notethatthis“intensity”is4π timeslargerthanthe truemeanintensityJ,whichhasunitsergcm−2s−1sr−1. ionizationparameter Thissetsthedimensionlessratioofdensitiesofionizingphotonsto hydrogen,U ≡φ(H)/cn(H )(AGN3,equation14.7,page357). ThenumberisthelogofU. tot Thiscansometimesbeusefulsincecloudswiththesameionizationparameterhavesimilarlevels ofionizationandtemperature. Thisisequivalenttoanintensitycommand. 5.2.2 Headsup! Noneyet. Thecontinuumshapecanbeinterpola
+
+============================================================
+HEADING: 6.1Radiativetransfer
+TEXT (1551 chars): Allline-formationprocesses,includinglinetrapping,collisionaldeexcitation,continuum pumping,anddestructionbybackgroundopacities(seeAGN3Section14.5),areincluded. 6.1.1 Commandsnormallyused Frequently-usedcommandsfollow: CaseBartificiallysetstheopticaldepthsofhydrogenLymanlinestoverylargevalues. Under somecircumstancesthiswillforcethehydrogenrecombinationlinestotheirCaseBintensities, thelimitwhereallLymanlinesscatteroftenenoughtobedegradedintoLα andBalmerlines (AGN3,Section4.2). Thiscommandisonlyintendedforsettingup“homework”problemsortest casesandshouldneverbeusedinasimulationofarealobject. Itcanhaveunexpectedeffects. If theclouddoesnotcontaindustthenthemeanintensityofLα willbecomeverylargewhenthisis used. Thismayresultinunphysicalphotoionizationratesforvalenceshellsofthirdorfourth-row elements. DatabaseH-likeLymanpumpingoffThiscommandmustbeincludedinhomework-problem PDRsinwhichtheH+ regionisignored. Ifthecommandwerenotincludedthenathinlayerof ionizedgaswouldbeproducedonthefaceofthePDR.T
+
+============================================================
+HEADING: 6.2TheHmodel
+TEXT (715 chars): AlargeandcompletemodelofH emissioncanbeincluded. Itisslowandnotusedbydefault. Verysimpleapproximationsareusedwhenthecompletemodelisnotincluded. Thesesimple approximationsmayormaynotbegoodrepresentationsofthephysicsoftherealmolecule. ThelargeH modelsisusedwhenthedatabaseH2commandisincluded(seethechapter OpticalDepthsandRadiativeTransfer ofPart1of HAZY). Therearealsospecialsaveoutput optionsthatallowtheemissionorabsorptionfromthiscomplexspeciestobesavedandanalyzed. ThelargemodelofH waspartofGargiShaw’sthesisandisdescribedinShawetal.(2005). AGN3describessomepropertiesofH inSection8.3andappendixA6. Thesimulationsh2*.in inthetestsuitesgiveexamplesofitsuse. ThesaveH2commandgivesanumberofconvenient outputoptions.
+
+============================================================
+HEADING: 6.3Theoptimizecommand
+TEXT (1094 chars): Theoptimizecommandsmakeitpossibletosolvethe“inverseproblem,”probablythemost commonresearchareainastrophysics. Thisiswhentheoutcome,perhapsanobservedspectrum, isknownandwewishtoderivetheconditionsthatcreatedit. Weknowthe“answer”andwishto findthe“question.” Asetofobservedquantitiesarespecifiedintheinputstreamalongwithaseriesofoptimize commands. Thekeywordvarysayswhichparametersshouldbevariedtotrytoreproducethe observedquantities. Thecodewillthenrunaseriesofcalculations,changetheinputparameters thatincludethevaryoption,andtrytofindparametersthatmatchobservations. Allofthisis describedinthechapterTheOptimizeCommand ofPart1of HAZY. Thesimulations optimize*.ininthetestsuitesshowexamplesofitsuse. Itisgenerallyabadideatowriteapaperthatsimplygivestheresultofanoptimizedmodel. Thisappearsasacomputationalmiraclewithlittlepedagogicalvalue. Abetterapproachistofind thebest-fittingparametersthenshowaseriesofcalculationsinwhichvariousparametersare changedaroundthebestvalues. Changesinpredictedquantitie
+
+============================================================
+HEADING: 6.4Gridsofmodels
+TEXT (2581 chars): Thegreatestphysicalinsightisoftenobtainedfromlookingatresultsofgridsofcalculationsto discoverphysicaltrendsorcorrelations. AnexampleisshowninFigure4givingtheequivalent widthofoneofthestrongestemissionlinesinquasarsasafunctionoftwocloudparameters (Hamann&Ferland1999). Thecodeisdesignedtobeusedasasub-programofother,larger,codes. Thecommandformat isthesamewhenitisusedasasubprogrambutcommandsareenteredbycallingaspecialroutine thatcontainsthecommandlineasanargument. Cloudyisthenexecutedandthepredictionsare retrievedafterthesimulationfinishes. Thismethodofrunningthecodeisdescribedinthechapter CloudyasaSubroutineinPart2of HAZY. Thetestsuitedirectoryincludesasubdirectory programsthatincludesasetofsampleprogramsthatillustratethisuseofthecode. Thegridcommand,introducedbyRyanPorterinC07,seePorteretal.(2006),makesiteasyto dosuchacalculationwithoutwritingnewcode. ThepredictionsinFigure4canbeproducedby modifyingthesimpleBLRscriptgiveninSection2.5onpage10toreadasfollows: table power law phi(H) 18.5 v
+
+============================================================
+HEADING: 6.5Miscellaneouscommands
+TEXT (814 chars): 6.5.1 Commandsnormallyused Frequently-usedcommandsfollow: atomchangesthetreatmentofsomemodelatoms. Ithasmanykeywords. atomH-likeand atomHe-likeallowsomeaspectsoftheH-likeandHe-likeisoelectronicsequencestobechanged. H2turnsonalarge(andslow)modelofH (Shawetal.,2005)emission. initFrequently-usedcommandscanbestoredinoneormoreinitializationfile(s). Theinit commandwillincludethecontentsofthisfileintheinputstream. Thefilenameappearsonthe commandlinewithinapairofdoublequotes. CommentsThesecanbeincludedwithintheinputstream. ThesectionIntroductionto CommandsofPart1of HAZY explainshowtoenterseveraltypesofcomments. Generally,any linethatbeginswithasharpsign,“#”,istakenasacommentandignored. coronaltimeinitThiscommandcanbeusedtostudyhowaparcelofgascoolsunder conditionsofconstantdensity(isochoric)orpressure(isobaric).
+
+============================================================
+HEADING: 7.1Thedefaultprintout
+TEXT (72 chars): Whenthecodeisexecutedonacommandline,asin cloudy.exe < test.in > test.out
+
+============================================================
+HEADING: 7.2Understandwhythecalculationstopped
+TEXT (2374 chars): thefiletest.incontainsthecode’sinputcommands(readfromstdin)anditsoutput(written tostdout)goestotest.out. TheoutputisfullydescribedinthechapterOutput ofPart2of HAZY. Thedefaultoutputincludesacopyoftheinputcommands,alistoftheabundancesofthe chemicalelementsandgrains,thephysicalconditionsinthefirstandlastzone,anexplanation whythecalculationstopped,theintensityorluminosityofthestrongeremissionlines,andthe meanionization,temperature,andcolumndensityofmanyspecies. 7.1.1 Commandsnormallyused Frequently-usedcommandsfollow: titleentersatitlethatisprintedatvariousplaces. printcommandschangesomeaspectsoftheprintout. Itcansorttheemissionlines,change theirformat,andmodifywhatinformationisprinted. printlinefaintxxThepredictedintensitiesofmanylinesaregiveninthemainprintout. Only thebrighterlinesarepredictedsincethetotalnumberoflinesisvast. Thiscommandchangesthe limittothefaintestlinetoprint. normalizeThelogoftheradiatedluminosityorintensityofeachemissionlineisprintedafter theline’slabelinthemainprint
+
+============================================================
+HEADING: 7.3Warnings,cautions,surprises,andnotes
+TEXT (533 chars): Examinethecommentsafterthelastzoneforanywarnings,cautions,orsurprises. Thecodeis designedtobeautonomousandself-aware. Itdoesmanyinternalsanitycheckstomakesurethat thecalculationisvalid(Ferland,2001). Ifthereareproblemsthecodewillsayso. • Warningsstartwith“W-”andindicatethatsomethingisseriouslywrongwiththe calculation. • Cautionsstartwith“C-”andindicatethatthecodeisonthinice. • Surprisesstartwith“!” andindicatenovelorinterestingaspectsoftheresults. ThesearedescribedfurtherinthesectionWarnings,Cautions,Surprises,andNotesofPart2of
+
+============================================================
+HEADING: 7.4Observedquantities
+TEXT (1342 chars): ThechapterObservedQuantitiesofPart2of HAZY explainshowtorelatequantitiespredictedby thecodetoobservedproperties. ThechapterTheEmissionLinesofPart2of HAZY givesan overviewofthelabelsusedtoindicatevariousemissionlines. 7.4.1 Multipletsandblends Observedspectraoftencontainmanyemissionlines. Iftheselinesaretooclose,theymayoverlap andformwhatisknownasablend. Whichlinesformablendcanbedifficulttopredict. It dependsontheintrinsicbroadeningofthelinesinthesourceaswellastheresolvingpowerofthe spectrograph. Alow-resolutionspectrummayshowtwocloselyspacedlinesasablend,whilea high-resolutionspectrumofthesamesourcemayshowtwoseparatelines. Ifyouhaveablendin yourspectrum,youcanstillmodelit. CLOUDY allowsyoutodefinecustomblendsusingtheset blendcommanddescribedinPart1of HAZY. CLOUDY alsohasasetofpre-defined“blends”in thefileblends.iniwhichresidesinthedatadirectory. Manyoftheentriesinthisfilearenot blendsinthestrictsenseoftheword,butrathermultiplets. Thesecanbeusefulinvarious theoreticallineratios,suchaste
+
+============================================================
+HEADING: 7.5Saveoutput
+TEXT (335 chars): Atypicalcalculationgeneratesfartoomuchinformationforevenasmallparttobeincludedinthe mainprintout. Instead,aseriesofsavecommandsareusedtocreateextrafilesthatcontainvarious predictions. ThesearedescribedinthechapterControllingOutput inPart1of HAZY. Thesave informationiswrittenintoafilewhosenameappearswithindoublequotesonthecommandline.
+
+============================================================
+HEADING: 7.6MiscellaneousHelperCommands
+TEXT (2193 chars): 7.5.1 Commandsnormallyused Frequently-usedcommandsfollow: savecontinuumgivestheincident,transmitted,andtotalspectrum. Thephotonenergyisgiven inRydbergsbydefaultbutcanbechangedtokeV,micronsorAngstromswiththeunitsoption. saveoverviewgivesanoverviewofthecalculation. Thisincludestheelectrontemperatureand density,theionizationofseveralelements,andabundancesofsomemolecules,asafunctionof depthintothecloud. saveelementgivestheabundanceofionsandsomemoleculesofaparticularelementasa functionofdepthintothecloud. savemoleculesgivesthedensitiesofalargenumberofmolecularspeciesasafunctionofdepth intothecloud. saveXSPEC ThecodecansaveitspredictionsintheFITSformatusedbytheXSPECX-Ray analysiscode. ThefirstapplicationisPorteretal.(2006)andmoreinformationisinthesectionof Part1wherethesaveXSPECcommandisdescribed. 7.5.2 Headsup! Emissionlinesappearintheoutputproducedbythesavecontinuumcommand. Theemission linetocontinuumcontrastratiodependsonthesizeofthecontinuummeshbecausethecontinuum cellsaretoocoarsetoreso
+
+============================================================
+HEADING: 8Examplecalculations
+TEXT (154 chars): Thissectiondescribesthecode’stestsuite,aseriesofsimulationsthatareusedtoautomatically validatethecodeeverytimeitischanged,andthengoesoveronemodelindetail.
+
+============================================================
+HEADING: 8.1Thetestsuite
+TEXT (1592 chars): Thetestsuiteisalargegroupofsimulationsofvariousastrophysicalenvironments. Theyarein thetsuitedirectoryinthemaindownloadandaredesignedtoexercisethecodeoveritsfull rangeofvalidity. Allhavefilenamesendingwith“.in”. Thefirstpartofthenameindicatesthe typeofmodel;forinstance,allBLRmodelsstartwith“blr ”,allPDRmodelsstartwith“pdr ”, etc. Thenamingconventionshouldbeclearifyoudoalistingofallthefilesinthetestsuite directory(typels*.inatthecommandprompt). Thetestsuitehasthreeparts: • autocontainsseveralhundredsimulationsandwillruninabouthalfadayonamodern workstation. ThisisruneverynighthereinLexington. • SlowincludessimulationswiththelargeH andFeIIatomsandtakesseveraldaystorun. • Programsshowhowtousethecodeasasubroutineoflargerprograms. UsethePerlscriptrun parallel.pltorunallsimulationsintheautotestsuite. Thescript containsdetailedinstructionsforusingitinvariousways. Thisisanimportantstepinsettingup thecodesinceitconfirmsthatyouhaveavalidversion. AcodeaslargeasCloudyislikelyto discoverbugsinacompi
+
+============================================================
+HEADING: 8.2Oneofthemodels
+TEXT (7333 chars): Thissectionconsidersoneofthemodelsinthetestsuite,orion hii pdr pp.in,indetail. A muchlongerdiscussionwithmoredetailsisgiveninthechapterOutput inPart2of HAZY. This simulatesaplane-parallelmolecularcloudwithanHIIregionandPDRonitssurface. Radiation fromanearbyOstarandgalacticbackgroundcosmicraysaretheonlysourcesofheatand ionization. Thecalculationfollowsarayoflightintothecloud. TheilluminatedfaceisanH+ region,anionizedlayerwithatemperatureofT ≈104K. ThePDR,alargelyatomicregionwith T <103K,occursatadepthwherehydrogen-ionizingradiationhasbeenextinguished. The shieldedfaceofthePDRisamolecularcloudwithT <100K. Thiscalculationisdescribed furtherinFerland(2003). Thegasequationofstateistherelationshipbetweentemperatureandpressure. Itincludesgas pressure,theoutwardpushcausedbyabsorbedstarlight,themagnetic,andturbulentpressure. Turbulenceisassumedtobeinequipartitionwiththemagneticfield. Fluxfreezing,wherefieldis wellcoupledtothegas,isassumed. Inthismodelthelayerisinhydrostaticequilibriumwithgas an
+
+============================================================
+HEADING: 8.3Headsupsforclassesofobjects
+TEXT (3537 chars): Simulationsofseveraltypesofastronomicalobjectsareinthetestsuite. Theycanbegrouped togetherbythefirstpartoftheirfilename. Thefollowingsubsectionsdescribeimportant considerationsforsettingupeachoftheseclassesofsimulations. 8.3.1 BLRofActiveNuclei Thedensityishighenoughforfree-freeabsorptionoflow-energyradiationtobeasignificant heatingprocess. Asaresulttheinfraredcontinuumcanhaveasurprisingeffectonthetemperature oftheseclouds. Extrapolatingareasonablepower-lawcontinuumintotheinfraredmayresultin runawayfree-freeheating. This,andotherpracticalaspectsofBLRclouds,isdiscussedinFerland (1999a)andinthelasttwochaptersofAGN3. 8.3.2 NLRofActiveNuclei Doesdustexistintheionizedgas? Depletionpatternsarenotclear,asdiscussedbyFergusonetal. (1997). TheNLRisdiscussedfurtherinthelasttwochaptersofAGN3. 8.3.3 PDRsofstar-formingregions Itiscriticalthatbackgroundcosmicrays,orasourceofX-rays,beincludedifthesimulationisto extendintoamolecularcloud. Thechemistryofcoldinterstellarmatterisdrivenbyaseriesof ion-mole
+
+============================================================
+HEADING: 9Howtomakethisplot
+TEXT (164 chars): Thissectionincludesexamplesplotsthatmightbefoundinresearchpapersonspectroscopy. It givesanexampleoftheplot,alongwithanexplanationofhowtodothecalculationandcreateit.
+
+============================================================
+HEADING: 9.1HexcitationdiagramsREFERENCES
+TEXT (6949 chars): H excitationdiagramsshowobservedorcomputedlevelpopulationsasafunctionofthe excitationenergyinthemolecule,asshowninFigure9. SeeAGN3Chapter8andAppendix4for backgroundinformation. ThefilesusedinthisexamplewerecreatedwiththetestsuiteBaldwin etal.(1991)OrionHII/PDRsimandareincludedinthedocs/latex/QuickStartdirectory withnamesstartingwithH2 BFM. RunasimulationthatincludesthelargeH molecule(withtheatomH2command)andinclude thesaveH2columndensitiescommand. Thefirstlineofthesaveoutputfilegivescolumn headers. Thenextthreelinesgivetheortho,para,andtotalH columndensity,whichwedon’t needhere. Theremaininglinesgivethecolumndensitiesandexcitationenergiesforalllevelsin thegroundelectronicstateofH . ImporttheoutputofthesaveH2columndensitiescommandintoVeusz. Intheimportdata dialoguespecifythatthedataaretabdelimitedandtoignorethefirstthreerowsaftertheheader. Importtherestofthedata. Createanx-yplotandchoosecolumnthree,theexcitationenergyinK,asthex-axis. Choose colden/statwghtasthey-axis. Wedividebythestati
+
+============================================================
+HEADING: AVeuszCookbook
+TEXT (396 chars): MostoftheplotsinthisGuidewerecreatedwithJeremySanders’Veuszplottingpackage. Veusz isanopen-sourceandrunsonWindows,MacOSX,andLinux. Veuszcanbedownloadedfrom https://veusz.github.io/. WhatfollowsareafewrecipesforbasicCloudyplotting tasksthatwillgetyoustartedwithVeusz. Formoreinformation,seetheVeuszmanualat https://veusz.github.io/help-support/. Thisdocumentassumesthatyouare usingVeusz1.6orlater.
+
+============================================================
+HEADING: A.1StepstoImportdata
+TEXT (1132 chars): Thereisanimportantdistinctioninthisstep. Ifyoucreatean“unlinkeddataset”Veuszwillmake yourdatapartoftheVeuszplotfile. Thisisgoodifyouwantasingleself-containedfile. Ifyou createa“linkeddataset”theplotwillbelinkedtotheoriginaldatafile. Ifyouupdatethedatafile theplotwillbeupdatedwithnofurtherwork. Veuszdoesnotreadspreadsheetfilesdirectly. Ifyouworkwithyourdatainaspreadsheetyou shouldsavethedatainafield-delimitedformat. CSV(commaseparatedvalues)ortabsaregood choices. Headsup: DatafilescreatedbyCloudyhaveafirstlinewithcolumnheadingsforthedatathat follow. Theseheadingshavespacesandspecialcharacters(/,+,-, ,etc.). Ifyouencounter problemswithVeusznotbeingabletoopenfileswithunlinkeddatasets,removingthese charactersfromyourdataandre-importingmayfixtheproblem. 1. Click“Data” 2. Select“Import” 3. Choosethefilethatcontainsyourdataclicking“Browse”andselectingthefile 4. Ifthedataisdelimited,selectthe“CSV”tab. 5. Underthe“FilePreview”boxselectthecorrectdelimiter 6. Atthebottom,youhavetheoptiontolinkthe
+
+============================================================
+HEADING: A.2Stepstoplotyourdata(XYpoints)
+TEXT (229 chars): 1. Click“Insert” 2. Select“Addxy”: xy1willbecreatedinthetopwhiteboxontheleft(EditingBox) 3. Themiddlebox(propertiesbox)ontheleftsidegivesthepropertiesofthexy1pointset 4. Inthepropertiesbox,clickthebluedownarrowtotherightof“Xdata”
+
+============================================================
+HEADING: A.3StepstoExportPlottoPDF
+TEXT (320 chars): 5. Selectthedatasetthatyouwanttoappearonthex-axis 6. Repeatsteps4and5forthe“Ydata” 1. Click“File” 2. Select“Export” 3. Choosethefilelocationwiththe“where”dropdown. 4. Clickthebluedownarrowtotherightofthe“FilesofType”(atthebottom) 5. Choose“PortableDocumentFormat(*.pdf)” 6. Choosethedestinationandfilenamethenclick“Save”
+
+============================================================
+HEADING: A.4ChangeFromPointsandLine(default)toLineonly
+TEXT (169 chars): 1. WiththedesiredpointsetselectedintheEditingBox,selectthe“Main”tabinthe FormattingBox(bottomontheleft). 2. Clickthebluedownarrowonthe“Marker”dropdownbox 3. Select“none”
+
+============================================================
+HEADING: A.5Addx-axistitle:
+TEXT (121 chars): 1. Select“X”(ofthe“axis”type)intheEditingBox 2. Enterthedesiredtitleforthex-axisinthe“Label”textboxinsidethePropertiesBox
+
+============================================================
+HEADING: A.6Addy-axistitle:
+TEXT (121 chars): 1. Select“Y”(ofthe“axis”type)intheEditingBox 2. Enterthedesiredtitleforthey-axisinthe“Label”textboxinsidethePropertiesBox
+
+============================================================
+HEADING: A.7Addasecondplot:
+TEXT (41 chars): 1. RepeattheStepstoplotyourdata(XYpoints)
+
+============================================================
+HEADING: A.8ChangeLineProperties:
+TEXT (191 chars): 1. SelectthedesiredpointsetintheEditingBox 2. Clickthesecondtabcalled“Plotline”intheFormattingBox 3. Inthistabonecanchangethecolor,width,style,andtransparencyofthelineforthe selectedpointset.
+
+============================================================
+HEADING: A.9AddingaKeyorLegend:
+TEXT (221 chars): 1. Click“Insert” 2. Select“AddKey”–Thiswillcreateablankkey/legendboxthatcanbedraggedand dropped. 3. SelectapointsetfromtheEditingBox 4. InthePropertiesBox,enterthetexttoappearinthekey/legendboxinthetextboxcalled “Keytext”
+
+============================================================
+HEADING: A.10Createa2Ddataset(Neededforcontourorimagegraphs):
+TEXT (394 chars): 1. Ensurethatyourindividualdatacolumnsarealreadyimported 2. Click“Data” 3. Select“Create2D” 4. Typeinanameforyour2Ddatasetinthe“Name”textbox 5. Ensurethatthemiddleoption,“Fromx,y,andz...”,isselectedinthe“MethodofCreating Dataset”Box. 6. Inthe“Values”section,choosethedesiredx,y,andzindividualdatasets 7. Click“Create”–Itshouldtellyouthatthedatasetwascreatedatthebottomoftheform. 8. Click“Close”
+
+============================================================
+HEADING: A.11CreateaContourPlot:
+TEXT (355 chars): 1. Click“Insert” 2. Select“Addcontour” 3. InthePropertiesBox,selectthedesired2Ddataset Veuszautomaticallychoosescontours. Itispossibletochangethenumberofcontoursby changingthe“NumberLevels”property. Changingthe“Scaling”propertychangesthewaythat thecontourlevelsarechosen. Ifthecontoursarechoseautomatically,itisimportanttospecifythe “min”and“max”contours.
+
+============================================================
+HEADING: A.12SetContourLevelsManually:
+TEXT (194 chars): 1. EnsurethatthedesiredcontoursetisselectedintheEditingBox. 2. InthePropertiesBox,changethe“Scaling”propertyto“Manual” 3. Enterthedesiredcontourlevelsinthe“ManualLevels”textboxseparatedbycommas.
+
+============================================================
+HEADING: A.13Addcontourlabels:
+TEXT (134 chars): 1. Clickonthe2nd tabintheFormattingBox,called“Contourlabels” 2. Uncheckthe“Hide”checkbox 3. Thefont,color,andsizecanalsobeadjustedhere
+
+============================================================
+HEADING: A.14Abitaboutcontourplots:
+TEXT (1513 chars): Withacontourpointsetselected,theFormattingBoxcontains5tabs. Thefirsttab,called“Main formatting”,onlyallowsyoutohidethecontours. Thenexttaboveriscalled“ContourLabels”. Hereyoucanadjustthenumericallabelsforthecontours. Thethirdtabfromtheleftiscalled“ContourLines”. Bydefault,thereisonelinestyle. This meansthatallofthecontourlineswillhavethepropertiessetbythislinestyle. The“Add”button willaddanewlinestyletothelist. With2linestyles,thetoplinestylewillbeappliedtothe lowestcontourline. Thesecondlinestylewillbeappliedtothenextlowestcontour. Thenext contourlinewillthentakethepropertiesofthetoplinestyle. Eachsuccessivecontourlinewill continuetocyclebetweenthetwoavailablelinestyles. The“Delete”buttondeletesthelowestline styleonthelist. Thecheckboxtotherightofthelinestylepropertieshidesthecontourlinesthat aredescribedbythegivenlinestyle. Thefourthtabiscalled“ContourFill”. Itworksjustlikethe“ContourLines”tabexceptthatit fillsinthecontourareaswithdifferentfillers(e.g. solid,verticallines,etc.). Itis
+
+============================================================
+HEADING: A.15Filledcontourmaps
+TEXT (373 chars): Avarietyoffilledcontourmapsareavailable. Doinsert/imageandthenselecta2Ddataset. Severalcolorandgrey-scalesareavailable. Ifyouwantboththecontourlinesandthefilledimagethenthecontoursmustbeontopofthe filledcontour. Figure10showsanexample,takenfromthegrid extremetestintheslowtestsuite. Thisuses thespectrum2colormapandgoesfromredtoblueasthetemperaturegoesfromlowtohigh values.
+
+============================================================
+HEADING: A.16Multiplegraphs
+TEXT (318 chars): Thegraphsaremadeoutofwidgetsthatcanbeplacedinsideeachother,e.g. graphscanbeplaced inpages,anddifferenttypesofplottingwidgets,e.g. xyorfunction,canbeplacedingraphs. You canalsoplacegraphswithinagridwidgettogetanarrangementofseparategraphs. Figure11showsanexample,takenfromtheOrionHIIregion/PDRsimulation,ofanested plot.
+
+============================================================
+HEADING: A.17Documentingyourwork
+TEXT (1067 chars): ThePropertieswidgetincludesaNotesfieldthatcanbeusedtokeepahistoryofthedatabehinda plot. Thisisusefulsothatyoucancomebacktoaprojectaftersometimeandrecoverthehistory oftheworkleadinguptoaresultorthelocationofthehelperfilesthatwereusedalongtheway. 3-mc/ytisneD negordyH goL 0 2n(H )/n(H) n(H+)/n(H) 0 n(H0)/n(H) Log Energy Density Temperature/K Figure10: Thisshowsphysicalconditionsoveraverybroadrangeofhydrogendensityandenergy- density temperature. The log of the electron kinetic temperature is shown in the upper left, and hydrogenionizationandmolecularfractionsintheremainingpanels. ThegasgoestotheCompton temperature in the upper left corner of each panel, is in the blackbody limit across the top, and is close to LTE across the right-hand edges of the figure. The input deck and Veusz plotting files are grid extreme.*intheLaTexdirectory. erutarepmet nortcelE Depth (1016 cm) Depth (1016 cm) Depth (1016 cm) Depth (1016 cm) Figure 11: The electron kinetic temperature, and fractions of H in H , H
+

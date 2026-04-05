@@ -1,0 +1,801 @@
+Total chunks: 200
+============================================================
+HEADING: Preamble
+TEXT (9 chars): Chapter 1
+
+============================================================
+HEADING: 1.1Overview
+TEXT (255 chars): Thissectiondefinestheoutputproducedby CLOUDY. Eachsectionbeginswithasampleofthe outputdescribed,andthengoesontodescribethemeaningoftheprintoutingreaterdetail. The outputactuallyshownisfromtheOrionHIIRegion/PDR/molecularcloudtestcase (orion hii pdr pp.in).
+
+============================================================
+HEADING: 1.2HeaderInformation
+TEXT (9183 chars): Severallinesofoutputechotheinputcommandsandoutlinesomepropertiesoftheinitial continuum. Cloudy 06.01.02 **************************************06Jan02************************************** * title the Orion HII Region / PDR / Molecular cloud with an open geometry * * # commands controlling continuum ========= * * # the incident continuum is two parts * * # kurucz continuum and flux of photons striking cloud * * # this is the photosphere of the OVI star, its temperature and phi(H) * * table star kurucz 39600K * * phi(H) 13 * * # this adds the observed hot brems * * # its temperature (as log of T) and the flux of * * # photons striking the cloud * * brems 6 * * phi(h) 10 * * # cosmic rays are important for pdr chemistry * * cosmic rays, background * * # commands controlling geometry ========= * * # this turns off the stop temperature option * * # so the sim will not stop due to temperature * * stop temperature off * * # this sets the thickness of the HII region & PDR * * stop thickness 0.
+
+============================================================
+HEADING: 1.3Chemicalcomposition
+TEXT (1606 chars): Gas Phase Chemical Composition H : 0.0000 He: -1.0159 Li: -9.4456 Be:-10.7418 B :-10.0360 C : -3.9385 N : -4.1002 O : -3.4622 F : -7.9927 Ne: -4.0501 Na: -6.3298 Mg: -5.0788 Al: -7.4597 Si: -5.9133 P : -7.0617 S : -4.7399 Cl: -7.0675 Ar: -5.3799 K : -7.3439 Ca: -9.5901 Sc:-11.1518 Ti: -9.0969 V :-10.1537 Cr: -8.5017 Mn: -7.7212 Fe: -6.4597 Co: -9.0200 Ni: -7.7100 Cu: -8.6596 Zn: -7.9022 1ForablackbodyradiationfieldT isroughly4%lowerthantheblackbodycolortemperatureT whenthe Compton color energydensitytemperatureT is>T .OnlywhenT ≡T doesinducedComptonheatingcauseT ≡T . u color u color Compton color IfT >T thenT >T becauseofinducedComptonheating. Alloftherelevantphysicsisincludedinthe u color Compton color Comptontemperatureprintedhere. Grain Chemical Composition C : -3.5553 O : -3.8821 Mg: -4.4841 Si: -4.4841 Fe: -4.4841 Sum Atoms Depleted: -3.2828 Depletion/Grains-1: 2.65% Number of grains per hydrogen Carbonaceous: -14.166 silicate: -14.103 Thechemicalcompositionofthecloudcomesnext. Th
+
+============================================================
+HEADING: 1.4Commentsbeforeorduringthecalculation
+TEXT (740 chars): Thecodemayprintcommentsasthecalculationproceeds. Theseareprintedwiththestartofthe commentincapitalletterstomakethemeasytofindwithascript. Thecommentsfallintothree categories: DISASTER somethinghasunexpectedlycausedthecalculationtostop. Theresultsarebogus andshouldnotbetrusted. Thecodeshouldimmediatelyreturntothecallingprogram. PROBLEM somethingdidnotgoasexpectedbutthecalculationiscontinuing. Thismightbea convergencefailureatapointinthecloud. Thisisanindicationthatthecodewashaving difficultiesandafewofthesecanoccurinanormalsetofcalculations. Thepredictionscan beusedifonlyafewoccurandifthecommentsattheendofthecalculation(seepage9 below)donotidentifyotherproblems. NOTE thisgivesadviceaboutthecalculation. Thesecanbeignoredifyouprefer.
+
+============================================================
+HEADING: 1.5ZoneResults
+TEXT (19667 chars): Nextcomesasummaryoftheconditionsinthefirstandlastzone. Thisprintoutisdoneinroutine PrtZonewhichshouldbeconsultedifthereareanyquestions. Thefollowingistheoutput producedforonezone. Detailsfollow. #### 1 Te:9.361E+03 Hden:1.000E+04 Ne:1.101E+04 R:1.000E+30 R-R0:5.223E+11 dR:1.045E+12 NTR: 3 Htot:3.461E-16 T912: 1.48e-05### Hydrogen 2.15e-04 1.00e+00 H+o/Hden 1.00e+00 1.00e-11 H- H2 5.27e-19 3.99e-13 H2+ HeH+ 2.03e-14 Ho+ ColD 2.38e+14 1.11e+18 Deuterium 2.15e-04 1.00e+00 D+o/Dden 1.00e+00 5.61e-12 D- HD 6.70e-16 2.92e-12 HD+ HeD+ 1.40e-14 Do+ ColD 3.93e+09 1.83e+13 Helium 6.57e-04 9.45e-01 5.47e-02 He I2SP3 3.52e-06 Comp H,C 1.75e-22 4.64e-23 Fill Fac 1.00e+00 Gam1/tot 1.00e+00 He singlet n 6.54e-04 2.35e-11 6.59e-18 2.09e-18 3.18e-18 2.52e-18 He tripl 3.52e-06 9.32e-16 7.41e-18 4.77e-17 7.56e-18 Pressure NgasTgas 2.06e+08 P(total) 2.84e-08 P( gas ) 2.84e-08 P(Radtn) 1.79e-11 Rad accl 3.51e-05 ForceMul 3.33e+03 Texc(La) 4.21e+03 T(contn) 4.59e+01 T(diffs) 2.03e+00 nT (c+d) 1.16e+07 Prad/
+
+============================================================
+HEADING: 1.6Commentsafterthecalculation
+TEXT (7010 chars): the Orion HII Region / PDR / Molecular cloud with an open geometry Calculation stopped because outer radius reached. Iteration 1 of 2 Aseriesofmessagesappearaftertheprintoutofthelastzone. Thefirstwillsaywhythe calculationstopped. Inavalidcalculationthemodelwillstopbecauseoneofthespecified stoppingcriteriaspecifiedwasmet. Ifnoothercriteriaarespecifiedthenthecalculationusually stopswhenthedefaultlowesttemperatureof4000Kisreached. Ifthecodestopsbecauseofan unintendedreason(i.e.,internalerrors,orreachingthedefaultlimittothenumberofzones)thena warningisprintedsayingthatthecalculationmayhavehaltedprematurely. Onlyonestoppingcriterionmessagewillbeprinted. Thepossiblemessages,andtheir interpretations,are: ...becauseofradiationpressure Bydefaultacloudwillhaveconstantdensity. CLOUDY will keepthetotalpressure,particleandradiation,constantifconstantpressureisspecifiedwith theconstantpressurecommand. Theradiationpressureissmallattheboundariesofthe cloud,sothecloudwillbeunstableiftheratioofradiation
+
+============================================================
+HEADING: 1.7Geometry
+TEXT (201 chars): The geometry is plane-parallel. Thecodewillnextsaywhetherthegeometryisplaneparallel(∆r/r <0.1),athickshell o (∆r/r <3),orspherical(∆r/r ≥3),wherer istheinnerradiusand∆r isthethicknessofthe o o o cloud.
+
+============================================================
+HEADING: 1.8Warnings,Cautions,Surprises,andNotes
+TEXT (4879 chars): C-Cloud thicker than smallest Jeans length=3.51e+16cm; stability problems? (smallest Jeans mass=2.58e-01Mo) !Magnetic field & cosmic rays both present. Their interations are not treated. !Some input lines contained underscores, these were changed to spaces. !Suprathermal collisional ionization of H reached 83.84% of the local H ionization rate. !H2 vib deexec heating reached 6.68% of the local heating. !Charge transfer ionization of H reached 95.8% of the local H ionization rate. !The largest continuum brightness temperature was 4.835e+05K at 1.052e-08 Ryd. !Both constant pressure and turbulence makes no physical sense??? !AGE: Cloud age was not set. Longest timescale was 8.43e+15 s = 2.67e+08 years. !The excitation temp of Lya exceeded the electron temp, largest value was 4.60e+03K (gas temp there was 1.01e+03K, zone 310) !Line absorption heating reached 13.45% of the local heating - largest by level 1 line Si 2 34.8m !Some infrared fine structure lines are optically thick: largest ta
+
+============================================================
+HEADING: 1.9OptionalPlot
+TEXT (1010 chars): l- Log(nu fnu) os log(nu) "NEW" PARIS MEETING PLANETARY NEBULA l o l- o o o ooo o .............. l oooo o oo ooo oooo ooo ............ ......... l- oo ooooooooooooooooooooooooooo.... ..... loooooooooooooooo ........ ... oo ......... ... l ........ ... l- ........ o .. ....... oo ooooooo .. l- oo ooo oooo. l o oo oo ooo. l- ooo o oo. l o o oo. l- oo oo oo. l oo o o oo o. l- oooooooo o o o. l oo o ooooo oo oo. l- ooooooo o oo l oo oo oo l- o oo l o o. l- o oo l o oo l- ooo o. l o o l- oo o oo l o o l- o oo l oo o o l- o o oo l o o l- o o oo l o o l- o oo l oo o l- o o. l o l- o o l o oo l- o o l o o. l- o o o l o o l- o o. l o l- oo o l oo oo l- o l o l- o. l o l- o l o l- oo l o l- l l o -----------------------------------------------------------------------------------------------------------------------o- Ifanyoftheoptionalplotsarerequestedwithaplot--commandthentheywillappearnext. Thisoptionisseldomusedtodaysinceitismucheasiertocreatedatafileswithsavecommands andthenuseothersoftwareto
+
+============================================================
+HEADING: 1.10FinalPrintout
+TEXT (4027 chars): ********************************> Cloudy 06.01.02 <******************************** * title the Orion HII Region / PDR / Molecular cloud with an open geometry * * # commands controlling continuum ========= * * assert line luminosity "12CO" 235.4m -2.80 error 0.15 * * assert line luminosity "12CO" 215.7m -2.84 error 0.15 * * assert nzone < 1400 * * assert itrzn < 24 * * # orion hii pdr pp.in * * # class hii pdr * *********************************> Log(U): -1.48 <********************************* >>>>>>>>>> Cautions are present. Thefinalprintoutbeginsbyreprintingtheinputcommands. Theboxsurroundingitgivesboth theversionnumberof CLOUDY (atthetop)andthelogoftheionizationparameter(theratioof ionizingphotontohydrogendensities)atthebottom. Emission Line Spectrum. Constant Pressure Model. Open geometry. Iteration 2 of 2. Intensity (erg/s/cmˆ2) Thislinesummarizessomepropertiesofthemodelandoutput. Thefirstpartindicateswhether theenergyintheemissionlinesisgivenastheluminositycase(theenergyradiated
+
+============================================================
+HEADING: 1.10.1Intrinsiclineintensitiesandluminosities
+TEXT (443 chars): Therearetwoblocksofpredictedintensities. Theblock“Intrinsiclineintensities”istheintrinsic emissionfromthecloud. Theintrinsicemissionincludesallprocessesthataffecttheline formationandtransfer. Thisincludescollisionalprocesses,fluorescence,linedestructionby backgroundopacitiessuchasdustortheLymancontinuumofhydrogen,andrecombination. The intrinsicintensitiesdonotincludetheeffectsofabsorbersorscattersthatdonotliewithinthe line-formationregion.
+
+============================================================
+HEADING: 1.10.2Emergentlineintensitiesandluminosities
+TEXT (1502 chars): Theblock“Emergentlineintensities”istheemissionobservedfromoutsidethecloud. Inanopen geometrytheinwardpartofthelineincludestheeffectsofextinctionbetweentheline-forming regionandtheilluminatedface. Thereisanadditionalcontributionduetoreflectionoffthegasin theoutwarddirection. Theoutwardpartofthelineincludestheeffectsofextinctionbetweenthe shieldedfaceandthepointwherethelineforms. Inaclosedgeometrytheemergentintensityis theemissionescapingtotheouteredgeoftheslab. Allofthisisverygeometrydependent. Foran opengeometry,inparticular,theobservedemissionwilldependstronglyupontheviewingangle. Iftheintrinsicandemergentvaluesareverydifferentthenitisimportanttounderstandthe geometryandwhatisactuallyobserved. Thisisanindicationoftheuncertaintyifthepredictions haveastronggeometrydependence. Thefollowingisanexampleoftheemission-lineoutput. Thefirstcolumnindicatesthespecies andthesecondisthewavelength. “A”indicatesangstromand“m”indicatesmicron. Thethird columnisthelogoftheintensity[ergcm−2 s−1]orluminos
+
+============================================================
+HEADING: 1.10.3Airvsvacuumwavelengths
+TEXT (286 chars): Theemissionlinewavelengthsfollowtheconventionthatvacuumwavelengthsareusedfor λ ≤2000A˚ andSTPairwavelengthsareusedforλ >2000A˚.Theprintlinevacuum vac vac commandtellsthecodeuseusevacuumwavelengthsthroughout. Thecontinuumisalways reportedinvacuumwavelengthstoavoidadiscontinuityat2000A˚.
+
+============================================================
+HEADING: 1.10.4Somephysicalpropertiesofthecloud
+TEXT (8299 chars): the Orion HII Region / PDR / Molecular cloud with an open geometry Cooling: HFBc 0 :0.110 HFFc 0 :0.077 TOTL 3727A:0.074 O 3 5007A:0.210 O 3 4959A:0.070 S 3 9532A:0.074 Heating: BFH1 0 :0.817 BFHe 0 :0.074 GrGH 0 :0.099 Cooling: Thislineindicatesthefractionofthetotalcooling(definedhereastheenergyofthe freedphotoelectron,seeAGN3Chapter3)carriedbytheindicatedemissionlines. Thelinelabel isfollowedbytheratiooftheenergyinthelinetothetotalcooling. Thisisanimportant indicationofthefundamentalpower-lossesgoverningconditionsinthemodel. Thelabelsusedare thesameasthoseinthelinearray. Heating: Thislineindicatesthefractionofthetotalheatingproducedbyvariousprocesses. The formatisthesameasthelinegivingthecooling. IONIZE PARMET: U(1-) -1.4764 U(4-): -5.0813 U(sp): -4.46 Q(ion): -4.574 L(ion)-13.505 Q(low): 15.158 L(low) 1.121 ThelinebeginswiththelogoftheH“U(1-)”andHe+ “U(4 )”ionizationparameters. The thirdnumber“U(sp)”isthelogofasphericalionizationparameteroftenusedinspherical geometries,suchasHIIregi
+
+============================================================
+HEADING: 1.10.5Averagetemperaturesanddensities
+TEXT (3253 chars): Averaged Quantities Te Te(Ne) Te(NeNp) Te(NeHe+)Te(NeHe2+) Te(NeO+) Te(NeO2+) Te(H2) N(H) Ne(O2+) Ne(Np) Radius: 6.86e+02 9.19e+03 9.27e+03 9.18e+03 9.09e+03 9.65e+03 8.86e+03 2.28e+01 8.30e+06 1.43e+04 1.50e+04 Thisbeginswithseveraltemperatureanddensityaverages,overeitherradiusorvolume. The volumeaveragesareonlyprintedifthespherecommandisentered. Thequantitywhichisprinted isindicatedatthetopofeachcolumn. Thequantitybeingaveragedisthefirstpartofthelabel, andtheweightingusedisindicatedbythequantityinparenthesis. Forinstance“Te(NeO2+)”is theelectrontemperatureaveragedwithrespecttotheproductoftheelectronandO2+ densities. Peimbert T(OIIIr)9.08E+03 T(Bac)0.00E+00 T(Hth)0.00E+00 t2(Hstrc) 6.01e-03 T(O3-BAC)0.00E+00 t2(O3-BC) 0.00e+00 t2(O3str) 1.81e-03 Be careful: grains exist. This spectrum was not corrected for reddening before analysis. Thisseriesofquantitiesdealwithtemperaturefluctuations(t2,Peimbert,1967;AGN3section 5.11). Thecodeanalyzesthepredictedemissionlineandcontinuumspectrumusing
+
+============================================================
+HEADING: 1.10.6Averagegrainproperties
+TEXT (2643 chars): Average Grain Properties (over radius): gra-orion01* gra-orion02* gra-orion03* gra-orion04* gra-orion05* gra-orion06* gra-orion07 gra-orion08 gra-orion09 gra-orion10 nd: 0 1 2 3 4 5 6 7 8 9 <Tgr>: 3.659e+01 3.592e+01 3.522e+01 3.450e+01 3.377e+01 3.306e+01 3.236e+01 3.170e+01 3.106e+01 3.045e+01 <Vel>: 4.177e+02 4.780e+02 5.483e+02 6.279e+02 7.223e+02 8.327e+02 9.572e+02 1.095e+03 1.241e+03 1.396e+03 <Pot>: 3.072e-01 2.905e-01 2.736e-01 2.575e-01 2.423e-01 2.281e-01 2.151e-01 2.036e-01 1.932e-01 1.842e-01 <D/G>: 1.202e-04 1.337e-04 1.486e-04 1.653e-04 1.837e-04 2.043e-04 2.271e-04 2.525e-04 2.808e-04 3.122e-04 sil-orion01* sil-orion02* sil-orion03* sil-orion04* sil-orion05 sil-orion06 sil-orion07 sil-orion08 sil-orion09 sil-orion10 nd: 10 11 12 13 14 15 16 17 18 19 <Tgr>: 3.303e+01 3.261e+01 3.216e+01 3.173e+01 3.130e+01 3.090e+01 3.051e+01 3.015e+01 2.981e+01 2.950e+01 <Vel>: 1.093e+03 1.237e+03 1.385e+03 1.532e+03 1.676e+03 1.817e+03 1.953e+03 2.086e+03 2.215e+03 2.342e+03 <Pot>: 1.6
+
+============================================================
+HEADING: 1.10.7Opticaldepths
+TEXT (5488 chars): Contin Optical Depths: COMP: 1.07e-03 H-: 1.90e-04 R(1300): 4.53e-02 H2+: 1.12e-06 Bra:1.55E+02 Pa: 7.89e+02 Ba: 3.98e+03 Hb: 5.31e+03 La: 1.07e+04 1r:1.151E+05 1.8:3.79E+07 4.:4.382E+06 Line Optical Depths: 10830: 8.12e+02 3889: 3.49e+01 5876: 1.91e-04 7065: 2.62e-05 2.06m: 1.29e-02 21c: 5.29e-01 Thefirsttwolinesgivethecontinuumopticaldepthsatvariousenergies. Thesearethetotal opticaldepths,includingthecorrectionforstimulatedemission,andwillbenegativeifmaser actionoccurs. Allopacitysourcesareincluded. Thelabels,andtheirinterpretation,areasfollows. COMPistheThomsonscatteringopticaldepth. “H-”istheopticaldepthatthewavelengthwhere thenegativehydrogenionhasitsgreatestmaximumcrosssection. “R(1300)”istheopticaldepth duetoRayleighscatteringbyH0 at1300A˚.“H2+”istheopticaldepthatthedissociation thresholdofthemolecularhydrogenion. “Bra”istheopticaldepthatthewavelengthofthe Brackettα transition(5-4). Thenextlinegivestotalcontinuousopticaldepthsattheenergiesofvarioushydrogenand heliumionizationedg
+
+============================================================
+HEADING: 1.10.8Columndensities
+TEXT (2526 chars): Log10 Column density (cmˆ-2) Htot : 25.107 HII : 21.167 HI : 21.830 H- : 12.687 H2g : 24.806 H2* : 16.421 H2+ : 11.203 HeH+ : 11.485 H2O+ : 11.049 O2+ : 11.735 H3O+ : 14.429 CH2+ : 11.869 CH2 : 17.534 HCO+ : 15.394 CH3+ : 13.437 SiH2+ : 11.835 SiH : 15.523 HOSi+ : 14.069 SiO : 17.953 SiO+ : 9.222 CH3 : 20.296 CH4 : 20.207 CH4+ : 11.132 CH5+ : 13.562 CS+ : 10.371 NO2 : 10.136 NO2+ : 4.356 NS : 13.418 NS+ : 12.254 SO : 19.303 SO+ : 14.554 SiN : 13.857 SiN+ : 10.516 N2O : 10.072 HCS+ : 15.996 OCS : 19.077 OCS+ : 14.312 C2 : 20.023 C2+ : 11.133 CCl : 14.010 ClO : 2.369 HCl+ : 11.968 HCl : 17.061 H2Cl+ : 12.002 CCl+ : 12.258 H2CCl+: 10.100 ClO+ : -1.084 HNC : 18.151 C3 : 3.013 C3+ : -6.584 COgrn : 17.793 H2Ogrn: 21.202 OHgrn : 8.957 Hydrogen 21.830 21.167 25.107 (H2) Log10 Column density (cmˆ-2) Helium 24.085 20.117 17.105 Carbon 17.950 18.459 17.563 14.609 13.216 3.870 Nitrogen 19.044 16.241 16.933 14.065 11.478 5.692 -1.143 Oxygen 20.608 17.460 17.476 14.327 11.487 6.302 2.306 Neon 20.885
+
+============================================================
+HEADING: 1.10.9Meanionizationandtemperature
+TEXT (3644 chars): Hydrogen -3.278 -3.940 -0.000 (H2) Log10 Mean Ionisation (over radius) Helium -0.000 -3.968 -6.980 Carbon -3.635 -3.126 -4.021 -6.975 -8.368-17.715 Nitrogen -1.908 -4.712 -4.019 -6.887 -9.474-15.261-22.096 Oxygen -1.101 -4.249 -4.234 -7.382-10.222-15.407-19.403 Neon -0.000 -4.028 -4.662 -7.561 -9.996-15.684-20.788 Magnesium -0.000 -3.044 -3.966 -6.934 -9.432-14.656-18.631 Silicon -0.008 -2.778 -3.999 -5.194 -6.700 -9.582-15.900-20.377 Sulphur -1.071 -2.956 -3.971 -5.524 -7.507 -8.423-10.093-17.429-22.545 Chlorine -0.041 -3.307 -3.978 -6.184 -7.716 -8.802-13.918-16.410-21.619 Argon -0.000 -4.912 -3.979 -6.183 -7.957 -9.071-14.259-17.206-20.025 Iron -0.001 -2.929 -4.348 -4.167 -7.086 -7.737-10.292-14.406-18.282-22.799 Hydrogen -1.292 -0.090 -0.864 (H2) Log10 Mean Ionisation (over radius*electron density) Helium -0.622 -0.119 -3.265 Carbon -2.105 -0.549 -0.176 -3.188 -4.552-14.000 Nitrogen -0.770 -0.843 -0.174 -3.101 -5.664-11.546-18.381 Oxygen -0.813 -0.378 -0.405 -3.646 -6.501-11.692-15
+
+============================================================
+HEADING: 1.10.10Convergencestatistics
+TEXT (247 chars): ---------------Convergence statistics--------------- 1.24 mean iterations/state convergence 2.67 mean cx acceleration loops/iteration 1.02 mean iso convergence loops/ion solve 1 mean steps/chemistry solve 2 mean step length searches/chemistry step
+
+============================================================
+HEADING: 1.10.11Finalreport
+TEXT (327 chars): Cloudy ends: 196 zones, 1 iteration, 1 caution. ExecTime(s) 86.97 [Stop in maincl, Cloudy exited OK] Thecodeendsbylistingthenumberofzonesanditerationsthatwereperformedandthe numberofwarningsandcautionsthatoccurred. Nextcomestheelapsedwall-clocktime[s]. The lastlinewillsay“CloudyexitedOK”ifthecalculationissuccessful. Chapter 2
+
+============================================================
+HEADING: 2.1Overview
+TEXT (104 chars): Thissectiondescribeshowtoconvertthequantitiesactuallyusedorpredictedby CLOUDY into commonlyobservedones.
+
+============================================================
+HEADING: 2.2.1Incidentradiationfield
+TEXT (515 chars): Theincidentradiationfieldisthelightstrikingthecloud. Themainprintoutprintoutgivesthe intensityoftheincidentradiationfieldwiththelabel“Inci”. Thetotalcontinuum[unitsergs−1 or ergcm−2 s−1]integratedoverallenergiesisgivenwiththislabelandawavelengthof0. The incidentradiationfieldisalsoevaluatedattwowavelengths,4860A˚ and1215A˚,asλF orνF , λ ν [unitsergs−1 orergcm−2 s−1]. Thesavecontinuumcommandwillproduceafilethatcontainstheentireincidentradiation field. Theseentrieswillnotbeincludediftheaperturecommandisineffect.
+
+============================================================
+HEADING: 2.2.2Theradiationfieldatspecificwavelengths
+TEXT (386 chars): Theintensityofthediffuseradiationfieldthatisemittedorreflectedbythecloudisnormally includedinthemainoutputintheemission-lineprintoutataseriesofenergies. Thesehaveunits λF orνF . SeethediscussionofthesetnFnucommandinPart1forfurtherdetails. Youcan λ ν easilyaddmorecontinuumpointsusingthesetnFnuaddcommand,alsodescribedinPart1. Theseentrieswillnotbeincludediftheaperturecommandisineffect.
+
+============================================================
+HEADING: 2.2.3Theradiationfieldintegratedoverarangeofwavelengths
+TEXT (1033 chars): Theemittedradiationfieldintegratedoveraseriesofwavelengthbandsisincludedinthemain printout. Thefilecontinuum bands.datinthedatadirectoryspecifiesaseriesofwavelength bands. Table9.1onpage98liststhedefaultbands. Thelabelandwavelengththatareprintedin theemission-lineoutputaregiveninthefirsttwocolumnsofthattable. Thecodewillintegrate overthesebandstofindthetotalradiatedenergyandreportthisinthemainprintout. Thisisa simplesummationwithnocorrectionforafiltertransmissionfunction. The continuum bands.datfilecanbeeditedtochangethenumberofbandsortheirdetailed properties. Thisgivesthetotal emissionthatoccursoverthebandandincludestheincidentradiationfield andbothlineandcontinuumdiffuseemission. Undermanycircumstancestheradiationfield withinabandmaybedominatedbytheincidentfield. Thecodecanalsoreporttheemissivityin anyoftheemissionquantitiesgiveninthemainprintout. Forthesecontinuumbandsthe emissivitywillonlybethediffuseemissionfromthecloudandwillnotincludetheincidentfield. Theseentrieswillnotbeinclud
+
+============================================================
+HEADING: 2.3Emission-LineEquivalentWidths
+TEXT (2717 chars): TheequivalentwidthofanemissionorabsorptionlineisthenumberofAngstromsofthe continuumthatisequivalenttotheenergyintheline. Itisdefinedas (cid:90) Fc−Ft F W = λ λdλ ≈−λ line [unitsofλ] (2.1) λ Fc λFc λ λ wherethefluxesareintheincidentcontinuum(Fc),thetotaltransmittedspectrum(Ft),andthe λ λ line(F ). Bythisconventiontheequivalentwidthofanemissionlineisnegative. line Thecode’soutputcanbeusedtopredictaline’sequivalentwidth. Theprevioussection describesseveraloftheradiationfieldsthatarepredicted. Thecodeprintstheintensityor luminosityofalllinesandcontinuaandtheintensityofeachrelativetoanormalizationline. Theratioofalinetocontinuumintensityorluminositywillbethedimensionlessratio F (cid:14) λFc,partofthelastterminequation2.1. Thelineequivalentwidthisthisratiomultiplied line λ bythewavelengthwherethecontinuumisevaluated. Thecodereportstheincidentcontinuumat severalwavelengthswithlabels“Inci”. Forinstance,youcouldtrickthecodeintoprintingthe relativeintensitiesofthelinesasanequivalentwidthrelative
+
+============================================================
+HEADING: 2.5SurfaceBrightness
+TEXT (1396 chars): CLOUDY willnormallypredictaline’sintensityas4πJ,theintensityradiatedinto4πsrbyaunit areaofcloud,withunitsergs−1 cm−2. Observationsofresolvedsourcesoftenmeasurethe surfacebrightness,withunitsergs−1 cm−2 arcsec−2 ors−1 cm−2 sr−1. Becareful! Someworkers mayreportsurfacebrightnesswithunitsergs−1 cm−2 arcsec−2 sr−1. Removethesr−1 before continuingbymultiplyingby4π. Toobtainthepredictedsurfacebrightnesswemustdividetheintensity4πJ bythenumberof squaresecondsofarcin4π srorthenumberofsrin4π sr. Oneradianis360/2π =57.29578 degrees,so1sris(180/π)2 =3282.806degree2. Thereare(60×60)2 squaresecondsinasquare degree,sothereare5.3464×1011 squarearcsecondsin4π sr. Thesurfacebrightness(persquare secondofarc)istheintensity4πJ multipliedbytheinverseofthis,or1.8704×10−12 arcsec−2. Thesurfacebrightness(persr)istheintensity4πJ dividedby4π. Notethatthisisonlycorrectforalinethatisemittedisotropically,becausethecodepredicts 4πJ whileanobservermeasuresI alongaparticulardirection. (Thecodedoespredictthefraction of
+
+============================================================
+HEADING: 2.6Fluxtoluminosity
+TEXT (221 chars): Theluminosityistheintensityofalinemultipliedbythetotalareaoftheshell. Forfullcoverage thisis4πr2 wherer istheradiusoftheshell. Iftheshellonlypartiallycoversthecontinuum sourcethenthisshouldbemultipliedbythecoveringfactor.
+
+============================================================
+HEADING: 2.7FluxattheEarth
+TEXT (175 chars): Ifthedistancetotheobjectisspecifiedwiththedistancecommand,andtheluminositycaseis predictedthenthefluxobservedattheEarthwillbepredictediftheprintfluxatEarthcommand alsoappears.
+
+============================================================
+HEADING: 2.8Relativehydrogenlineintensities
+TEXT (1448 chars): HydrogenlineintensitiescanbepredictedwithgreatprecisionwhenCaseBapplies. Ferguson andFerland(1997)describe CLOUDY’soriginalhydrogenatomandFerlandetal.(2009)describe itscurrentimplementation. Itgivesgoodresultsforallreportedlines. Thenumberofreported linescanbeincreasedtogohigherintheHImodelatombyusingtheatomH-likelevels command. Thisgivesbetterresultsattheexpenseofmorecomputetime. Theaccuracyof CLOUDY’sHIlineemissivitiesislimitedbythesizeofthemodelhydrogen atomthatcanbecomputedonthefly. Thedefinitivecalculationforhydrogenrecombinationis thatofHummerandStorey(1987)andStoreyandHummer(1995),whouseda1000levelatom withalll-levelsexplicitlyconsidered(thatworksouttosomethinglikeamillionlevels!). The codeinterpolatesontheirtablesandincludestheirCaseAandCaseBpredictionswithinthemain printout. Thetestcaseslimit case*.ininthetestsuitecomparethecode’spredictionswith theirCaseBvalues. TheHummerandStorey(1987)calculationisforCaseBconditions,whichassumethatmany processesareunimportant(seeAGN3). Negle
+
+============================================================
+HEADING: 2.9Heliumlineintensities
+TEXT (257 chars): ThecodeincludesamodeloftheHe0 atomthatisappliedallalongtheheliumiso-electronic sequence. Themodelcanhaveanarbitrarilylargenumberoflevels(Baumanetal.,2005;Porter etal.,2005;PorterandFerland,2007). Thepredictionsbecomemoreexactasthenumberof levelsisincreased.
+
+============================================================
+HEADING: 2.10Lineintensitiesinadustycloud
+TEXT (5646 chars): Twosetsoflineintensitiesareprintedinthemainoutput. Thefirstblockoflines,withthetitle “IntrinsicIntensities”,includesallthephysicsoflineformation,includingdestructionbylocal backgroundopacitiessuchasgrainsorphotoelectricabsorption,butdoesnotincludetheeffectsof absorptionandscatteringofthelinefromregionsawayfromthatwerethelineforms. Thiswould bethespectrumyouwouldobserveaftercorrectionforreddeningorlineofsightextinction. Thesecondblockofemission-lineintensities,withthetitle“EmergentIntensities”,includesthe effectsofabsorptionandscatteringfromregionsoutsidethosewherethelinesform. The distinctionisimportantforopticalemissionfromanygeometrythathasalargedustextinction A ,forinstance,anH+ layeronthesurfaceofamolecularcloud. Therearetwosimplelimitsfordustextinction. Ifthesimulationonlyincludestheionized regionofaphotoionizedcloudthendustextinctionofopticalorIRlineswillusuallybevery small. Thisisbecausethetotal opticaldepthacrossanH+ layerisusuallyτ ≤1at912A˚ (Baldwinetal.1991,Bottorffetal.1998
+
+============================================================
+HEADING: 2.11Continuumpumpingcontributiontolineintensities
+TEXT (952 chars): Continuumpumpingorfluorescenceisincludedforalllines. Thecontributionisonlyexplicitly reportediftheprintlinepumpcommandisentered. Whetherornotthiscontributionactually addstotheobservedlineemissiondependsonthegeometry. Continuumpumpingincreasesthe lineemissionifnorelatedcontinuumabsorptionoccurs. Thiswillbethecaseifthecontinuum sourceiseithernotobservedornotcoveredbyabsorbinggas. Ifabsorbinggascoversanobserved continuumsourcethenthesituationislikethePCygniproblem,andpumpingmaynotincrease thenetintensityofthelineatall(theabsorptioncomponentwillhavethesameequivalentwidth astheassociatedemission). Theprintedlineintensityincludesthiscontributionunlesstheno inducedprocessescommandisentered. (Thenoinducedprocessescommandhasmanyother effectsandsoshouldonlybeusedasatest.) Theoutputproducedbythesavecontinuumcommandsdoesnotincludethepumpedpartof thelinecontribution. Thisiscorrectifthecontinuumsourceisincludedinthebeam,butisnotif onlythegasisobserved.
+
+============================================================
+HEADING: 2.12Columndensities
+TEXT (275 chars): Thecolumndensitiesofallconstituentsareprintedattheendofthecalculation. Columndensities withinmanyexcitedstatesarealsoprinted. Theexcitedstatesareidentifiedwitha‘*’. Thetable thataccompaniesthedescriptionofthecdColmcommand(seeTable8.1onpage78above) identifiesthevariouslabels.
+
+============================================================
+HEADING: 2.13Asyntheticspectrum
+TEXT (756 chars): Atableofemission-lineintensitiesispartofthenormaloutput. Sometimesasyntheticspectrum, ratherthanatable,isdesired. Verycoarsespectracanbegeneratedwiththesavecontinuumor savespectrumcommands,butadetailedsyntheticspectrumisnotthemainpurposeofthis output. Itisbesttosavetheemission-linespectrumandthenpost-processthisdatausingyourown software. Thenblendsoflinescanbesynthesizedatanyspectralresolutiondesired. Thespectrum canbesavetwoways. Themainblockofemission-lineintensitiesinthefinalprintoutcanbe printedasasinglecolumn,whichcanbesortedbyintensityorwavelength(byusingoptionson theprintlinescommandinSection1ofthisdocument). Thesavelines,arraycommandcan reporttheemissionlines. Writeasmallprogramorscripttoreadthesetablesandcreateafinal synthesizedspectrum.
+
+============================================================
+HEADING: 2.14Lineprofiles
+TEXT (701 chars): Theobservedlineprofilecanbepredictedbyintegratingtheemissivityofthelineoverthe computedstructurewhiletakingthelocalvelocitystructureintoaccount. Theemissivityis obtainedwiththesavelinesemissivitycommand,describedinPart1ofthisdocument. Thisgives thenetemission,withunitsergcm−3 s−1,emittedbyaunitvolumeofgasandemergentfromthe cloudsurface. Thetotalemissionistheintegraloftheemissivity. Anintegraloverradiuswillgive thelineintensity4πJ whileanintegralovervolumewillgivetheluminosity. Theobservedprofilewilldependonthevelocityfieldateachpointintheintegration. Forstatic modelsthiswillbetheVoigtfunctionatthelocaltemperatureandmicroturbulence. Fora dynamicalmodelitwillincludebulkmotionofthegas. Chapter 3
+
+============================================================
+HEADING: 3.1Overview
+TEXT (450 chars): Thissectionoutlinessomeoftheassumptionsandlimitsthatdefinetherangeofvalidityof CLOUDY. Thecodeisdesignedtobeautonomousandself-aware,andtocheckthattheselimits arenotexceededduringacalculation. Thisself-checkingisacentralfeatureofthecodesinceitis designedtobeusedtocomputelargegridswiththousandsofmodels,wheretheexaminationof individualresultswouldnotbepossible. CLOUDY shouldprintawarningafterthelastzone resultsifanyaspectsofthecalculationareindoubt.
+
+============================================================
+HEADING: 3.2Timesteady
+TEXT (1688 chars): CLOUDY doesnotassumethatthegasisinequilibrium. Inmostcasesitdoes,however,assume thatatomicprocessesoccurontimescalesthataremuchfasterthanotherchangesinthesystem, sothatatomicrateshavehadtimetobecometime-steady. Itispossibletofollowtime-dependent conditionsoranadvectiveflow. Inpracticemostcalculationsassumethatthecloudisoldenoughforatomicprocessestohave becometimesteady. Theagecommand(describedinPartIofthisdocument)shouldbeusedto specifytheageofthecloud. Thecodewillthenconfirmthatthetime-steadyassumptionisvalid bycomparingthesystem’sagewithahostofratesandtimescales,andwillgenerateawarningif theenvironmentisnottime-steady. Varioustimescalescharacterizetheapproachtoequilibriumofanionizedgas(seeSpitzer, 1962,andFerland,1979foraspecificapplication). Generally,foranionizedgaswithnebular temperatures(T ∼104K),thelongestistheH+ recombinationtimescale, T = =7.6t0.8 n−1 years=0.66t0.8 n−1 hours (3.1) rec α (T )n 4 4 4 9 A e e wheret isthetemperatureinunitsof104K,n istheelectrondensityinunitsof10
+
+============================================================
+HEADING: 3.3Atomicandmoleculardatabase
+TEXT (393 chars): Thissectionoutlinessomeoftheatomicandmolecularphysicsissuesthataffectthereliabilityof numericalsimulationsofnebulae. Theseuncertaintieswereextensivelydiscussedinthe LexingtonPlasma2000meeting(ASPConfseries247,Spectroscopicchallengesofphotoionized plasmas,GaryFerland&DanielSavin,editors)andtheyunderscoretheimportanceofatomicand molecularphysicsfortheinterpretationofastrophysicalspectroscopy.
+
+============================================================
+HEADING: 3.3.1Collisionalprocesses
+TEXT (1839 chars): Byitsnature,theelectrontemperatureofaphotoionizedgasislowcomparedwiththeionization temperatureofthemixtureofatomsandions,asdefinedbytheSahaequation(ifthetwowere comparable,thegaswouldbecollisionallyionized). Becauseofthis,theratecoefficients describingcollisionaleffects,suchastheproductionofcoolingemissionlines,areoften dominatedbythecrosssectionsnearthreshold. Thisiswherelaboratoryexperimentsaredifficult andabinitioquantumtheorymustoftenbeused. Asaresult,thecollisionstrengthsundergo constantrevision,towardsbetterandmorereliablevalues. Tociteoneextremeexample,thecollisionstrengthfortransitionswithinthe3Pgroundtermof Ne+4 underwentthreerevisionsbetween1984and1991,eachbyafactorof10,becauseof theoreticaluncertaintiesinpositionsofautoionizingstateswithunknownenergies(Lennonand Burke,1991). Theintensitiesofallemissionlinescanbeaffectedbymajorchangesintheatomic dataforonlyonelineforsomeconditions. Thisisbecause(inthiscase)theinfraredfinestructure linesofNe+4 canbeimportantcoolantsinlow-densi
+
+============================================================
+HEADING: 3.3.2Photoionizationcrosssections
+TEXT (935 chars): Thephotoionizationcross-sectiondatabasehasundergoneadramaticimprovementwiththe completionoftheOpacityProject(Seaton,1987)anditsfittingwithanalyticapproximations (Verneretal.,1996). Thesearethephotoionizationcrosssectionsusedby CLOUDY andthey shouldbeasaccurateas10%. Allinnershellmulti-electronprocessesareincluded(Kaastraand Mewe,1993)usingdistortedwavecrosssections(referencedinVerneretal.). Thispartofthedata baseisinfairlygoodshape,althoughgreateraccuracyisalwaysdesired. “Fanoprofiles”,duetoautoionizationresonances,appearaslargechangesinphotoionization crosssectionthatoccuroveranarrowrangeofenergy,areaveragedover,asdescribedbyVerner etal. Theirpositionsarenotaccuratelyknown,andtheycouldmakeadifferenceifsharpspectral featuresoccurinthestellarcontinuumatthepositionofaresonance. Thephotoionizationrate couldbechangeddramaticallyinthiscase. Experimentaldatawouldbeneededtoupgradethe photoionizationdatabasetoincludeFanoprofiles.
+
+============================================================
+HEADING: 3.3.3Recombinationratecoefficients
+TEXT (505 chars): Recombinationfromclosedshellspeciesisaccuratelyknown(VernerandFerland,1996)since thesearedominatedbyradiativerecombination. Reliabledielectronicrecombinationcoefficients donotnowexistformostotherstagesofionization. Currentlythereisnotheorythatcan reproducethebestexperiments(Savinetal.,1999). Forthese, CLOUDY usestheguestimates describedinPartIofthisdocument. Thisisclearlythegreatestsinglegapintheatomicdatabase today. Savin(2000)showsanexamplewherethisuncertaintyhasadirectimpactoncosmological studies.
+
+============================================================
+HEADING: 3.3.4Chargetransfer
+TEXT (600 chars): Theratecoefficientsforchargetransferareanotheruncertaintyintheatomicandmolecular database. Thisprocessissometimesthedominantneutralizationmechanismforsinglyordoubly ionizedheavyelements. Atpresentmanychargeexchangeratecoefficientsaretheresultof Landau-Zennercalculationsusingsemi-empiricalpotentialcurves(KingdonandFerland,1996, KingdonandFerland,1999). Thesearethoughttobenomoreaccuratethanafactorofthree. Eventhebestquantalcalculationsarenotthoughttohaveanaccuracymuchbetterthan50 percent. Unpublishedtestssuggestthattheseuncertaintiesaffectsomelineintensitiesatthe ∼20%level,andafewbymorethanthis.
+
+============================================================
+HEADING: 3.4Continuousopacity
+TEXT (655 chars): Allsignificantcontinuousopacitysourcesaretreatedfortheenergyrangeconsideredbythecode, 3.040×10−9Rydto7.354×106Ryd. Theseopacitysourcesincludeinversebremsstrahlung, grains(whenpresent),H− absorption,electronscattering,thedampingwingsofstrongresonance lines(i.e.,Rayleighscattering),pairproduction,photoelectricabsorptionbythegroundand excitedstatesofallionsofthelightest30elements,andphotoabsorptionbymolecules. This treatmentshouldbeadequateaslongastheopticaldepthstoelectronscatteringarenotlarge. CLOUDY isnotnowdesignedtosimulateCompton-thickregimes. (Awarningwillbeissuedafter thelastzonecalculationifthenebulaisveryopticallythicktoelectronscattering.)
+
+============================================================
+HEADING: 3.5Temperaturerange
+TEXT (849 chars): CLOUDY assumesthattheelectronsarenon-relativistic,whichlimitsittotemperaturesbelow roughly109 K. CLOUDY goestotheComptontemperatureoftheradiationfieldtogreataccuracy inthelimitofveryhighlevelsofionizationforblackbodyradiationfieldswithtemperatures between2.8Kand1.001×1010K. Thereisnoformallowertemperaturelimittoitsvalidity. Note thatverycoldgasisrarelyinsteadystate,however,becauseoftheveryslowcollisionrates. Similarly,thecollisiontimescalesinveryhotgas(T ≫108K)arenotrapidenoughtoensurethat theelectronsandionshavethesametemperature,orthatheating-coolingbalancehasbecome timesteady(JohnsonandQuataert,2007). Electron-iondecouplingisnotnowincluded. Therangeofvalidityofthecodeisapproximatelyfrom10Kto109 K.Temperaturesoutside thisrangecanstillbetreated,althoughwithgreateruncertainty. Thecodewillnotpermit temperaturesbelow2.8Korabove1.001×1010K.
+
+============================================================
+HEADING: 3.6Densityrange
+TEXT (1767 chars): Thereisnoformallowerlimittothedensitythat CLOUDY cantreat. Thesetofheavyelementfine structurelines,whichdominatecoolingatlowdensities,iscompleteforastrophysicallyabundant elements,andfinestructurelineopticaldepths,continuumpumping,andmasereffectsarefully treated. Thereisnoformalhigh-densitylimit,althoughthesimulationislesscompleteathigh (n ∼ =1010cm−3 densities. Lineradiativetransferprocessesarefullytreatedwitheitherescapeor Sobolevapproximations(seeKalkofen,1987andAvrettandLoeser,1988)and collisional-radiativeionizationprocessesforexcitedlevelsoftheheavyelementsaretreated. All speciesofH-likeandHe-likeisoelectronicsequencesaretreatedasmany-levelatoms,including allofthephysicalprocessesthatallowtheapproachtoLTE(see,forexample,Mihalas,1978). Testswithahydrogendensityof1019cm−3 showthatthehydrogenandheliumatomsandthe hydrogenmoleculesgotoLTEathighdensities. Theygotostrictthermodynamicequilibrium whenexposedtoatrueblackbody. ThetreatmentofStarkbroadeningforhydrogenlinesfollows Puetter(198
+
+============================================================
+HEADING: 3.7Radiativetransfer
+TEXT (792 chars): Severaltestspresentedinthetestsuiteshowthatthecontinuumtransfermethodsareinexcellent agreementwithknownexactresults. Lineintensitiesarepredictedwithstellaratmosphereconditionsinmind. Radiativetransfer effects,includingcontinuumpumpingandpossiblemaseremission,aretreated. Nebular approximations,suchastheapproximationthatallatomsareinthegroundstate,arenotmade. Collisionaleffects,includingexcitationandde-excitation,continuumfluorescence, recombination,etc,areallincludedasgenerallineexcitationmechanisms. Thetreatmentoflevel populationsisdesignedtogotoLTEinthehighparticleorphotondensitycases. Thetransferofsubordinatelines,thosewherebothupperandlowerlevelofthetransitionoccur inexcitedstate,oftheH-likeandHe-likeisosequencesathigh(n≫1010cm−3)densitiesisa concern. Resonancelinesshouldbefine.
+
+============================================================
+HEADING: 3.8Reliability
+TEXT (2208 chars): Severalissuesaffectthegeneralquestionofthereliabilityofthecode. Thefirstistheeffectsof thebugsthatsurelymustexistinacodethesizeof CLOUDY. Ihaveseldomfoundbugsin sectionsofthecodeolderthanroughlytwotothreeyears. Youngersectionsofthecode sometimescontainbugsthatonlymanifestthemselvesinexceptionalsituations. Theissueof reliabilityinthefaceofcomplexitywillincreasinglybethesinglemajorproblemlimitingthe developmentoflarge-scalenumericalsimulations(Ferland,2001a). Newmethodsofwritingcode willhavetobedevelopedifwearetotakefulladvantageofthepoweroffuturemachines. Machinesaregettingfastermorequicklythanpeoplearegettingsmarter. Thesecondissueisthevalidityofthenumericalmethodsusedtosimulateconditionsinthe plasma. Fundamentaluncertaintiesariseforcaseswherethedensityishigh(n≫1010cm−3). The lineradiativetransfertechniquesusedby CLOUDY areapproximate(seethediscussionbyAvrett andLoeser,1988). Unfortunately,nodefinitivecalculationnowexistsforthecompletenon-LTE equilibriumandlineemissionforanintermediate
+
+============================================================
+HEADING: 3.9Thefuture
+TEXT (409 chars): Theeventualgoalisfor CLOUDY togivereliableresultsforallextremesofconditionsbetween andincludingtheintergalacticmediumandstellaratmospheres. Iestimatethatthecodeisnow welloverhalfwaycomplete. Currentworkcentersontakingadvantageofparallelmachines. Oncefinished,wewillbeable tousethisadditionalcomputationalpowertoimprovethetreatmentofhydrodynamics,line radiativetransfer,andhigher-orderdimensionality. Chapter 4
+
+============================================================
+HEADING: 4.1Overview
+TEXT (148 chars): Undermostcircumstancestheradiationfieldproducedbythecentralobjectistheonlysourceof heatandionization. Thissectiondescribeshowthiscontinuumistreated.
+
+============================================================
+HEADING: 4.2Attenuationoftheincidentcontinuum
+TEXT (226 chars): Inanopengeometryscatteringattenuatestheincidentcontinuumas I =I (1+0.5dτ ) o scat Scatteringdoesnotaffectthecontinuuminaclosedgeometry. Absorptionattenuatestheincident continuumas I =I exp(−dτ ). (4.2) o abs forbothgeometries.
+
+============================================================
+HEADING: 4.3.1On-the-spotapproximation
+TEXT (1944 chars): Amodifiedversionofthe“on-the-spot”(OTS)approximationisusedinthetreatmentofsources ofdiffuseionizingradiationwhenthediffuseOTScommandisused. Werenootheropacity sourcespresent,then,foraclosedgeometrythatisopticallythickintheLymancontinuum,all recombinationsofhydrogenorheliumtothegroundstatewouldproduceionizingphotons. Other atomsoftherecombinedspecieswouldquicklyabsorbthese. InthiscaseOTSisanexcellent approximation(vanBlerkomandHummer,1967;Baessgenetal.,1988). However,otheropacity sourcesarepresent,andthesecompeteinabsorbingprotonsproducedbyrecombinations,making therecombinationprocessmoreefficientthantheOTSapproximationwouldsuggest. Therecombinationcoefficientsaremodifiedbythepresenceofallotheropacitysources,such asgrains,free-freeorH− absorption,andtheheavyelementopacities,inthefollowingmanner. Theneteffectiverecombinationratecoefficient(cm3 s−1)toleveln,αˆ(T ,n),iswritteninterms e ofthespontaneousradiativerecombinationratecoefficientα(T ,n)andtheopacities(cm−1)κ e n andκ forthelevelna
+
+============================================================
+HEADING: 4.3.2Outwardonlyapproximation
+TEXT (293 chars): Acomposite“outward-only”(Tarter,1967)–“on-the-spot”approximationisusedinthetreatment ofsourcesofdiffuseionizingradiationwhenthediffuseoutwardcommandisused. Thisisthe defaultassumption. Theescapingradiationisthenpropagatedintheoutwarddirection(allforthe sphericalcase,andhalfforanopengeometry).
+
+============================================================
+HEADING: 4.4Continuousopacities
+TEXT (862 chars): Thecloudisdividedintoalargenumberofconcentricshells(zones)andtheattenuatedand diffusecontinuaandphysicalconditionsarethendeterminedwithineach. Themainopacitysourcesintheultravioletcontinuumaregenerallyphotoelectricandfree-free (inversebremsstrahlung)absorption,grainopacity,electronscattering(ofbothboundandfree electrons),andthedampingwingsofLymanlines(Rayleighscattering). Themainreemission mechanismsaregenerallyfree-free(bremsstrahlung),grainemission,free-bound,andtwo-photon emission. Grainsarenotpresentbydefaultbutcanbeaddedasanoption. Continuousabsorption andreemissionbyallgroundstates,andmanyexcitedstates,ofallionizationstagesofthe30 elementsinthecalculationareexplicitlyincluded. Greatcareistakentoensurethateach absorptionmechanismisbalancedbyareemissionprocess,andviceversa,sothatenergybalance inthestrictthermodynamicequilibriumlimitcanbeachieved.
+
+============================================================
+HEADING: 4.4.1Totalopacityarrays
+TEXT (209 chars): Totalabsorptionopacities(cm−1)arestoriedinthevectoropac. Totalscatteringopacities(cm−1) arestoredinscatop. TheopacitiesareevaluatedinroutineConvIonizeOpacityDoandarewithin theopacstructure(definedinopacity.h).
+
+============================================================
+HEADING: 4.4.2Cross-sectionarray
+TEXT (893 chars): Storage. Thecrosssectionsperparticle(cm2)forindividualspecies(atoms,ions,molecules,etc) arestoredwithinthearrayOpacStack,astackarraywithasingledimension. Thesecrosssections areevaluatedwhenthecodeisinitializedinroutineOpacityCreateAll. Arrayindices. Eachspecieshasanassociatedarrayindexthatdefinestheoffsetbetweenthe originofOpacStack,thefrequencyarrayanu,andtheopacityatthethreshold. Ifthisoffsethas thenameioff,forinstance,thenthecrosssectionatthresholdwillbegivenbyarrayelement OpacStack[ioff]. Ifipistheindextothethresholdenergywithinanu,thenthearrayindextothe crosssectionatenergyiwillbei−ip+iof f. Individualcross-sections. Thefunctioncsphot returnsthecrosssectionataspecificfrequency foranyspecies. Ithasthreearguments,1)thepointertothefrequencyinanuwherethecross sectionistobeevaluated,2)thepointertothethresholdforthespecies,and3)theioff offset describedabove. Allareintegervariables.
+
+============================================================
+HEADING: 4.4.3Photoionizationrates
+TEXT (1312 chars): Photoionizationrates(unitss−1)canbecomputedbyseveralfunctions. Whichisusedata particulartimeisdeterminedbycircumstances. GammaK Thiscomputesthephotoionizationratewithallowanceforanarbitraryfluorescence yield. Thisroutineisamajorpacesetterforthecodesinceitisusedtoevaluatethe continuumratesinthemajorityofthecases. Thephotoionizationrateisgivenby (cid:90) ∞ J Γ =4π ν α dν [s−1]. (4.5) n ν hν νo whereα isthephotoionizationcrosssection[cm−2]. Theroutinehasthreeinteger ν arguments,theanupointerstothelowerandupperenergiesandtheoffsettotheopacity arrayioff (describedabove). GammaPrt ThisisaspecialversionofGammaK thatwritesthestepbystepresultsofthe integrationonanyopenfile. Theoutputliststheproductofthephotonfluxandthecross section,thephotonflux,andtheopacity. GammaBn ThisisaspecialversionofGammaK thatisusedwhenthecorrectionforstimulated emissionorinducedrecombinationisimportant. Thephotoionizationrateisgivenby (cid:90) ∞ J Γ =4π ν α dν [s−1] (4.6) n ν hν νo andtherateforinducedrecombinationand
+
+============================================================
+HEADING: 4.4.4Attenuationwithinthezone
+TEXT (542 chars): Acorrectionmustbemadetoaccountfortheattenuationofthecontinuumacrossthezone(Netzer andFerland,1984). Assumingthatthecontinuumvariesacrossthezoneas I(ν,δr) =exp(−κ(ν) f(r)δr) (4.8) I (ν) o thentheintensityaveragedoverazonewiththicknessδr is (cid:28) (cid:29) I(ν,δr) 1−exp(−κ(ν) f(r)δr) I (ν) κ(ν) f(r)δr o whereκ(ν)istheabsorptionopacityand f(r)isthefillingfactor. Thecoefficientsgivingthis ratioasafunctionofenergyarestoredinthevectortmn,andareevaluatedinroutineradinc. The continuumstoredinflux ismultipliedbythesefactorsinthesamesubroutine.
+
+============================================================
+HEADING: 4.4.5Rayleighscattering
+TEXT (963 chars): Cloudswithneutralhydrogencolumndensitiesgreaterthan1023cm−2 areopticallythickto RayleighscatteringatwavelengthsnearLα,andthisprocessisamajorscatteringopacitysource atshortwavelengthsforgrain-freeenvironments. RayleighscatteringcrosssectionsgivenbyGavrila(1967)areused,joinedwithexpressionsfor theradiativedampingwingsofLymanlines(Mihalas,1978). Forwavelengthslongwardof1410 A˚ apower-lawfittoGavrila’squantalcalculationsisused; σ =8.41×10−25ε4+3.37×10−24ε6+4.71×10−22ε14 cm2 (4.10) Ray whereε ≡/cR isthephotonenergyinRydbergs. Thisfitisaccuratetotypicallyapercent,with occasionalerrorsaslargeas4percent. Forwavelengthsbetween1410A˚ andtheLymanlimit,radiativebroadeningoftheLymanlines isassumed(Mihalas,1978); 4 (cid:18) q2 f (cid:19) Γ/4π σ = ∑ e 1,i cm2 (4.11) Ray i=2 m e c (ν−ν 1,i )2 whereΓisthereciprocallifetimeoftheupperleveliandthesumisoverthefirstfourLyman lines. ThisexpressiongivescrosssectionsinexcellentagreementwithGavrila(1967)forthese wavelengths.
+
+============================================================
+HEADING: 4.4.6Free-freeopacity
+TEXT (909 chars): Themainopacitysourceintheinfrared-radiospectralregionformanyconditionsisfree-free opacitywithacrosssectiongivenby α (f f)=3.69×108 g¯ (ν,T) f(r)ν −3 T−1/2{1−exp(−hν/kT)} ∑∑z2 n+z [cm−2] ν III A A z )3-mc 1-s gre( gnilooc gol log temperature Figure 4.1: Thermally averaged free-free gaunt factor. The gaunt factor is shown as a function of photonenergyandtemperature. (see,forexample,Mihalas,1978). Thesumisoverallionsn+z ofelementAandoverallelements. Thetemperatureaveragedgauntfactorg¯ (ν,T)istakenfromHummer(1988)(seealsoKarzas andLatter,1961)andareevaluatedinroutinegffsubthatwasoriginallywrittenbyD.Hummer. Thisroutinedidnotextendtoenergiesthatcouldbetreatedbyasymptoticexpansionsofthe gauntfactor. gffsubwasmodifiedbyJ.Fergusontoextendoverthefulltemperatureandenergy rangeconsideredby CLOUDY,andlaterextensivelyrewrittenbyRyanPorter. Figure4.1shows thegauntfactorsasfunctionsofphotonenergyandtemperature.
+
+============================================================
+HEADING: 4.4.7Bound-freeopacity
+TEXT (202 chars): Continuumopticaldepthsforphotoabsorptionfromlevellaregivenby dτ (ν)=α (n) n [1−exp(−hν/kT)/b ] f(r)δr (4.13) l ν l l whereb isthedeparturecoefficientforlevell andα istheabsorptioncrosssection[cm−2]. l ν
+
+============================================================
+HEADING: 4.4.8Plasmafrequency
+TEXT (637 chars): Theplasmafrequency,theenergywheretheindexofrefractionofanionizedmediumgoesto zero,isgivenby (cid:18) n q2(cid:19)1/2 ν = e e =8.978×103n 1/2 s−1 =2.729×10−12 n 1/2 Ryd (4.14) pl e e πm e Anionizedgaswillreflecttheincidentcontinuumforenergiessmallerthanthis. Thisshielding becomesimportantfortheenergyrangeconsideredby CLOUDY forelectrondensitiesgreaterthan ∼107cm−3. Forhigherdensitiesthisprocessistreatedbysettingtheintensityoftheincident continuumtozeroforenergiesbelowtheplasmafrequency,addingthisportionoftheincident continuumtothereflectedcontinuum,andnotallowingemissionorabsorptionforanyprocesses thatoccurbelowtheplasmafrequency.
+
+============================================================
+HEADING: 4.4.9Pressureloweringofionizationpotential
+TEXT (227 chars): Theelectricfieldofnearbychargesinthecontinuumactstolowertheionizationpotential. The amountbywhichitisloweredisdeterminedbytheelectrondensity. RyanPorterextendedthe codetoconsiderallspeciestreatedwiththeiso-electronicmodelatoms.
+
+============================================================
+HEADING: 4.5Thefrequencymesh
+TEXT (254 chars): Theenergyinterval3.040×10−9Ryd–7.354×106Rydisdividedintoanumberofsections usingthecontentsofthefilecontinuum mesh.ini. Eachofthesesectionshasanassociated meshresolutionr,andisfilledwithalargenumberoffrequencycellswithnearlyexponentially increasingwidths.
+
+============================================================
+HEADING: 4.5.1Frequencymeshlogic
+TEXT (685 chars): Todefinethefrequencymesh,thecodewillfirstsetupanarrayofedgefrequenciesνedge that definethelowerandupperlimitofeachfrequencycell. Assumingwewanttosetuptheedgesina sectionstartingatenergyν andendingatν ,thefirststepistodeterminehowmanyfrequency cellsn wewillgenerateinthatsection: bin (cid:24) (cid:25) ln(ν /ν ) n = . (4.15) bin r Fromthiswecancalculatethefrequencystepsizeν : s (cid:20) (cid:21) ln(ν /ν ) ν =exp . (4.16) s n bin Finally,thefrequencyofedgenumberiisdefinedsimplyby: ν edge =ν ν i (4.17) i 0 s fori∈[0,n ]. Oncetheedgesaredefined,wecansimplydefinethecenterofeachfrequencycell bin astheexactmidpointbetweenthetwoedges,andthewidthasthedifferencebetweenthetwo edgeenergies.
+
+============================================================
+HEADING: 4.5.2Routinesdefiningthefrequencymesh
+TEXT (500 chars): Severalroutinescanbeusedtoobtainpropertiesofthefrequencymesh,allreturningvaluesin Rydberg. Thefunctionanu(i)givestheenergyofthecenteroffrequencycellnumberi. The functionsanumin(i)andanumax(i)givethelowerandupperfrequencylimitofcellnumberi, respectively. Theroutinewidflx(i)givesthewidthofcellnumberi. Therearealsoroutinesto obtainsimplemathematicalfunctionsofthecenterfrequency,suchasthesquare,thecube,the squareroot,orthelogarithm. Thedatausedbytheseroutinesaresetupintheroutine t mesh::p SetupMesh.
+
+============================================================
+HEADING: 4.5.3Changingtheresolutionofthemesh
+TEXT (632 chars): Thefilecontinuum mesh.inicontainsorderedpairsofcontinuumenergiesandresolving powers(definedas1/r)thatarereadbyt mesh::p ReadResolutiontosetthefrequencymesh. Changethecontentsofcontinuum mesh.initochangetheresolutionofthecontinuum mesh. Thefileexplainshowtodothis. Alternatvely,youcanalsousethecommandsetcontinuumresolutionthatwillapplya uniformmultiplicativefactortotheresolutionineachsectiondefinedin continuum mesh.ini. ThiscommandisexplainedinSection19.13.9inHazy1. Iftheenergyresolvingpowerisincreasedthenthecodewillrequiremoremeshpointstocover thefullcontinuumandwillrunmoreslowly,butthepredictedcontinuumwillhavegreaterdetail.
+
+============================================================
+HEADING: 4.6Continuumgeneration
+TEXT (803 chars): Thecontinuumisgeneratedbythefunctionffun. ffunhasasingleargument,theenergyin Rydbergs,anditreturnsthenumberofphotonsperunitarea,time,andRydberg,atthatenergy. ffunsumsoverallthespecifiedcontinuaandappliestheappropriatenormalizationfactors. Anotherfunction,ffun1,evaluateseachindividualcontinuum,andisnormallycalledonlybyffun. Theunits,andtheirconversiontoothermeasuresofthecontinuum,aregivenbelow. The photonfluxdensityis: ϕ (ν)=ffun(ν) [photonscm−2s−1Ryd−1]. (4.18) ν Thisisstoredinthephotonarray: flux(ν)=ϕ (ν)δν =ffun(ν)×widflx(ν) [photonscm−2s−1] (4.19) i ν i i wherewidflx isanarraycontainingthewidthofeachcontinuumbin. Finally,theenergyflux densityisgivenby (cid:18) (cid:19) ν f (ν)=ffun(ν)h [ergcm−2s−1Hz−1] (4.20) ν ν and (cid:18) (cid:19) ν νf (ν)=ffun(ν)h ν hν [ergcm−2s−1]. (4.21) ν 912 Ryd ν
+
+============================================================
+HEADING: 4.7Energyunits;theRydberg
+TEXT (1361 chars): ContinuumenergiesareusuallygiveninRydbergs. Theenergyoflevelnofahydrogenicatomis givenby E =− H ,n=1,2,3,..., [unitsofR ] (4.22) n n2 H wheretheRydbergenergyisgivenby µq4 µ R = e = R (4.23) 2h¯2 m e andthereducedmassoftheorbitingelectron µ isrelatedtotheelectronandnuclearmassm and e m by nuc m m m e nuc e µ = = [g], (4.24) m +m 1+m /m e nuc e nuc (Friedrich,1998). Notethatasm →∞, µ →m . ThisRydbergenergyR issmallerthanthe nuc e H energyforaninfinitemassnucleusR bytheratio µ/m . Usingthe1998CODATArevisionof ∞ e thefundamentalconstants(seeCohenandTaylor,1987;MohrandTaylor,2000)theinfinitemass Rydbergenergyisgivenby m q4 R = e e =13.605698[eV] (4.25) ∞ 2h¯2 and R /(2πh¯c)=109737.315686cm−1 R /(2πh¯)=3.28984196038×1015 Hz . (4.26) (2πh¯c)/R =91.126732nm TheionizationpotentialofhydrogenR is µ/m or∼0.99946timessmallerthanR . 1 Wehave H e ∞ R =13.59842 eV R =2.179872×10−11 erg (2πh¯)/R =91.176430nm R =109677.576cm−1 ThedifferencebetweenR andR issignificantsinceitentersasthethirdpowerinthephot
+
+============================================================
+HEADING: 5.1Overview
+TEXT (352 chars): Manyatomicphysicsquantitiesdescribehowmatterandlightinteract. Thissectiongoesover thesequantitiesandhowtheyarerelatedtooneanother. Theinter-relationsbetweenthese quantitiesaredescribedinmostspectroscopytexts,ataboutthesamedepthasisgivenbelow. Hilborn(1982)givesafarmoreformaldescription,oftentracingquantitiesbacktobasicE&M concepts. Highlyrecommended.
+
+============================================================
+HEADING: 5.2Spectroscopicnotation
+TEXT (1989 chars): Agreatdealofconfusionexistsoverthedifferencebetweenthedesignationofaspectrumandan ion. “AtomII”denotesaspectrum,acollectionofphotons,while“Atom+”denotesabaryon,the element“Atom”withasingleelectronremoved. Muchofthenotationintoday’satomicphysicswasdevelopedinthesecondhalfofthe19th century. Physicistsnoticedthatthespectrumofagaswouldchangedramaticallywhenitwas heatedtohightemperatures. Theydidnotunderstandthereasonwhythishappened,theelectron hadnotyetbeendiscovered,buttheydevelopedthenotationthat“AtomI”wasthenormal spectrum,thisspectrumchangedto“AtomII”whenthegaswasheated,andbecamethe “AtomIII”spectrumifheatedstillfurther. The“AtomII”spectrumwasoftencalledthe “enhanced”spectrumofAtom. Thisisthereasonwhy,inclassicalnovae,theappearanceofbroad absorptionlinesofsinglyionizedspeciesiscalledthe“diffuseenhancedphase”. Theelectronwasdiscoveredwellafterthisnotationhadbeendeveloped. Bytheearly20th centuryitwasunderstoodthatthe“I”spectrumwasproducedbytheatom,Atom0. Athigh temperaturesthefirstion,At
+
+============================================================
+HEADING: 5.3.1Lineopticaldepths
+TEXT (408 chars): Theopticaldepthforatransitionu−l,whereuandl aretheupperandlowerlevels,isgivenby dτ =α (n −n g /g ) f(r)dr [Napier]. (5.1) l,u ν l u l u Here f(r)isthefillingfactorandα istheatomicabsorptioncrosssection[cm2]. ν Theterminparenthesisisthepopulation[cm−3]ofthelowerlevel,withacorrectionfor stimulatedemission. Thistermistheonlyplacewherestimulatedemissionentersintheradiative balanceequations(Elitzuretal.,1983).
+
+============================================================
+HEADING: 5.3.2Oscillatorstrengths
+TEXT (604 chars): Theoscillatorstrength f isadimensionlessnumberoforderunitythatcanbethoughtofasa correctionfactortomaketheexpressionforaclassicaloscillatoragreewiththequantum mechanicalvalue. Sectionsbelowrelatetheoscillatorstrengthtootherlineparameterssuchasthe absorptioncoefficientandthetransitionprobability. Theabsorption(f ,called f here)and abs l,u emission(f ,called f )oscillatorstrengthsarerelatedby em u,l g f =−g f (5.2) l l,u u u,l wheretheg’sarethestatisticalweights. Thisproductissymmetric,neglectingsign,andthecode triestousegf’sthroughout. Theconventionisthatemissionlineshavenegativeoscillator strength.
+
+============================================================
+HEADING: 5.3.3Absorptioncrosssection
+TEXT (792 chars): Theabsorptioncrosssection[cm2]foralineisrelatedtothedimensionlessabsorptionoscillator strength f or f by lu abs α (x) = π1/2q2 e λ f l,uϕ (x) ν mecu Dop ν [cm2] (5.3) = 0.014974f λcm ϕ (x)=1.4974×10−6f λ ϕν (x) l,uu ν l,u µm u Dop Dop withtherelativelinedisplacementgivenby ν−ν o x≡ , (5.4) ∆ν Dop ϕ (x)istheVoigtfunction,andu istheDopplervelocitywidth(cms−1),thepointwherethe ν Dop lineprofilefallsto1/eofitspeak. Withthisdefinitionoftherelativelinedisplacement,theline profileduetothermalmotionsaloneisexp(−x2). Theconstantpartofequation5.3(i.e., everythingexcepttherightmostterm)isevaluatedinroutineabscf. TheDopplerwidthforthermalbroadeningofanatomwithatomicmassAis (cid:18) (cid:19)1/2 (cid:18) (cid:19)1/2 2kT T u = [cms−1]=12.85 [kms−1 ] (5.5) Dop m 104A (equation9-35ofMihalas(1970)).
+
+============================================================
+HEADING: 5.4.1Velocitiesinathermaldistribution
+TEXT (1116 chars): ThedistributionfunctionforaMaxwellianvelocitydistributionisgivenby n(u)du = 1 exp (cid:2) −u2m /2kT (cid:3) (cid:16) m (cid:17)3/2 4πu2du [cms−1] (5.6) n π3/2 2kT (Novotny,1973;p122). Therearethreemeanspeedsinathermalvelocitydistribution. Themost probablespeed isthepeakofthevelocitydistribution,withavalue u2 =2kT/m [cm2 s−2]. (5.7) mean A Thisisfoundbysettingthederivativeofthedistributionfunctiontozero(Novotny,1973,p122). Thevelocitydistributionfunctioncanbeexpressedintermsofthemeanspeed as n(u)du = 1 exp (cid:2) −u2/u2 (cid:3) 4πu2 du [cms−1]. (5.8) n π3/2 mean u3 mean Theaveragespeed isobtainedbyaveragingoverthisfunctionandisgivenby u2 =8kT/πm [cm2 s−2]. (5.9) average A ThethermalDopplervelocitywidthisthevelocityaveragedovertheprojectedlineofsight,given by(Novotny,1973;p204) u2 =2kT/m [cm2 s−2]. (5.10) th A Thisisthedistancefromlinecenterwherethelineprofilefallstoe−1 ofitscentralvalue. Soit turnsoutthatthemostprobablespeedisequaltotheDopplervelocitywidth. Thevelocitydispersionσ is σ 
+
+============================================================
+HEADING: 5.4.2Microvsmacroturbulence
+TEXT (481 chars): Micro-turbulence(hereafter,justturbulence)isduetoanyadditionalmotionsthatoccurover scalesthataresmallerthanaphotonmeanfreepath. Micro-turbulencechangesthelinetransfer sincethelineopacityisdistributedoverabroaderrangeofvelocities. Macro-turbulenceisdueto motionthatoccursoversuchlargescalelengthsthattheynotchangetheopticaldepththroughthe emittingregion. Anexamplemightbecloudorbitalmotions. Thetransferwithinacloudisnot changedbyitsbulkmotionandsowouldbeconsideredmacro-turbulence.
+
+============================================================
+HEADING: 5.4.3LineWidths
+TEXT (710 chars): Ifanon-thermalmicro-turbulentcomponentofmotionsispresentthenequation5.3,thetotal Dopplervelocitywidth[cms−1]includingturbulence,isgivenby u2 =2kT/m +u2 [cm2 s−2] (5.13) tot A turb asdeterminedbythelocalkinetictemperatureT. Withinthecodethemicro-turbulentvelocity u isassumedtobezerounlessitisresetwiththeturbulencecommand.1 turb InGetDopplerWidththeDopplervelocitywidthisevaluatedas (cid:113) (cid:113) u = 2kT/m +u2 = 1.651×108T/m +u2 [cms−1]. (5.14) Dop A turb AMU turb Theatomicweightisinatomicmassunits. TheDopplervelocitywidthisrelatedtothehalfwidthathalfmaximumby(Novotny,1973, eqns5-18;p205) ∆u =(ln2)1/2u =0.832555u [cms−1] (5.15) 1/2 Dop Dop andtheFWHMisgivenby ∆u =2(ln2)1/2u [cms−1]. (5.16) FWHM Dop
+
+============================================================
+HEADING: 5.4.4TheDopplerbparameter
+TEXT (374 chars): MuchoftheliteraturereferstotheDopplerbparameter. ThisistheDopplervelocitywidthor velocitydispersionwithturbulenceincluded,andisgivenby b2 =u2 =2kT/m +u2 [cm2s−2]. (5.17) Dop A turb Withthesedefinitions (cid:104) (cid:105) b=u =∆u / 2(ln2)1/2 [cms−1]. (5.18) Dop FWHM 1Notethattheturbulencecommandacceptsu in kms−1 butconvertsitinto cms−1,theunitsusedthroughout turb thecode.
+
+============================================================
+HEADING: 5.4.5Voigtfunction
+TEXT (1154 chars): Bycombiningequations5.1and5.3wecandefinetheopticaldeptharelativedisplacementx awayfromlinecenteras: (cid:90) R out π1/2q2 e λ f l,u τ (x)= ϕ (x)(n −n g /g ) f(r)dr. (5.19) ν ν l u l u m cu R in e Dop Usingthisequation,thelinecenteropticaldepthτ canbedefinedasτ ≡τ (0). Therelative 0 0 ν displacementx isgivenbyequation5.4above. Inourformalism,theVoigtfunctionisnormalized suchthattheintegralis π. AschematicapproximationfortheVoigtfunctionisgivenby equation9-61ofMihalas(1978) ϕ (x)≈exp(−x2)+a/(π1/2x2). (5.20) ν Hereaisthedampingconstant. Thisexpressioncannotbeusedinrealcalculationsasitgoesto infinityforx=0,butitdoesconveythegeneralbehavioroftheVoigtfunctionwhereforsmallxit lookslikeaGaussianfunctionwhileforlargexitresemblesaLorentzianprofile. In CLOUDY we useanenhancedversionofthehumlik algorithm(Wells,1999)tocalculatetheVoigtfunctiontoa relativeprecisionofatleast2.5×10−3 forallvaluesofaandx. Formostvaluesofa,therelative accuracywillbebetterthan10−4 though. Thevalueatlinecenterisgivenby: 2
+
+============================================================
+HEADING: 5.4.6Meanvs.linecenteropticaldepths
+TEXT (749 chars): CLOUDY internallyworkswithlinecenteropticaldepthsthroughout(see,forexample,Mihalas, 1978). However,meanopticaldepthsarereportedinthefinalprintout. Since CLOUDY treatsline overlapandalsointegratesthelineopticaldepththroughamediumwheretheDopplerwidthwill generallybevarying,itisnotstraightforwardtoconvertthelinecenteropticaldepthsused internallytoameanopticaldepth. Toavoidthesedifficulties,wereportameanopticaldepththat isexactlyafactor π timeslarger thanthelinecenteropticaldepth. ThisassumesthattheVoigt functionatlinecenterisϕ (0)≈1. ThisapproximationisOKwhenthedampingparameterais ν small,a≪1(seeequation5.21),whichisgenerallythecaseintheIR,optical,andUVwavelength range. However,thisapproximationbreaksdownintheX-rayregimewhereacanbemuchlarger.
+
+============================================================
+HEADING: 5.5TheEinsteincoefficients
+TEXT (1227 chars): Thedimensionlessoscillatorstrengthgf isrelatedtothetransitionprobabilityA [s−1]by ul m cλ2 g l f l,u =g u f u,l = 8 e π2q c 2 mg u A u,l =1.4992g u A u,l λ c 2 m =1.4992×10−8g u A u,l λµ 2 m (5.22) e whereλµm isthewavelengthinmicronandλ cm thewavelengthincentimeter. Theabsorption oscillatorstrengthisrelatedtothetransitionprobabilityby m cλ2 g g f = e cm u A =1.4992×10−8A λ2 u (5.23) l,u 8π2q2 g u,l u,l µmg e l l or 8π2q2 g f g A = e l f = l,u λ −2 l [s−1]. (5.24) u,l mcλ c m g u abs 1.4992×10−8 µm g u Combiningequations5.3and5.23weobtainanexpressionrelatingthetransitionprobabilityand theabsorptioncrosssection; α = λ3gu A u,l ϕ (x) ν 8πg l π1/2u Dop ν = λ3gu A u,l ϕ (x) [cm2]. (5.25) 8πg l π1/2u Dop ν = 2.24484×10−14A λ3 guϕν (x) u,l µmg u l Dop Thecoefficientforinducedemission,B ,isrelatedtoA bythephasespacefactor2hν3/c2; ul ul 2hν3 A = B [s−1] (5.26) u,l c2 ul andtheinducedemissionandabsorptionprobabilitiesarerelatedby g B =g B (5.27) l l,u u u,l Theabsorptioncrosssectionα isrelatedto
+
+============================================================
+HEADING: 5.6.1Photonoccupationnumber
+TEXT (732 chars): Theintensityofaradiationfieldcanbethoughtofastwoparts,theavailablevolumeofphase space2hν3/c2 andadimensionlessoccupationnumberη givingthefractionofthatspacethatis filled. Occupationnumberscanbelargerthanunityforphotons,whichareBose-Einsteinparticles. Forreference,thePlanckfunctionisgivenby F 2hν3 1 B =I = ν = [ergcm−2 s−1 sr−1 Hz−1] (5.30) ν ν π c2 exp(hν/kT)−1 whereF isthesingle-hemisphereemittancefromanopaquesurface. Thephotonoccupation ν numberofablackbodyisthen η = (5.31) ν exp(hν/kT)−1 ThedimensionlessoccupationnumberforanycontinuumwithameanintensityJ ν (ergcm−2 s−1 Hz−1 sr−1)atafrequencyν isdefinedas η ≡J / (cid:0) 2hν3/c2(cid:1) ≡[exp(hν/kT )−1] ν ν ex HereT istheexcitationtemperatureofthecontinuumatthefrequency. ex
+
+============================================================
+HEADING: 5.6.2Pumpingrates
+TEXT (567 chars): ContinuumfluorescenceistreatedasinFerlandandRees(1988)andFerland(1992). Therateof inducedradiativeexcitationbycontinuumphotons(continuumpumping)isgivenby J g g r =n B J =n A l,u u =n A η u [cm−3 s−1] (5.33) l,u l l,u l,u l u,l 2hν3/c2 g l u,l ν g l l whereη isthedimensionlesscontinuumoccupationnumberatthelineenergy. Therateof ν inducedradiativede-excitationisrelatedbydetailedbalanceandisgivenby g r =r l [cm−3 s−1]. (5.34) u,l l,u g u TheoccupationnumberhastheadvantagethattheEinsteinB’sdonotenteranyrateequations. All radiativeratescanbeexpressedintermsofanAandν.
+
+============================================================
+HEADING: 5.6.3Opticaldeptheffects
+TEXT (1494 chars): Thelinebecomesself-shieldingwhentheopticaldepthisgreaterthanunity. Thelineoptical depthbetweenthecurrentpositionandtheilluminatedfaceoftheslabisusedtoevaluatethe inward-lookingescapeprobability,theprobabilitythatalinephotonwilltravelthisdistanceina singlescattering. Lineopticaldepthsdonotdirectlyaffectη ,onlycontinuousopacitiesdo. The c finalformofthecontinuumpumpingrateis g r =n A η u γ (τ) [cm−3 s−1] (5.35) l,u l u,l ν l,u g l whereγ istheprobabilitythatcontinuumphotonspenetrateanopticaldepthτ andarethen l,u o absorbedbyanatom: (cid:90) ∞ (cid:90) ∞ γ = ϕ exp(−τ ϕ )dν/ ϕ dν. (5.36) l,u ν o ν ν whereϕ istheVoigtfunction. Figure5.1,takenfromFerland(1992),showsγ forawide ν l,u varietyofvaluesofthedampingconstanta. ytilibaborP gnipmuP Optical Depth Figure 5.1: This figure shows the probability that a photon will penetrate to the line center optical depth shown on the x-axis, and then be absorbed by the line. The curves are for various values of thedampingconstanta(theratioofdampingwidtht
+
+============================================================
+HEADING: 5.7Kirchhoff’sLaw
+TEXT (218 chars): Kirchhoff’slawisthestatementthat,inthermodynamicequilibrium,theenergyemittedisequal totheenergyabsorbed. Iftheemissionandabsorptioncoefficientsare j andκ then ν ν j =κ B (T) (5.38) ν ν ν whereB (T)isPlanck’sfunction. ν
+
+============================================================
+HEADING: 5.8Thelinesourcefunctionandmeanintensity
+TEXT (803 chars): Thesourcefunctionforalineisdefinedas j A n S (T )≡B (T )≡ l = u,l u [ergHz−1 sr−1 s−1]. (5.39) l exc l exc κ B (n −n g /g ) l l,u l u l u whereT isthelineexcitationtemperature exc n /g u u =exp[−hν/kT ] (5.40) exc n /g l l B (T )isthePlanckfunctionatthelineexcitationtemperatureandthelineemissionand l exc absorptioncoefficients jl andkl enterthroughKirchhoff’slaw. Combiningwiththedefinitionsof theEinsteinrelationswefindtherelation 2hν3 n /g S (T )= u u [ergHz−1 sr−1 s−1]. (5.41) l exc c2 (n /g −n /g ) l l u u TheradiationfieldwithinthelineisgivenbythemeanintensityJ¯. J¯andS arerelatedbythenet l radiativebracket,whichweapproximateastheescapeprobabilityP : esc esc l Themeanintensityisthengiveby l esc andthelinecenterphotonoccupationnumberis n /g u u η = (1−P ). (5.44) l esc (n /g −n /g ) l l u u
+
+============================================================
+HEADING: 5.9Levelpopulationsinradiativeequilibriumlimit
+TEXT (580 chars): Foratwo-levelsystemwherecollisionscanbeneglected,intheopticallythinlimit,thebalance equationrelatingthepopulationsofatwo-levelsystemisgivenby dn u =n B J−n (A +B J) [cm−3 s−1]. (5.45) l lu u ul ul dt Inthetime-steadylimit,wherethetimederivativeiszero,thebalancecanberewrittenintermsof thetransitionprobabilitiesas g n (A +A η)=n A (1+η)=n A η u [cm−3 s−1]. (5.46) u ul ul u ul l ul g l Inthelimitwhereη issmalleveryphotoexcitationisfollowedbyspontaneousdecay,whileinthe limitwhereη islargethelevelpopulationsaregivenbytheratioofstatisticalweights,i.e.,T is exc infinite. Chapter 6
+
+============================================================
+HEADING: 6.1Overview
+TEXT (328 chars): Theeffectsofopticaldepths,continuumpumping,collisions,anddestructionbybackground opacity,arecomputedforall permittedandintercombinationlines. Thecoolingisusually distributedamongmanylinesinhigh-densitymodels,andtheselinesareusuallyopticallythick. Thissectiondescribesthemethodsanddatastructuresusedwithinthecodetoaccomplishthis.
+
+============================================================
+HEADING: 6.2LineBoltzmannfactors
+TEXT (211 chars): TheBoltzmannfactorhν/kT foralinewithaknownwavelengthorenergyisgivenbyTable6.1. Thetableliststheratiohν/k forvariousunitsofthelineenergy. Vacuum,notair,wavelengths, mustbeusedforallquantitiesinvolvingwavelengths.
+
+============================================================
+HEADING: 6.3Airvsvacuumwavelengths
+TEXT (560 chars): Inthepasttheconventionacrossphysicsandastronomywastogivelinewavelengthsinvacuum forλ ≤2000A˚ andinairforλ >2000A˚.Nowadaysitisbecomingmoreusualfor(mainly vac vac space-based)observatoriestoproducespectrathatusevacuumovertheentirewavelengthrange. Airwavelengthsaresmallerthanvacuumwavelengthsbecausethewavefrontsarecrushedas theyenterthedensermediumwithitshigherindexofrefraction. Thefrequencyisunchanged. Table6.1: LineBoltzmannFactors LineEnergyUnits hν/k (K) Angstroms 1.43877(+8)/λ(A˚) microns 1.43877(+4)/λ(µ) wavenumbers 1.43877×σ Rydbergs 1.5788866(+5)×E
+
+============================================================
+HEADING: 6.4.1Escapeprobabilityformalismvsexactradiativetransfer
+TEXT (949 chars): Radiativetransporteffectsareapproximatedwiththeescapeprobabilityformalism(EPF).This includeslinepumpingbytheincidentcontinuum,photondestructionbycollisionaldeactivationor bycontinuousopacities,andlineoverlapinspecialcases. Thissectiondescribeshowtheescape probabilityisrelatedtothenetradiativebracket,theformallycorrectterminthetransferequation. Thefullbalanceequationforradiativelossesandgainsfortheupperlevelofatwolevelatomis givenby n A +n B J¯−n B J¯≡n A ρ ≈n A P (6.1) u ul u ul l lu u ul ul u ul ul whereAandBaretheEinsteincoefficients,J¯isthemeanintensityaveragedovertheline,andρ ul isthenetradiativebracket,definedas ρ ≡1−J¯/S (6.2) ul whereS isthelinesourcefunction. TheessenceoftheEPFistoreplaceρ withtheescape ul probabilityP ontheargumentthatthedifferencebetweenJ andS isduetophotonsleakingaway ul fromtheregion. (Elitzuretal.,1983;Sec2.6)showsthatthisisexactifS isconstantacrossthe line-formingregion. Inthecodeρ isreplacedwithP . ul ul
+
+============================================================
+HEADING: 6.4.2Redistributionfunctions
+TEXT (691 chars): Atlowdensities,linescatteringforatwo-levelatomiscoherentintheatom’sreferenceframeand thelineprofilefunctionisdescribedbytheincompleteredistributionfunction. Athighdensities theStarkeffectcanbroadentheline. Whentheradiationdensityishigh,scatteringwithinexcited statescaninhibitthebroadeningofresonancelinessuchasLβ (lineinterlocking),destroyingthe coherenceofthescatteringprocess. InthesecasescompleteredistributioninaDopplercoremore closelydescribesthescatteringprocess. CLOUDY usesseveralescapeprobabilityfunctionstotaketheseprocessesintoaccount. Strong resonancelinesaretreatedwithpartialredistributionwithaVoigtprofile. Subordinatelinesare treatedwithcompleteredistributioninaDopplercore.
+
+============================================================
+HEADING: 6.4.3Incompleteredistribution
+TEXT (607 chars): IncompleteredistributionisassumedforresonancetransitionssuchasCIVλ1549andtheLα transitionsofhydrogenandhelium. Twostudiesoflineformationusingthisapproximationare thoseofBonilhaetal.(1979)andHummerandKunasz(1980). Bothstudiessuggestescape probabilitiesoftheform P(τ)={1+b(τ)τ} l butthereissubstantialdisagreementintheformandvalueofthefactorb(τ),sometimesbymore thanafactorof2. (Thisisafterdueallowanceforthedifferentdefinitionsoflineopacitiesinthe twopapers.) CLOUDY usestheHummerandKunasz(1980)resultsforHI,HeI,andHeIILα and strongresonancelinessuchasCIVλ1549. Theirtabulatedvalueswerefittedbyinterpolation.
+
+============================================================
+HEADING: 6.4.4Dampingconstant
+TEXT (418 chars): Thedampingconstantaisgivenby Γ λ cm∑A λ cm 7.958×10−2 ∑A λ µm a= = = = (6.4) 4π ∆ν 4πu u u D Dop Dop Dop whereΓistheinverselifetimeofthelevel(thesumoftheA’sfromtheupperlevel),∆ν isthe Dopplerwidthinfrequencyunits(Mihalas,1978),λ andλ arethewavelengthsincmand cm µm µmrespectively,andu istheDopplerwidthincms−1. TheratioΓλ/4π isstoredintheline Dop structuresandthea’sareevaluatedusingthisratioandthecurrentDopplerwidth.
+
+============================================================
+HEADING: 6.4.5BackgroundopacityandDestructionprobability
+TEXT (164 chars): TheratioofcontinuoustototalopacityisX parameterizedas c ∑κ c n c c κ l n l +∑κ c n c wheretheκ ’sarethelinecenterabsorptionopacitiesandthen’sthenumberofabsorbers. l
+
+============================================================
+HEADING: 6.4.6Completeredistribution
+TEXT (1458 chars): Linesarisingfromexcitedstates(hydrogenBalmer,Paschen,etc.) andLymanlineswithn >2 u aretreatedassumingcompleteredistributioninaDopplercore(i.e.,thedampingconstantais assumedtobezero). Thisassumptioncanbechangedwiththeatomredistributioncommand. If thetotalopticaldepthoftheslabisT,thentheescapeprobabilityatadepthτ fromthe illuminatedfaceisgivenby; P (τ,T,X )=[1−X F(X )] [K (τ,X )+K (T −τ,X )] , (6.6) u,l c c c 2 c 2 c andthedestructionprobabilityis u,l c c c Thefunctionis (cid:90) ∞ ϕ(x) F(X )= dx, (6.8) c X +ϕ(x) −∞ c whereintheseexpressions(andinthispartofthecode)themeanopacityisused,and ϕ(x)≈π1/2exp(−x2)istheVoigtfunction. F(X )isinterpolatedfromthetablespresentedby c Hummer(1968). Thefunction 1 (cid:90) ∞ ϕ2(x) K (τ,X )≡ E [(X +ϕ(x))τ] dτ (6.9) 2 c 2 c 1−X F(X ) X +ϕ(x) c c −∞ c isevaluatednumerically. Thecompleteredistributionescapeprobabilitiesarecorrectedforfinitedampingparametersby includingaseparatewingescapeprobability. Theresultingtotalescapeprobabilitieshavebeen testedagainstn
+
+============================================================
+HEADING: 6.4.7Masinglines
+TEXT (191 chars): Alinemaseswhenitsopticaldepthisnegative. Theescapeprobabilityis(Elitzur,1992;p32,see alsoElitzur,1990a,b) 1−exp(−τ) u,l τ Thecodewillgenerateacommentifstrongmaseractionoccursforanytransition.
+
+============================================================
+HEADING: 6.4.8Starkbroadening
+TEXT (276 chars): Distantcollisionswithchargedparticlesbroadentheupperlevelsoflines,andinthelimitofvery highdensitiesthiswillmakethescatteringprocesscompletelynon-coherentevenforLα (i.e., completeredistributionobtains). CloudycloselyfollowsthetreatmentofPuetter(1981)in treatingStarkbroadening.
+
+============================================================
+HEADING: 6.4.9Netescapeprobability
+TEXT (711 chars): AtotalescapeprobabilityP ,givenby l,tot P =min(P +P , P ), (6.11) u,l inc Stark com isdefinedfortransitionsdescribedbyincompleteredistribution. Theescapeprobabilitiesarethose forincomplete,Stark,andcompleteredistributionrespectively. Thetotaleffectiveescape probabilityisnotallowedtoexceedthecompleteredistributionvalueforτ >a−1. Ifτ istheopticaldepthinthedirectiontowardsthesourceofionizingradiationandT isthe totalopticaldepthcomputedinapreviousiteration,thentheescapeprobabilityenteringthe balanceequationsis (cid:8) (cid:9) P (τ,T)= P (τ)+P (T −τ) /2. (6.12) u,l u,l u,l IngeneralthetotalopticaldepthT isonlyknownafterthefirstiteration,somorethanone iterationmustbeperformedwhenradiativetransferisimportant.
+
+============================================================
+HEADING: 6.5Opticaldepthsandthegeometry
+TEXT (112 chars): ThetermsopenandclosedgeometryaredefinedinasectioninPartI.Thetreatmentoftransferin thesetwolimitsisdescribedhere.
+
+============================================================
+HEADING: 6.5.1Opengeometry
+TEXT (405 chars): Thisisthedefault. Duringthefirstiterationthelineopticaldepthisdefinedusingonlyoptical depthsaccumulatedintheinwarddirection. Thisopticaldepthisinitializedtoaverysmall numberatthestartofthecalculation. Attheendofthefirstiterationthetotalopticaldepthisset totheopticaldepthaccumulatedintheinwarddirection. Attheendofsubsequentiterationsthe totalopticaldepthisdefinedasameanofthenewandoldinwardopticaldepths.
+
+============================================================
+HEADING: 6.5.2Closedgeometryoverview
+TEXT (1136 chars): Continuumphotonsareassumedtointeractwithgasfullycoveringthecontinuumsource. Atthe endofthefirstiterationthetotalcontinuumopticaldepthsaresetequaltotwicethecomputed opticaldepths,andtheinneropticaldepthsresettothecomputedopticaldepths. Thesamerecipe isfollowedonsubsequentiterations,exceptthatmeansofoldandnewlycomputedopticaldepths areused. ClosedexpandinggeometryThisisthedefaultifthespherecommandisentered. Inthiscase itisassumedthatlinephotonsdonotinteractwithlinesonthe“other”sideoftheexpanding sphericalnebula. Thetreatmentoflineopticaldepthsisentirelyanalogoustothatdescribedforan opengeometry,sincethepresenceofthedistantmaterialhasnoeffectonlinetransfer. ClosedstaticgeometryThisisassumedifthespherestaticcommandisentered. Inthiscase linephotonsfromallpartsofthesphericalshelldointeract. Asaresulttheopticaldepthscaleis poorlydefinedonthefirstiteration,andmorethanoneiterationisrequired. Onsecondandlater iterationsthetotallineopticaldepthissettotwicetheopticaldepthofthecomputedstructure,and
+
+============================================================
+HEADING: 6.5.3Wind
+TEXT (108 chars): Themodelisalargevelocitygradient(v∝RSobolevapproximation)wind. Thisisdescribed furtherinPart2ofthisdocument.
+
+============================================================
+HEADING: 6.6Collisionstrengths
+TEXT (1147 chars): IhavetriedtofollowtheOpacityProjectnotationthroughoutthisdocument(Lanzafameetal., 1993). Theenergy-specificcollisionstrengthΩ foratransitionbetweenupperandlowerlevelsu lu andl isrelatedtotheexcitationcrosssectionQ by lu πΩ Q = lu [cm2] (6.13) lu g k2 l lu wherek2 isthewavenumberofthecollisionenergy. Ifthecollisionsarewiththermalelectrons lu havingaMaxwellianvelocitydistribution f(u)andvelocityuthentheratecoefficientq isgiven lu by (cid:90) ∞ 2π1/2h¯2 (cid:18) R (cid:19) (cid:18) E (cid:19)(cid:114) 2kT q = f (u)uQ du= a ∞ ϒ exp − lu [cm3s−1]. (6.14) lu lu o lu g m kT kT m 0 l e e E isthetransitionenergyinRydbergs,a istheBohrradius, ul o h¯2 a = =0.529177249×10−8 cm (6.15) o m q2 e e andR istheRydbergenergy. Thenthethermally-averagedcollisionstrengthisgivenby (cid:90) ∞ (cid:16) ε (cid:17) (cid:16) ε (cid:17) ϒ = Ω exp − d . (6.16) lu lu kT kT Theratecoefficientforcollisionalde-excitationisthengivenby ϒ (cid:18) 2π (cid:19)1/2 h¯2 ϒ8.6291×10−6 q = √ = √ [cm3s−1]. (6.17) ul g T k 3/2 g T
+
+============================================================
+HEADING: 6.7Bornapproximation
+TEXT (270 chars): TheBornapproximationisvalidforenergiesmuchlargerthantheexcitationenergyofthe transition. TheenergyspecificcollisionstrengthisgivenbyBethe(1930)as (cid:18) (cid:19) 4g f 4ε l lu Ω ≈ ln (6.19) lu lu lu where f istheabsorptionoscillatorstrengthofthepermittedtransition. l,u
+
+============================================================
+HEADING: 6.8Theg-barapproximation
+TEXT (699 chars): Theg-barorvanRegemorter(1962)approximationrelatesthecollisionstrengthtothetransition probabilityA andwavelengthλ (in µm). Here,thecollisionstrengthforthedownward ul transitionϒ isapproximatelygivenby ul ϒ = √2π m2e2 λ3 10−12g A g¯ u,l 3 h3 µm u u,l ≈ 2.388×10−6λ3 g A g¯ (6.20) µm u u,l ≈ 159λ g f g¯ µm l abs whereg andg arethestatisticalweightsoftheupperandlowerlevelsand f istheabsorption u l abs oscillatorstrength. Forenergiesofinterestinastrophysicalplasmas,wherekT <hν,g¯ is approximatelygivenby (cid:26) 0.2; positiveions g¯≈ (6.21) (kT/hν)/10;&neutrals (vanRegemorter1962). Theseapproximationsaregenerallyaccuratetobetterthan1dex. Gaetz andSalpeter(1983)giveimprovedformsoftheapproximation.
+
+============================================================
+HEADING: 6.9Thecriticaldensity
+TEXT (513 chars): Thecriticaldensityisdefinedasthedensityatwhichtheradiativede-excitationrateA P (where ul ul AisthetransitionprobabilityandPistheescapeprobability)equalsthecollisionalde-excitation rateq n . Setting ul e A P =C =q n =ϒ √ n [s−1] (6.22) ul ul ul ul e e g T u e whereϒisthethermallyaveragedcollisionstrength,thecriticaldensityisgivenby A P g T n ∼ ul ul u e [cm−3]. (6.23) crit Foranopticallyallowedtransition,inwhichtheg-barapproximationmayapply,thisdensityis approximatelygivenby n = e [cm−3]. (6.24) crit λ3 g¯ µm
+
+============================================================
+HEADING: 6.10Linethermalizationlength
+TEXT (551 chars): Lineradiativetransferwillaffectthethermalequilibriumofthegaswhenthecollisiontimescale approachesaneffectivelifetimeτ ∼A /n )−1,whereA isthetransitionprobabilityandn ul scat ul scat isthenumberofscatteringsalinephotonundergoesbeforeescape. Forpermittedmetallines (whichoftenhaveopticaldepths∼104−106)linethermalizationbecomesimportantatdensities n >1015/τ1010cm−3. Theseeffectsareimportantforhydrogenatconsiderablylowerdensities e duetoitsgreaterabundance. Additionally,continuumtransferaffectstheionizationandthermal equilibriumofthegasatalldensities.
+
+============================================================
+HEADING: 6.11.1Collisionstrengths
+TEXT (920 chars): Oftencasesareencounteredinwhichamultipletconsistingofmanylinescanbetreatedasthe equivalenttwo-levelatomwithasingletransition. Inthesecasesitisnecessarytodefine “effective”collisionstrengthsandtransitionprobabilities. Ifthecollisionstrengthfroman individualleveliisϒ,andthestatisticalweightsofthelevelandtermareg andg respectively, i i tot thentheeffectivecollisionstrengthϒ isrelatedtoϒ byasimpleargument. Thecollisionrate eff i q isproportionaltotheratio i n q ∝n i [s−1] (6.25) i i i g i sothat n q =∑n q ∝∑n i [s−1]. (6.26) tot tot i i i g i i i Inmanycasesitisvalidtoassumethatthelevelswithinthetermarepopulatedaccordingtotheir statisticalweight,viz., g n =n i [cm−3]. (6.27) i tot g tot Then,theeffectivecollisionstrengthϒ isoperationallydefinedbytherelations tot i ϒ ϒ g ϒ n tot =∑n i =n ∑ i i =n i . (6.28) tot i tot tot g g g g g tot i i i tot i tot So,theeffectivecollisionstrengthoftheentiremultipletis tot i i
+
+============================================================
+HEADING: 6.11.2Transitionprobabilities
+TEXT (272 chars): UndersimilarcircumstancesaneffectivetransitionprobabilityA maybedefinedas eff g n A =∑nA =n ∑ i A (6.30) tot tot i i tot i g i i tot sothattheeffectivetransitionprobabilityis g A =∑ i A. (6.31) tot i g i tot Socollisionstrengthsareadded,andtransitionprobabilitiesaveraged.
+
+============================================================
+HEADING: 6.12Levelpopulationswithcollisions
+TEXT (1811 chars): Bothescapeanddestructionprobabilitiesenterinthecalculationofalevelpopulationandline emissivity. TheescapeprobabilityP istheprobabilitythatalinephotonwillescapeinasingle u,l scattering(Elitzuretal.,1983;Elitzur,1984). ThedestructionprobabilityD istheprobability u,l thatalinephotonwillbedestroyedinasinglescattering. Thelinede-excitationrateisgivenby (cid:18) (cid:19) dn u =n A (cid:0) P +D (cid:1) −n A ηγ +n C −nC [cm−3s−1] (6.32) u u,l u,l u,l l u,l u,l u ul l lu dt rad whereη isthephotonoccupationnumberoftheattenuatedexternalradiationfield,C isthe collisionrate(s−1),andγ isthefluorescenceprobability. u,l Thenetemissionfromatransitionbetweenthelevelntoalowerlevell andescapingtothe surfaceisthen 4π j(n,l)=n A hν P (τ ) f(r) [ergcm−3s−1] (6.33) n n,l n,l u,l n,l where f(r)isthefillingfactor. Thetotalemissionfromthegasisthen (cid:90) e(n,l)= n A hν P (τ ) f(r)dV [ergcm−2s−1orergs−1] (6.34) n n,l n,l u,l n,l dependingonwhethertheintensityorluminositycaseischosen. Thelocalcoolingrate(erg cm−
+
+============================================================
+HEADING: 7.1Runningasinglemodelwithashellscript
+TEXT (1464 chars): Thecodereadsfromaninputfileandcancreatealargenumberofoutputfiles. Thelatterinclude boththemainoutput(describedinChapter1,OUTPUT)andtheancillary“save”files(described intheChapter16ofHazy1,CONTROLLINGOUTPUT). Itisagoodideatofollowanamingconventionforthesefiles. TheconventionIuseisthestyle “basename.type”wherebasenameexplainstheastrophysicalcontext(forinstance, “quasar”or“IGM”)andtypegivesthetypeofinformationinthefile. Forinstance,amodelofa planetarynebulamayhavethebasename“pn halo”,theinputscriptmightbepn halo.in, theoutputwouldbeinpn halo.out,andthefilecreatedbythesaveoverviewcommandmight bepn halo.ovr. Thenallofthesefilescouldbelocatedwithasimple“lspn.*”andall overviewfileswitha“ls*.ovr”onaLinuxsystem. Thepn.infilecontainstheinputcommandsthattelltheprogramwhattodo. Atypical examplemightbethefollowing: # log of the hydrogen density (cmˆ-3) hden 4 # log of the inner radius (cm) radius 17 # black body temperature and total luminosity black body 1e5 K, luminosity 38 save overview "pn.ovr" 
+
+============================================================
+HEADING: 7.2Runningasinglemodelfromthecommandline
+TEXT (749 chars): Thecodealsohastwocommand-lineoptionsthatwillaccomplishthesamethingastheshell scriptdescribedintheprevioussection. Ifyoucreateanexecutablecalledcloudy.exe,thenthe command cloudy.exe model.in willreadinputfrommodel.in,writeoutputtomodel.out,andaddtheprefixmodeltoall thesavefiles. Thiscanalsobewritten cloudy.exe -p model Alternatively,youcanusethecommand cloudy.exe -r model whichdoesthesamething,exceptthatitwillnotaddtheprefixmodeltoallthesavefiles (mnemonic: -pwillPrefixSavefilenames,while-rwillonlyRedirectinputandoutput). Bytypingthecommand cloudy.exe -h youcanalistofallthecommandlineflagsthat CLOUDY supports. Therearetwoadditionalflags, -aand-g,thatareusedfordebuggingthecodeandinternallyingridruns. Theyshouldneverbe usedinnormalsituations.
+
+============================================================
+HEADING: 7.3Runninggridsofsimulationsoroptimizingasimulation
+TEXT (484 chars): Thegreatestinsightisgainedbycreatinggridsofsimulationswhichvaryoneormoreoftheinput parameterstoshowhowvariouspredictionschange,ortooptimizetheagreementbetweenthe predictedandobservedvalues. Oneexample,thepredictedCIVlambda1549equivalentwidthasa functionofthefluxofionizingphotonsandclouddensity,isshowninFigure8.1. SeeBaldwin etal.(1995c)formoredetails. Suchgridsofsimulationscanbemadeparallelondistributedmemoryparallelmachines becauseeachpointinthegridisindependentoftheotherpoints.
+
+============================================================
+HEADING: 7.3.1Gridsofsimulations
+TEXT (58 chars): ThegridcommandisdescribedinChapter18THEGRIDCOMMANDofHazy1.
+
+============================================================
+HEADING: 7.3.2Optimizingasimulation
+TEXT (66 chars): TheoptimizecommandisdescribedinChapter17THEOPTIMIZECOMMANDofHazy1.
+
+============================================================
+HEADING: 7.4ParallelprocessingwithMPI
+TEXT (208 chars): PetervanHoofcreatedawrapperforthegridandoptimizecommands. CLOUDY will automaticallyrunthesecommandsusingallavailableprocessorsifthecodeiscompiledwithan MPIawarecompilerandrunonanappropriatecomputer. Chapter 8
+
+============================================================
+HEADING: 8.1Overview
+TEXT (1725 chars): CLOUDY isdesignedtobeusedasasubroutineofother,muchlarger,codes. Whenusedthisway aseriesofsubroutinecalls,describednext,areusedtoinitializethecode,specifytheinitial conditions,dothesimulation,andfinallyexaminethepredictions. Acommonstrategyistocallthecodetocomputelineintensitiesforalargematrixof parameters. TheresultsofonesuchcalculationisshowninFigure8.1(Baldwinetal.,1995b; Ferland,2003). Suchgridscanbecomputedinafewdozenhoursonmodernworkstations,and offerfargreaterinsighttophysicaleffectsofchangingmodelparametersthandoesasinglemodel. Muchofthiscanbedonewithoutwritingaprogram,byusingthegridcommand. This commandwasintroducedbyRyanPorterinC07.02,andmakesitpossibletocreatelargegridsof modelslikethoseshowninFigure8.1withcommands. ThegridcommandisdescribedinPart1 ofthisdocument. Thereareseveralsaveoutputcommandsthataredesignedtosaveinformation fromgridcalculations. 8.1.1 Host languages (cid:127) CLOUDY iswritteninC++,anditassumedformostofthissectionthat CLOUDY willbecalled fromanexternalCor
+
+============================================================
+HEADING: 8.1.2Creatinganewmainprogram
+TEXT (835 chars): InC++theremustbeexactlyonemainprogramanditmustbecalledmain. Thisroutineiswithin thefilemaincl.cppinthesourcedownloadedfromtheweb. Youneedtoreplacetheexisting CLOUDY mainprogramwithonethatyouwrite. Thefilemaincl.cppthatisincludedinthe distributionmustbedeletedsothattheprogramyouwritewillbeloadedinstead. Theremaining routinesarethencompiledwithacommandlikethefollowing: g++ -O3 -c *.cpp whichwillcreatealargenumberofobjectfiles. Thenewmainprogramwillthenneedtobe linkedwiththeseobjectfileswithacommandsomethinglike g++ -O3 -o mycloudy.exe newmain.cpp *.o -lm Alternatively,ifyouareusingtheMakefilebuildprocessandhavealreadybuilt CLOUDY,you canusethelibraryfilelibcloudy.awhichcontainsalltheobjectfileswiththecommand g++ -O3 -o mycloudy.exe newmain.cpp -L. -lcloudy -lm Thefollowingsubsectionsoutlinehowtowritecodeforthisnewmainprogram.
+
+============================================================
+HEADING: 8.1.3Thecddefines.handcddrive.hheaderfiles
+TEXT (514 chars): Thefilecddrive.hcontainsdefinitionsofallpublicroutines,theroutinesthatauserwouldcall todrive CLOUDY. Thatfileisthedefinitivereferenceforthematerialcontainedinthissectionand ismoreuptodatethanthisdocument. Commentswithinthatfileexplainallroutinesandtheir parameters. Theheadercddefines.hshouldcomebeforecddrive.hsinceitincludesmany definitionsandincludesthestandardC++headerfilesthatareneededtodrivethecode. Thefirst twoheaderfilesinthenewmainroutineshouldbethefollowing: #include "cddefines.h" #include "cddrive.h"
+
+============================================================
+HEADING: 8.1.4Thetemplateformainprograms
+TEXT (616 chars): C++exceptionsareusedby CLOUDY. Themainprogrammustcatchtheseexceptions. Ifitdoes notthenthecodewillcrashwithanunhandledexceptionandoutputfileswillnotbecomplete. ThisrequiresthatthemainprogramstartwithaC++“try”blockandthatexceptionhandlersbe includedwithinthemainprogram. Theadventuroususermayenjoycreatingtheirowntry block/exceptionhandlers. Asampletemplate,inthefiletemplate.cpp,includestheneededcodeandcanbeusedto createyourownprograms. Itisincludedintheprogramsdirectorybelowthetsuite directoryintheprogramdownload. Thatversionincludesasimplecalltorunthecode’ssmoke test. Youwouldreplacetheexistingcodewithyourown.
+
+============================================================
+HEADING: 8.1.5Anoteonreturnconditions
+TEXT (318 chars): Someoftheroutinesreturnavaluetoindicatesuccessorfailure. ItrytofollowtheCandUnix conventionstoindicatesuccesswithzero(orfalse)andtroublewithanon-zeroreturn(ortrue). Thisruleisnotalwaysfollowed(itisnotfollowedbytheimportantroutinecdLine),however,and cddrive.hshouldbeconsultedtomakesurethereturnconditionsareunderstood.
+
+============================================================
+HEADING: 8.2Initializingthecode
+TEXT (334 chars): Manyvariablesmustbeinitializedatthebeginningofthecalculation. CallingroutinecdInit does this. cdInit(); RoutinecdInit mustbecalledeverytimeanewcalculationistobeperformed,beforecallingany ofthefollowingsubroutines,butaftertheresultsofanypreviouscalculationshavebeenread. (TheresultsofanypreviouscalculationsarelostwhencdInit iscalled.)
+
+============================================================
+HEADING: 8.3.1cdTalk—produceoutput?
+TEXT (506 chars): CLOUDY normallyspeakswhat’sonitsmind. Thiswouldgeneratetoomuchoutputinalarge grid. Itdoeshaveaquietmodeinwhichnothingatallisprinted. Thisquietmodeissetbythe logicalargumenttosubroutinecdTalk. #include "cddefines.h" #include "cddrive.h" cdInit(); /*set no output at all*/ cdTalk( false ) /*have the code produce the normal printout*/ cdTalk( true ) Thedefaultisfor CLOUDY toproduceoutput. cdTalk doesnothavetobecalledifthisiswhat youwant. Itneedstobecalledwiththelogicalvariablefalseifthequietmodeisdesired.
+
+============================================================
+HEADING: 8.3.2cdOutput—sendingoutputtoafile
+TEXT (1198 chars): CLOUDY normallywritesitsstandardoutputonthesystem’sstdout. Thiscanbechangedto anotherfilebycallingtheroutinecdOutput,whichhastwoarguments. Thefirstisthenameofthe file,andthesecondthemodewithwhichthefileshouldbeopened(thisisidenticaltothesecond parameterofthefopen()routine). Bothparametershavedefaultvalues. Thedefaultmodefor openingthefileis“w”,whilethedefaultfilenameistheemptystring. Supplyinganemptystring asthefilenamemeansthattheoutputwillbedirectedbacktostdoutagain. Theoutputfilewill beautomaticallyclosedonexitoftheprogram. IfyoucallcdOutput multipletimeswithdifferent filenames,thefilefromthepreviouscallwillalsobeclosedautomatically. Thenewoutputfile needstobeinthelocaldirectory,i.e.,writingtoasubdirectoryoranabsolutepathisnotallowed. #include "cddefines.h" #include "cddrive.h" /* open the file output.txt for writing with mode "w" */ /* this will overwrite an existing file */ cdOutput("output.txt"); /* if you want to append to a file, use this instead */ cdOutput("output.txt","a"); 
+
+============================================================
+HEADING: 8.3.3cdInput—readinginputfromafile
+TEXT (280 chars): CLOUDY normallyreadsinputfromthesystem’sstdin. Thiscanbechangedtoanotherfileby callingtheroutinecdInput,whichworksthesamewayasthecdOutput commanddescribedabove withthefollowingtwoexceptions: thedefaultopenmodeis“r”,andsupplyinganemptystringas thefilenameredirectsinputbacktostdin.
+
+============================================================
+HEADING: 8.3.4cdRead—enteringCommands
+TEXT (1413 chars): CommandlinesareenteredbysuccessivecallstotheroutinecdRead. TheargumentofcdRead is astringcontainingvalidcommands. ThesecommandsmustobeyalltherulesoutlinedinPart1. Intheexamplesbelowsomecommandsaredirectlyenteredasstrings(thisworkswhenthe stringisaconstant)whileotherstringsarecreatedbywritingvariablesthroughsprintf (astandard CI/Ofunction)ortheC++containerostringstream. C++I/Ohastheadvantagethatyoudonot havetoworryifyourbufferisbigenoughtoholdtheinputline,butotherwisebothmethods shouldworkequallywell. Usingeitherofthesemethodsisnecessarywhenthevalueofavariable needstobeplacedintoastring. char chLine[200];/* this string will hold the command lines we will generate*/ /* this example sends the string straight to cdRead */ cdRead( "title a series of constant pressure models" ); /* write variable to a string, then send the string to cdRead */ hden = 5.4; sprintf( chLine, "hden %5.2f", hden ); cdRead( chLine ); /* this example sends a string that contains double quotes, * and so we must "esca
+
+============================================================
+HEADING: 8.4.1cdDrive—callingtheCode
+TEXT (442 chars): ThecalculationisperformedwhenroutinecdDriveiscalled. cdDrivereturnsaboolindicating whetherthecalculationaborted. Thevaluefalseindicatesasuccessfulcalculation. Thefollowing showsanexampleofitsuse. if( cdDrive() ) printf("problems!\n"); cdEXIT(EXIT_FAILURE); Ifproblemsoccurredandtheresultscannotbetrustedthenthereturnvalueistrue. Thiswill onlybesetifthecalculationsufferedacompletemeltdown. RoutinecdNwcnscanbecalledto findoutaboutanyproblems.
+
+============================================================
+HEADING: 8.4.2cdNoExec—checkingwithoutComputing
+TEXT (906 chars): IfroutinecdNoExeciscalledaftercdInit butbeforecdDrivethenonlytheinitialpartsofa calculationwillbeperformedwhenroutinecdDriveiscalled. cdInit(); /*read in commands */ cdRead( . . .); /*tell it not to execute */ cdNoExec(); /*call the code */ if( cdDrive() ) cdEXIT(EXIT_FAILURE); WhencdDriveiscalledaftercdNoExecthecodewillgeneratetheincidentcontinuum,setthe initialdensity,andderivethechemicalcomposition. Itwillthenstopjustbeforetheinitialsearch 1InversionsC17andearlierthereturnvalueindicatedhowmanylinescouldstillbeentered.Nowthattherestriction onthenumberofinputlineshasbeenlifted,thisreturnvalueisnolongerneeded,buthasbeenretainedforbackward compatibility. forthephysicalconditionsinthefirstzone. Alloftheinitialprintout,summarizingpropertiesof thecompositionandcontinuum,willbegenerated. Thisprovidesaquickwaytocheckthatalarge gridofmodelswillbespecifiedcorrectlywithoutactuallyfullycomputingthegrid.
+
+============================================================
+HEADING: 8.5Endingthecode
+TEXT (514 chars): ThecodemustendbycallingcdEXIT.Thisroutinewillcloseanyopenoutputfilesanddoother neededjobsbeforeexiting. Thefulloutputmaynotbeproducedifthisroutineisnotcalled. RoutinecdEXIT takesasingleparameter,EXIT SUCCESS orEXIT FAILURE,standardmacros thatindicatehowtheprogramended. TheroutinecdEXIT isapairwithDEBUG ENTRY.AnyroutinethatcallscdEXIT mustalso haveacalltoDEBUG ENTRY statementatthestart. TheroutineDEBUG ENTRY hasasingle parameter,astringgivingthenameoftheroutine(whichshouldbe“main()”)inthecaseofthe mainprogram.
+
+============================================================
+HEADING: 8.6CheckingPredictions
+TEXT (108 chars): Thissectiondescribesaseriesofroutinesthatallowpredictedquantitiestobeobtainedafterthe calculationiscomplete.
+
+============================================================
+HEADING: 8.6.1cdB21cm—meanmagneticfield
+TEXT (265 chars): Thereturnvalueisthemeanmagneticfieldweightedbyn(H0)dr/T . Thisisrelatedtothefield spin measuredwith21cmZeemanobservations. Atangledmagneticfieldisassumed. Amagnetic fieldisnotincludedbydefaultbutcanbeaddedwiththemagneticfieldcommand,describedin Part1ofthisdocument.
+
+============================================================
+HEADING: 8.6.2cdColm—thecomputedcolumndensities
+TEXT (1737 chars): ThepredictedcolumndensitiesofsomespeciescanbeobtainedbycallingroutinecdColm: /* want N(C+2) */ if(cdColm("carb", 3 , &column)) printf(" could not find C+2\n"); else printf("The predicted C+2 column density is %e\n", column ); Theroutinereturnszeroifitfoundthespecies,and1ifitcouldnot. Itreturnsthepredicted columndensity[cm−2]asthethirdargument. ThefirstargumentchLabel isafour-character stringthatmustagreewiththefirstfourcharacters(upperorlowercase)ofthenameusedto indicatetheelementintheprintout. Thesecond(integer)variableionisthespectroscopic designationofthelevelofionization,i.e.,1indicatestheatomC0,3indicatesC+2,etc. Table8.1: Specialcasesandexamples,cdColmColumnDensities Excitedstates molecules Label Level Label He1* He0 23S H2 C[3] C0J =2 H2g C+2[3] C2+J =1 HeH+ Si+[1] Si+J =3/2 SiO H2vJ H anyv,J H2 Theionstageof0indicatesaspecialcase,amoleculeoranexcitedlevelofanatomorion. The labeldeterminesthespeciesinthiscase. Moleculeswithnameslessthan4characterscanbe accessedbythisroute,aswell
+
+============================================================
+HEADING: 8.6.3cdCoolinglast—lastzone’scooling
+TEXT (149 chars): Thereturnvalueisthetotalcoolingrate(ergcm−3 s−1)forthelastcomputedzone. 2InversionC13andbefore,thelabelstringhadtobeexactly4characterslongatalltimes.
+
+============================================================
+HEADING: 8.6.4cdDepthdepth—thedepthstructureofthecloud
+TEXT (450 chars): Thisroutinereturnsavectorgivingthezonedepths(incm)ofthepreviousiteration. Thecode usesadaptivelogictocontroltheradialzoningofthemodel. Neitherthenumberofdepthpoints northeirstructureisknowninadvance. Thisroutineiscalledwithadoubleprecisionvectorwith enoughspacetoholdthestructure. ThenumberofdepthpointsisdeterminedbycallingcdnZone andspacemustbeallocatedbythecallingroutine. Eachelementofthevectoristhedepthfrom theilluminatedfacetothecenterofzonen.
+
+============================================================
+HEADING: 8.6.5cdEDENlast—electrondensityoflastzone
+TEXT (49 chars): Thisreturnstheelectrondensity(cm−3)ofthelastzone.
+
+============================================================
+HEADING: 8.6.6cdEmis—emissivityoflines
+TEXT (262 chars): cdEmishasthesameargumentsascdLinebutreturnsthelocalemissivity(ergcm−3 s−1 forunit fillingfactor)ofthelineforthelastcomputedzone. Thereturnvalueistheindexoftheline withinthelinestackifitwasfound,andthenegativeofthenumberoflinesinthestackiftheline couldnotbefound.
+
+============================================================
+HEADING: 8.6.7cdGetLineList—setsofemissionlines
+TEXT (1887 chars): TheroutinecdGetLineList providesawaytoautomaticallyaccessalistofemissionlines. Firstenteralistofemissionlinesintoafile. TheformatisdescribedinSect.16.68.7ofPart1 ofthisdocument. Asetofsuchfilesisincludedinthedatadirectoryofthedistributionfiles. They havenamesLineList*.dat. Youcanusetheseasexamplestocreateyourownfiles. ThefirstargumenttoroutinecdGetLineList isthenameofthefilecontainingthelinelist. Ifa nullstringispassed(””)thenLineList BLR.datisused. cdInit mustbecalledbeforecdGetLineList iscalled. NextcdGetLineList iscalled,andfinally, theactualgridofcalculationsbegins. Thepredictedintensitiesofasetoflinesarethenextracted bycallingcdLine. Thesecondparameterisavectorthatisdefinedbythecallingprogram. Whentheroutine cdGetLineList iscalleditusesthisvectortostorethelineidentifications. Thefunctionreturnsthe numberoflinesinthelist. Ifproblemsoccurredthen−1isreturned. ThefollowingshowsanexampleofgettingthelinesfromLineList NLR.dat,executing thecode,andthenobtainingthepredictedintensitiesofall
+
+============================================================
+HEADING: 8.6.8cdH2colden—state-specificcolumndensitiesofH
+TEXT (796 chars): ThisreturnsthecolumndensityofanylevelintheXgroundelectronicstateofH . Thiscommand onlyworkswhenthelargeH moleculeisincludedwiththeatomH2command. Ithastwo integerarguments,thevibrationandrotationquantumnumbersofalevelinX.Ifbotharezeroor greatertheroutinereturnsthecolumndensityinthatlevel. Ifthevibrationquantumnumberis negativethenasummedcolumndensityisturned. Ifv<0andJ =0itreturnsthetotalH column density,ifJ =1itreturnstheorthocolumndensity,andifJ =2theparacolumndensity. Ifthe indicesdonotmakesensetheroutineprintsamessageandreturns−1. Herearesomeexamples: /* total H2 column density */ total = cdH2_colden( -1 , 0 ); /* ortho column density */ ortho = cdH2_colden( -1 , 1 ); /* para column density */ para = cdH2_colden( -1 , 2 ); /* column density in 0, 0 */ total00 = cdH2_colden( 0 , 0 );
+
+============================================================
+HEADING: 8.6.9cdH2Line—anHemissionlineintensity
+TEXT (810 chars): MorethanhalfamillionH linesarepredictedandtherewillbeinstanceswheretwoH lines havenearlythesamewavelength. Identificationofaparticulartransitionwithinthelistoflines canbeambiguous. Thiscommandfindstheintensityandluminosityofatransitionbyspecifying itsupperandlowern,v,J levels. Thefirstsixargumentsgivethen,v,J indicesoftheupperand lowerlevelsinthatorder. Thelasttwovariablesaredoublepointersthatreturntheintensityand luminosityofthetransition. Thefunctionreturns1ifitfindsthelineand0ifitdidnot. (This behaviorfollowsthatofcdLineratherthanthestandardC++conventionsonfunctionreturn values.) Currentlythisonlyworksforthegroundelectronicstate. Hereisanexample: double xInten , xLumin; /* the 1-0 S(1) at 2.121 microns */ if( cdH2_Lines( 0,1,3 , 0,0,1 , &xInten , &xLumin ) == 0 ) printf("could not find line.\n");
+
+============================================================
+HEADING: 8.6.10cdHeatinglast—lastzone’sheating
+TEXT (65 chars): Thetotalheatingrate(ergcm−3 s−1)forthelastcomputedzoneisreturned.
+
+============================================================
+HEADING: 8.6.11cdIonFrac—thecomputedionizationfractions
+TEXT (2314 chars): Thepredictedionizationfractions,3 averagedoverradius,area,orvolume,canbeaccessedby callingthesubroutinecdIonFrac. Theaverageoverradiusisdefinedas (cid:28) n(S+n) (cid:29) (cid:82) n(S+n) f(l)dl (cid:82) n(S ) n(S ) f(l)dl gas gas wheren(S )isthetotalgasphasedensityoftheelement. Theaverageoverareaisdefinedas gas (cid:28) n(S+n) (cid:29) (cid:82) n(S+n) f(r)rdr (cid:82) n(S ) n(S ) f(r)rdr gas gas Theaverageovervolumeisdefinedas (cid:28) n(S+n) (cid:29) (cid:82) n(S+n) f(r)r2dr n(S ) (cid:82) n(S ) f(r)r2dr gas gas Twosamplecallstotheroutinefollow: /* false below means to not include electrons in the mean */ if( cdIonFrac("carb", 2, &frac, "radius", false) ) cdEXIT(EXIT_FAILURE); printf("The predicted ionization fraction over radius is %g\n", frac); /* true below means to include electrons in the mean */ if( cdIonFrac("carb", 2, &frac, "radius", true) ) cdEXIT(EXIT_FAILURE); printf("Ionization fraction wrt radius end elec den is %g\n", frac); 3Beforeversion96theionizationfractionsonlyinc
+
+============================================================
+HEADING: 8.6.12cdLine—emission-lineintensities
+TEXT (3665 chars): Thisfindstheintensityorluminosityofanyline. Thelabelandwavelengthofthelineare specifiedandtheroutinereturnstherelativeintensityandtheabsoluteintensityorluminosity. The followingisanexample. #include "cddefines.h" #include "cddrive.h" double relint, absint; long nType = 0; if( cdLine( "H 1", 4861.32_air, &relint, &absint, nType ) < 0 ) printf("did not find this line\n"); // alternate forms realnum wlHbeta = 4861.32_r; if( cdLine( "H 1", t_air(wlHbeta), &relint, &absint, nType ) < 0 ) printf("did not find this line\n"); t_wavl twHbeta = 4861.32_air; if( cdLine( "H 1", twHbeta, &relint, &absint, nType ) < 0 ) printf("did not find this line\n"); Thefirstargumentinthecallisthelinelabel,thestring(upperorlowercase)usedbythecode toidentifythelineinthemainemission-lineprintout. Thesecondvariablegivesthewavelengthof thelineinangstrom. Anextension“ air”or“ vac”shouldbeappendedtotheliteralnumberto indicatewhetheritisanairorvacuumwavelength. Ifyouareusingvariables,youcanusethe syntax“t air(var)”or“
+
+============================================================
+HEADING: 8.6.13cdnZone—howmanyzonesinthelastiteration?
+TEXT (56 chars): Theroutinereturnsthenumberofzonesinthepreviousiteration.
+
+============================================================
+HEADING: 8.6.14cdPressuredepth—pressurestructureofthelastiteration
+TEXT (431 chars): Thepressureasafunctionofdepth,forthelastiteration,isobtainedbycallingroutine cdPressure depth. Thisroutinehasthreearguments,pointerstovectorsgivingthetotalpressure, thegaspressure,andthelineradiationpressure. Allaredoubleprecisionvectorsandthecalling routinemusthaveallocatedspaceforthesebeforecallingtheroutine. Thetotalnumberof elementsneededforeachvectoristhenumberofzonesinthelastiterationandisobtainedby callingroutinecdnZone.
+
+============================================================
+HEADING: 8.6.15cdPressurelast—pressureofthelastzone
+TEXT (334 chars): ThepressureforthelastzoneisobtainedbycallingroutinecdPresure last. Thisroutinehasthree arguments,pointerstothetotalpressure,thegaspressure,andthelineradiationpressure. Allare doubleprecisionvariables. Thetotalpressureincludesallcontributorstothepressureandmay includemagnetic,radiation,andturbulentpressureinadditiontothermalpressure.
+
+============================================================
+HEADING: 8.6.16cdTemp—thecomputedmeantemperature
+TEXT (4364 chars): TherearetwoversionsofthecdTempfunction. Bothreturnthemeanelectrontemperature weightedwithrespecttosomespecies. cdTemp(element,stage,&Temp,weight) Thisversionsupportsallions,the“H2”molecule,andafewspeciallabels. Thefirstparameterisafourcharacternull-terminatedstringgivingthefirstfourletters(upper orlowercase)ofthenameofanelementasspelledbythecode. Thesecondparameteristhe ionizationstage,with1fortheatom,2thefirstion,etc. Thethirdparameterwillbethecomputed meantemperature. Thelastparameterisasix-characternull-terminatedstring,either“radius”, “area”,or“volume”,thatsayswhetherthetemperatureshouldbeweightedwithrespecttoradius, area,orvolume. Thesewouldbeappropriatetocomparetopencilbeamobservations,integrated longslitobservations,orobservationsofthewholenebula,respectively. Themeantemperature weightedbyion+nofelementS overradiusisdefinedas (cid:82) Tn(S+n) f(l)dl (cid:10) (cid:0) S+n(cid:1)(cid:11) (cid:82) n(S+n) f(l)dl theaverageoverareais (cid:82) Tn(S+n) f(r)rdr (cid:10) (cid:0) S+n(cid:1
+
+============================================================
+HEADING: 8.6.17cdTemplast—thetemperatureofthelastzone
+TEXT (136 chars): ThekinetictemperatureofthelastzoneisobtainedbycallingthefunctioncdLastTemp. The functionhasnoargumentsanditsreturnvalueisthetemperature.
+
+============================================================
+HEADING: 8.6.18cdTimescales—severaltimescales
+TEXT (183 chars): Thisroutinehasthreearguments,pointerstodoublesthatreturnthetimescales[s]forseveral processes. Thesearethethermaltimescale,thehydrogenrecombinationtimescale,andtheH formationtimescale.
+
+============================================================
+HEADING: 8.7.1cdDate(cdString)
+TEXT (177 chars): Thedatewhenthecurrentversionofthecodewasreleasedwillbeplacedasanull-terminated string. Thestringispassedasanargumentandthecallingprogrammusthaveallocatedenough roomforthestring.
+
+============================================================
+HEADING: 8.7.2cdVersion(cdString)
+TEXT (226 chars): Thecode’sversionnumberwillbeplacedasanull-terminatedstringintothestringpassedasan argument. Theversionnumberisastringratherthanafloatsinceitcanendwithaletterofthe alphabet. Thecallingprogrammustallocateenoughspaceforthestring.
+
+============================================================
+HEADING: 8.7.3doublecdExecTime()
+TEXT (61 chars): ThisreturnsthetimethathaselapsedsincethepreviouscalltocdInit.
+
+============================================================
+HEADING: 8.8Printingcomments
+TEXT (473 chars): CLOUDY isdesignedtobeautonomousandselfaware. Itconstantlymonitorsitselftomakesure thatitisdoingthephysicscorrectly. Afterthecalculationiscomplete,butbeforetheemission linesareprinted,itgeneratesaseriesofstatementsthatindicatewarnings,cautions,comments, andsurprises. Theseshouldbeexaminedtoconfirmthatthecalculationislikelytobevalid. A seriesofroutinesallowsthedrivingcodetodeterminewhetherthesecommentsweregenerated, whattypetheywere,andtoprintthenintoanarbitraryopenfile.
+
+============================================================
+HEADING: 8.8.1Werecommentsgenerated?
+TEXT (896 chars): RoutinecdNwcnswillreturnthenumberofwarnings,cautions,surprises,notes,andtemperature andpressurefailures: cdNwcns( &lgAbort , &nw , &nc , &nn , &ns , &nte , &npe , &nione, &neden ) wherethefirstvariableisabool flagindicatingwhetherthecalculationaborted,nwisthenumber ofwarningsgenerated(ifthisnumberisnon-zero,thenthecalculationhasseriousproblems),ncis thenumberofcautionsgenerated(thesearelessseverethanwarnings,butarestillacauseof concern),andnnandnsarethenumberofnotesandsurprises. Thenexttwoargumentsarethe numberoftemperatureandpressurefailures. Thelasttwoarethenumberofionizationand electrondensityfailures. Thereshouldnotbeanyfailuresinasuccessfulcalculation. Ifeitherofthefirsttwovariablesarenon-zerothenthecoderanintoseriousproblems. Anabort isfarmoreseriousthanawarningsinceitindicatescatastrophicfailure. Iwouldappreciate learningaboutthese. Pleasepostdetailsonthecode’sdiscussionboard.
+
+============================================================
+HEADING: 8.8.2Printingthecomments
+TEXT (1269 chars): Aseriesofcommentsnormallyappearafterthelastzone. Thesemaybeprintedintoanyfileby callingtheseriesofsubroutinesdescribedhere. Inallcasestheroutinestakeasanargumentafile handlewhichmustpointtoafilethathasalreadybeenopenedforwriting. /* output the comments into a file * first define the file handle, then open the file for writing */ FILE *ioOUT; if( (IoOUT = fopen( "comments.txt", "w") ) == NULL ) printf("error creating comments.txt file\n"); cdEXIT(EXIT_FAILURE); --- missing code to do calculation --- /*print the reason the calculation stopped, and geometry*/ cdReasonGeo(ioOUT); /*print the warnings*/ cdWarnings(ioOUT); /*next print the cautions*/ cdCautions(ioOUT); /*now print any surprising results*/ cdSurprises(ioOUT); /*now print the notes*/ cdNotes(ioOUT); fclose(ioOUT); cdReasonGeo(FILE*io) Itisveryimportanttounderstandwhythecalculationstopped. The firsttwolinesafterthelastzoneresultsgivethereasonthecalculationstoppedandthetype ofgeometry. Thisinformationwillbeprintedintothefilewhos
+
+============================================================
+HEADING: 8.8.3cdErrors(FILE*io)—printingasummaryofanyproblems
+TEXT (350 chars): RoutinecdErrors(FILE*io)willgenerateasummaryofanyproblemsthathappenedduringa calculation. Theargumentisapointertotheoutputfilewherethesummarywillbeplaced. The callingprogrammusthavealreadyopenedthefileforwriting. Ifproblemsoccurredinthe calculation,suchastemperatureorpressurefailures,warnings,orcautions,willbeprintedalong withthecalculation’stitle.
+
+============================================================
+HEADING: 8.8.4cdPrintCommands(FILE*io)—printthecommandstack
+TEXT (217 chars): Theentireseriesofinputcommandswillbewrittenintothefile. Thesingleargumentisafile handlethatpointstoapreviouslyopenedfile. Thecommandsareprecededandfollowedbylines thatbeginwith“c=====”toeasilyidentifytheirstartandend.
+
+============================================================
+HEADING: 8.8.5setbuforthenobufferingcommand
+TEXT (750 chars): Programsproduceoutputbywritingintoabuffer. Theyonlyplaceinformationonthediskonce thebufferisfull. IfaC++programcrashesbeforethisbufferis“flushed”theinformationwithin thebufferwillbelost. Thisposesaproblemiftheprintoutgeneratedjustbeforethecrashis neededfordebugging. TheC++iolibraryprovidesaroutine,setbuf,thatcanturnfilebuffering off. Thefollowingsequencewouldopenafileandturnbufferingoff: ioDATA = open_data("test.out","w",AS_LOCAL_ONLY); /* turn off buffering so we see results as then happen */ setbuf( ioDATA , NULL ); Notethatthecalltosetbuf mustcomeimmediatelyafterthecalltoopen databeforeanyoutput iswritten. Thenobufferingcommand,describedinPart1ofthisdocument,willdothesame thing. Notethatturningoffbufferingwillmakethecoderunfarmoreslowly.
+
+============================================================
+HEADING: 8.9ExampleCallasaSubroutine
+TEXT (4220 chars): Thefiletemplate.cppshownbelowcontainsaskeletonprogramshowinghowyoucancall Cloudyasasubroutine. Youcanfindtheprograminthedirectorytsuite/programs. Usethis asastartingpointtowriteyourownprogram. Theareawhereyoucaninsertyourowncodeis clearlyindicatedinthetemplate. /* This file is part of Cloudy and is copyright (C)1978-2025 by Gary J. Ferland and * others. For conditions of distribution and use see copyright notice in license.txt */ /* Template main program for calling Cloudy as a subroutine * Routine returns 0 if model is ok, and 1 if problems occurred. */ #include "cddefines.h" #include "cddrive.h" int main( int argc, char *argv[] ) exit_type exit_status = ES_SUCCESS; DEBUG_ENTRY( "main()" ); // do not remove this! try { // inside this try block you can enter your code to call Cloudy as a subroutine // replace the code between here and the next ===== line with your own program // the code always needs to be initialized first cdInit(); // to write output to a file, you MUST open it with 
+
+============================================================
+HEADING: 8.10ComputingGridsofCalculations
+TEXT (6717 chars): TodayIusuallyusethecodetocomputeresults,extractinformation,andsavedesiredquantities. Thefollowingexampleillustratesproducingaseriesofmodelswithincreasinggastemperature anddensity. Theprogramcalculatesthelinestrengthofvariousdiagnostic[OIII]linesnormalized to[OIII]λ5007andwritesthesetoafile. Thisexampleistheprogramvary nete.cpp,which youcanfindinthedirectorytsuite/programs/vary nete. Thisexampleonlysavesresultsforafewlines. Oftenalargenumberoflinesareneeded. Acall tocdLineList providesaneasywaytoobtainlargenumbersoflineswhoselabelsarestoredina file. /* This file is part of Cloudy and is copyright (C)1978-2025 by Gary J. Ferland and * others. For conditions of distribution and use see copyright notice in license.txt */ /*main program that calls cloudy when used as a stand-alone program */ #include "cddefines.h" #include "cddrive.h" /*int main( int argc, char *argv[] )*/ int main( void ) exit_type exit_status = ES_SUCCESS; DEBUG_ENTRY( "main()" ); try { double hdenLimit , hdenInit , hden,
+
+============================================================
+HEADING: 9.1Overview
+TEXT (301 chars): Thefollowingsectionsoutlinetheemissionlinespredictedby CLOUDY. Beforeversion90ofthe codealllineswerelistedinthesub-sectionimmediatelyfollowingthissection. Thecodeisbeing modifiedtobringalllinesintoacommonlineclass,asthecodemovestoC++andobjects. This chapterwillremainincompleteuntilthisworkisfinished.
+
+============================================================
+HEADING: 9.2Themainemission-lineprintout
+TEXT (796 chars): ThemainemissionlineprintoutwasbrieflydescribedintheChapterOUTPUT.Thissectiongoes intomoredetail. Outputorganization. Theprintedlistissortedintofourlargegroupsofcolumns,witheach largecolumnsub-dividedintofoursmallersub-columns. Thefirstsub-columniseitherthe spectroscopicdesignationoftheionproducingthelineoranindicationofhowthelineisformed. Thesecondsub-columnisthelinewavelength,witha0toindicateacontinuum. Thethird sub-columnisthelogofthepowerintheline,intheunitsgivenintheheader(ergs−1 intoeither 4π srorcm−2). Thelastsub-columnistheintensityofthelinerelativetothereferenceline, usuallyHβ ,unlessthisisresetwiththenormalizecommand. Theselinescanbeprintedasasinglelargecolumn,andcanbesortedbywavelengthor intensity. TheseoptionsarecontrolledbytheprintlinecommanddescribedinPartIofthis document.
+
+============================================================
+HEADING: 9.2.1Intrinsicandemergentlineintensities
+TEXT (15 chars): SeeSection2.10.
+
+============================================================
+HEADING: 9.2.2UnitsofLinewavelengths
+TEXT (251 chars): Thesecanbegiveninvariousunits. Numbersendingin“A”arewavelengthsinangstrom(A˚).For instance,Hβ isgivenby“H 14861.32A”.Wavelengthsinmicronareindicatedby“m”,an example,thestrong[OIII]IRline,is“O 351.8004m”. Continuaareusuallyindicatedbyawavelengthofzero.
+
+============================================================
+HEADING: 9.2.3Airvsvacuumwavelengths
+TEXT (293 chars): Theemissionlinewavelengthsfollowtheconventionthatvacuumwavelengthsareusedfor λ ≤2000A˚ andSTPairwavelengthsareusedforλ >2000A˚.Theprintlinevacuum vac vac commandtellsthecodeuseusevacuumwavelengthsthroughout. Savecontinuumoutputis alwaysreportedinvacuumwavelengthstoavoidadiscontinuityat2000A˚.
+
+============================================================
+HEADING: 9.2.4Blocksoflinesinmainoutput
+TEXT (219 chars): Linesareorganizedbycommonoriginwithacomment,endinginaseriesofperiods“...”, beginningthesection. Asanexample,thefirstcommentedblockoflinesbeginswith“general properties...”. Thefollowingsubsectionsgiveoverviewsofthelines.
+
+============================================================
+HEADING: 9.2.5Generalproperties
+TEXT (1067 chars): Thismainlysummarizesheatingandcoolingagentsforthemodel. H14861andH11216, arethetotalintensitiesofHβ andLα,aspredictedbythemulti-levelH atom. Theseintensitiesaretheresultsofcalculationsthatincludeallcollisional,radiative, andopticaldeptheffects. Inci Thetotalenergyintheincidentcontinuum. Thisentrywillnotbeincludediftheaperture commandisineffect. TotHandTotC givethetotalheatingandcooling. Thesewillbenearlyequalinequilibrium. BFH1andBFHx aretheheatingduetophotoionizationofgroundstateandexcitedstate hydrogenrespectively. He1i,3He1 ,heatingduetogroundstateHeandthetriplets. BFHeandTotM aretheheatingduetoheliumandmetalphotoionization. Pair heatingduetopairproduction. ComH,ComC ,Comptonheating,cooling. CTHCTC chargetransferheatingandcooling. extHextC “extra”heatingorcoolingaddedtomodel. e-e+511 Thepositronline. Expn ,expansion,oradiabatic,cooling HFB ,Hradiativerecombinationcooling HFBc,HFBc ,hydrogennetfree-boundcoolingandheating Iind ,coolingduetoinducedrecombinationofhydrogen 3He2 ,coolingd
+
+============================================================
+HEADING: 9.2.6Continua
+TEXT (3603 chars): Thesegiveintensitiesofvariouscontinua. Theseareeitherthetotalintegratedcontinuumorthe productνF atcertainenergies. ν Continuumbands Thefilecontinuum bands.datinthedatadirectoryspecifiesasetofwavelengthbands. The codewillintegrateoverthesebandstofindthetotalradiatedluminosityandenterthisintothe mainemission-linestack. Currentlythisisasimplesumoftheenergyemittedbetweentheupper andlowerboundsoftheband,anddoesnottakeintoaccountthetransmissionfunctionof particularinstruments. Thecontinuum bands.datfilecanbeeditedtochangethenumberof bandsortheirdetailedproperties. Table9.1liststhebandsinthefileatthetimeofthiswriting. Thefirstandsecondcolumnsgivethelabelandwavelengthastheyappearintheprintout. Thelast columngivesthewavelengthrangefortheintegration. Thefirstwavelengthistreatedasalabel andwillalwaysappearintheoutputasshowninthetable. Thelasttwonumbersareinterpretedas vacuumwavelengths. Theseentrieswillnotbeincludediftheaperturecommandisineffect. Pleaseconsultthefiletoseeitscurrentcontentsandfeel
+
+============================================================
+HEADING: 9.2.7Molecules
+TEXT (492 chars): H2dC ,isthecoolingduetocollisionaldissociationofH . H2dH ,heatingbyH dissociationbyLymancontinuum H2vH ,heatingbycolldeexcitofvib-excitedH H2vC ,coolingbycolldeexcitofvib-excitedH H2v ,lineemissionbyvib-excitedH H-FBandH-FF arethefree-boundandfree-freecontinuaoftheH-ion. H-CT6563 ,H-alphaproducebyH-mutualneutralization H-H 0,H-heating H-Hc 0,H-heating H2+ andHEH+arethecoolingduetoformationofH+ andHeH+. Codh ,carbonmonoxidephotodissociationheating COC12 ,C12O16cooling COC13 ,C13O16cooling
+
+============================================================
+HEADING: 9.2.8SpeciesBands
+TEXT (448 chars): Bandsinwhichtheemissionofacertainspeciesisaccumulatedarereportedinthesectionof blockoflinesonthemainoutputheadlinedwith“bands....”. User-specifiedbandsmaybe providedwiththesavespeciesbandscommand,describedinHazy1,Section16.86.1. By default,theFe II bandsdefinedindata/FeII bands.dat,ifironisenabledinthemodel, evenifnotspecifiedwithsuchacommand. Notethatthesebandsaremorefullyexplainedintheoutputofthecommandsavelinelabels, seeHazy1,Section16.68.6.
+
+============================================================
+HEADING: 9.2.9Grains
+TEXT (757 chars): Informationinthisblockconcernsemission,absorption,heating,andcoolingbyanygrains includedinthecalculation. GrGH ,gasheatingbygrainphotoionization GrTH ,gasheatingbythermionicemissionsofgrains GrGC ,gascoolingbycollisionswithgrains GraT ,Thisisthetotalgrainheatingbyallsources,lines,collisions,incidentcontinuum. Ifthe grainemissionisopticallythinlimitthenthisisequaltothetotalintensityingrainemission. GraI ,grainheatingbyincidentcontinuum GraL1216 ,grainheatingduetodestructionofLα GraC ,grainheatingduetocollisionswithgas GraD ,grainheatingduetodiffusefields,mayalsohavegrainemission Grainemissionisincludedinthepredictedtotalemittedcontinuum. Amachinereadableform ofthecontinuumcanbeproducedwiththesavecontinuumcommand,alsodescribedinPartIof thisdocument.
+
+============================================================
+HEADING: 9.2.10H-likeiso-seq
+TEXT (2378 chars): Thisblockincludesallhydrogen-likeisoelectronicspecies. TheatomH-likecommand,described inPart1ofthisdocument,adjustspropertiesofthissequence. HFFc0 ,netfree-freecooling,nearlycancelswithcoolinginlte HFFh0 ,netfree-freeheating,nearlycancelswithcoolinginlte HFF0 ,Hbrems(free-free)cooling FFH0 ,totalfree-freeheating Clin912 ,totalcollisionalcoolingduetoallhydrogenlines Hlin912 ,totalcollisionalheatingduetoallhydrogenlines Cool1215.67 ,collisionallyexcitedLacooling Heat1215.67 ,collisionallyde-excitedLaheating Crst960 ,coolingdueton¿2Lymanlines Hrst960 ,heatingdueton¿2Lymanlines Crst4861.32 ,coolingdueton¿3Balmerlines Hrst4861.32 ,heatingdueton¿3Balmerlines Crst0 ,coolingduetohigherPaschenlines Hrst0 ,heatingduetohigherPaschenlines LAX1215.67 ,Lα contributionfromsuprathermalsecondariesfromground Ind21215.67 ,Lα producedbyinducedtwophoton Pump4861.32 ,Hβ producedbycontinuumpumpinginopticallythinldlimit CION0 ,netcolionz-3bodyheatcollisionionizationcoolingofhydrogen 3bHt0 ,heatingdueto3-bodyr
+
+============================================================
+HEADING: 9.2.11Heiso-sequence
+TEXT (616 chars): Atomsandionsofthehelium-likeiso-electronicsequencearetreatedasmulti-levelatoms. All speciesandstagesofionizationarespecifiedbylabelslike“He1”,“Li2”,“C 5”,etc. The wavelengthofthetwo-photoncontinuum1s.2s1S −1s2 1S isreportedastwicethewavelength derivedfromtheenergydifferencebetweenthetwolevels. The23Ptermisresolvedintothree levels. Emissionofeachlineofthe23S−23Pand11S−23Pmultipletsispredictedalongwith thesumofthemultipletswithlabel“Blnd”. TheatomHe-likecommand,describedinPart1of thisdocument,adjustspropertiesofthissequence. FurtherdetailsaregiveninBaumanetal. (2005),Porteretal.(2005),andPorterandFerland(2007).
+
+============================================================
+HEADING: 9.2.12Recombination
+TEXT (683 chars): Theseareasetofheavy-elementrecombinationlinesthatarepredictedinthelow-densitylimit assumingthatthetransitionsareopticallythin. ThisconsistsofallrecombinationlinesofC,N., andO,withcoefficientstakenfromNussbaumerandStorey(1984)andPequignotetal.(1991). Thesepredictionsareforopticallythinpurerecombination. Theseshouldbeaccuratefor planetarynebulaeandHIIregions. Theywillnotbeaccuratefordenseenvironmentswhere opticaldepthsandcollisionaleffectscomeintoplay. Theseareonlyincludedintheoutputifthe electrondensityislessthan108cm−3,aroughupperlimittotherangeofvalidityintheoriginal calculationsofthecoefficients. Thereareseveralinstanceswheremorethanonelineofanionwillhavethesamewavelength.
+
+============================================================
+HEADING: 9.2.13Level2lines
+TEXT (160 chars): TheseareresonancelinesthatuseOpacityProjectwavelengths,whicharegenerallyaccurateto about10%. Theselineshaveg-barcollisionstrengths,whicharenotveryaccurateatall.
+
+============================================================
+HEADING: 9.3.1Savelinedataoutput
+TEXT (1922 chars): Thegroupof“transferredlines”includesallthosethathavebeenmovedtotheEmLineclass. Inolderversionsofthisdocumentalargelistofemissionlinesappearedhere. Thislistisnow fartoolargetoincludehere. Rather,thelistcanbegeneratedbyexecutingthecodewiththe commandsavelinedata“filename.txt”included. Thiswillcreateafilethatincludesthefullset oflinesthatarepredicted. Notethatthelinesthatareoutputareonlythosethatexistwhenthe codeisrun. Itispossibletomakemanyofthemodelatomsandmoleculesaslargeorsmallasyou like,andtheactuallinesthatexistwhenthesavecommandisenteredwillbeoutput. Thetestcase func lines.ininthetestsuiteincludesthissavecommandandgeneratesalistofall transferredlinesinthefilefunc lines.lis. Togeneratealinelist,setupacalculationwiththeatomssettowhateversizeisdesired(seethe atomcommandinPartI).Thenexecutethisscriptwiththesavelinedatacommandincluded (describedinPartI).Thesaveoutputwillincludethelinelist. Thiswillincludethelevel2,Hand Heiso-sequence,H ,CO,andrecombinationlines,butnotthescalarforbiddenl
+
+============================================================
+HEADING: 9.3.2Outputproducedforthetransferredlines
+TEXT (2579 chars): Becausethelineshaveacommonformatwithintheirstoragevectors,theoutputhasacommon formattoo. Generallyonlythetotalintensityofthetransition,theresultofthesolutionofa multi-levelatomwithallprocessesincluded,isprinted. Theapproachusedtocomputethelevel populationsisdescribedinPartIIof HAZY,andincludescontinuumpumping,destructionby backgroundopacities,andtrapping. Thetotalintensityofthetransitionisprintedinaformlike“C 21335”,withthespectroscopic identificationgivenbythefirstpart,asfoundinthefirstcolumnofthetable,andthewavelength asindicatedbythenumberinthesecondcolumnofthetable. Inafewcases(forinstance,theCIVλλ1548,1551doublet),atotalintensityisalsoderived. In thesecasesthelabel“Blnd”willappeartogetherwithanaveragewavelength(1549inthiscase). Theselinesareallexplicitlyshowninafollowingsection. Itispossibletobreakoutvariouscontributorstothelineswithoptionsontheprintline command,describedinPartIofthisdocumentandinthefollowing. Thesecontributorsare printedfollowingthetotalintensity. printlineheatin
+
+============================================================
+HEADING: 9.4Lineidentifications
+TEXT (114 chars): Thefileline labels.txtinthedocsdirectoryofthedistributionlistslineidentificationsand abriefdescriptionofitsorigin.
+
+============================================================
+HEADING: 9.5Hydrogenrecombinationlines
+TEXT (437 chars): Table9.2givesthestrongestlinesofthelowestseries. Alllineshavethelabel“H 1”. The wavelengthcolumngivesthestringasitappearsintheprintout. “m”indicatesawavelengthin µmandAinangstrom. TheCaseBintensityistakenfromthelimit caseb h hs87testcase. Somelinesmayhavethesamewavelengthifthedefaultlineprecisionisused. Thesetline precisioncommandcanbeusedtoincreasethenumberofsignificantfiguresintheline wavelength,whichshouldmakeidentificationeasier.
+
+============================================================
+HEADING: 9.6Molecularhydrogenlines
+TEXT (744 chars): Table9.3givessomeofthestrongerormorefrequentlyobservedH lines. Theseareonly predictedwhenthelargemodelH moleculeisincludedwiththeatomH2command. The wavelengthcolumngivesthestringasitappearsintheprintout. “m”indicatedawavelengthin µm. Alllineshavethelabel“H2 ”. Manylineswillhavethesamewavelengthifthedefaultlineprecisionisused. Thesetline precisioncommandcanbeusedtoincreasethenumberofsignificantfiguresintheline wavelength,whichshouldmakeidentificationeasier. ThefollowingisanexamplewhichpredictstheemissivityoftheH 2.1211-0S(1) µmline. save line emissivity ‘‘lines.ems’’ H2 2.121m end of lines AlistofallH2lineswiththeirlabelsandexcitationenergiescanbegeneratedwiththe commandsaveH2lines. TheJointAstronomyCentreinHawaiigiveasummaryofH lines.
+
+============================================================
+HEADING: 9.7COlines
+TEXT (1704 chars): Rotationtransitionswithinthegroundvibrationlevelareincluded. ThesearelistedinTable9.4 whichgivesthesymbol“m”toindicate µm. Table9.3: Molecularhydrogenemissionlines Transition v ,J v ,J λ(label) χ(hi,K) hi hi lo lo 0-0S(0) 0,2 0,0 28.2130m 509.8 0-0S(1) 0,3 0,1 17.0300m 1015.1 0-0S(2) 0,4 0,2 12.2752m 1681.6 0-0S(3) 0,5 0,3 9.66228m 2503.8 0-0S(4) 0,6 0,4 8.02362m 3474.3 0-0S(5) 0,7 0,5 6.90725m 4586.2 0-0S(6) 0,8 0,6 6.10718m 5829.5 1-0O(2) 1,0 0,2 2.62608m 5986.9 1-0Q(1) 1,1 0,1 2.40594m 6149.0 1-0O(3) 1,1 0,3 2.80176m 6149.0 1-0S(0) 1,2 0,0 2.22269m 6471.4 1-0Q(2) 1,2 0,2 2.41307m 6471.4 1-0O(4) 1,2 0,4 3.00305m 6471.4 1-0S(1) 1,3 0,1 2.12125m 6951.3 1-0Q(3) 1,3 0,3 2.42307m 6951.3 1-0O(5) 1,3 0,5 3.23411m 6951.3 0-0S(7) 0,9 0,7 5.50996m 7196.7 1-0S(2) 1,4 0,2 2.03320m 7584.3 1-0Q(4) 1,4 0,4 2.43683m 7584.3 1-0O(6) 1,4 0,6 3.50043m 7584.3 1-0S(3) 1,5 0,3 1.95702m 8365.0 1-0Q(5) 1,5 0,5 2.45408m 8365.0 1-0O(7) 1,5 0,7 3.80648m 8365.0 0-0S(8) 0,10 0,8 5.05148m 8677.0 1-0S(4) 1,6 0,4 1.
+
+============================================================
+HEADING: 10.1Introduction
+TEXT (714 chars): Thecodeisdesignedtobeautonomousandself-aware. Nonetheless,ifcanrunintoproblems. Thissectiondescribessomeoftheerrorsthatcancause CLOUDY tostop. Floatingpointerrors shouldneveroccur. Severalotherinternalerrors,whichthecodeisdesignedtotrapandthen complainabout,couldoccur. Finally,itispossiblethatthecodewillstopbecauseofconvergence problems. Themostimportantsinglethingtounderstandaboutanycalculationiswhyitstoppedand whetherthisaffectsthepredictions. ThisisdiscussedfurtherinthesectionStoppingCriteria Ifthecalculationabortsitwillconcludewitharequesttoposttheinformationonthewebsite’s discussionboard—pleasedo—wecan’tfixitifwedon’tknowit’sbroken. Pleasepostanyproblemsonthediscussionboardonthecode’sdiscussionboard.
+
+============================================================
+HEADING: 10.2Thermalstabilityandtemperatureconvergence
+TEXT (85 chars): Thissectiondescribesthermalstabilityproblems,howtoidentifythem,andwhattodoabout them.
+
+============================================================
+HEADING: 10.2.1Typesofthermalmaps
+TEXT (1930 chars): Threetypesofthermalmaps,showingtheheatingorcoolingofgasasafunctionoftemperature, canbeproducedby CLOUDY. Eachistheanswertoadifferentquestion. Figure10.1showstheheatingandcoolingratesasafunctionoftemperatureforaphotoionized gasinwhichthegaskinetictemperaturewasvaried. Thisfigurewasproducedwiththetestcase func map.in,oneofthestandardtestcasesincludedinthecodedistribution. Boththegas densityandthefluxofionizingphotonswereheldconstantandthekinetictemperaturewas varied. Onlyonetemperature,thepointwherethetwocurvescross,occursinequilibrium. The func map.infileusesthesavemapcommandtodetermineheatingandcoolingratesata varietyoftemperatures. Thisisexactlywhatthecodedoestodeterminetheequilibrium temperature,sothisplotcanbeusefultofindoutwhythecoderanintotemperatureconvergence problems. Thisiswhythecommandwasintroduced. Cooling Heating 1-s 3-mc gre Temperature Figure 10.1: A typical heating—cooling function for low density photoionized gas. The cooling andheatingrates(ergcm−3 s−1)areshown. )1-s 3
+
+============================================================
+HEADING: 10.2.2NoTemperatureConvergence
+TEXT (1795 chars): Atemperaturefailureoccurswhentheheating-coolingbalanceisnotwithinacertaintolerance, setbythesettemperatureerrorcommand,after20tries. Normally CLOUDY willpuntafteran excessivenumberoftemperaturefailuresoccur. Thelimittothenumberoffailuresisresetwith thefailurescommand. Ifthefailuresmapcommandisenteredthenthecodewillfirstproducea temperature pressure pressure log density (cm-3) erutarepmet Figure10.3: Equilibriumtemperatureasafunctionofdensity. mapofheating-coolingspacetogiveanindicationofwheretheequilibriumtemperatureshould havebeenwhenexcessivefailuresoccur. Temperaturefailuresmostoftenoccurfortemperaturesintherange102Kto4×103K,and 105Kto106K. Thesearewherethecoolingfunctionpermitsmorethatonethermalsolution(see, forexample,Williams,1967;DalgarnoandMcCray,1972). Figure10.1showsatypicalcoolingfunctionforgasinphotoionizationequilibrium. Apeakis reachedatatemperaturenear103K. Thisoccurswhenthefine-structurelinesaremajorcoolants. Atlowertemperaturestheircoolingrateincreasesexponentially(ase
+
+============================================================
+HEADING: 10.2.3ThermalStability
+TEXT (429 chars): Thethermalsolutionmaybeunstablewhenthetemperaturederivativeofthenetcoolingfunction (coolingminusheating)isnegative(Field,1965). Possiblyunstablesolutionsareindicatedbya “u”justbeforetheequilibriumtemperatureinthezoneprintout. Thetemperaturederivativeisfor isochoric(constantdensity),notisobaric(constantpressure),conditions. Commentsareprintedat theendofthecalculationifpossiblyunstablethermalsolutionsarepresentinthecalculation.
+
+============================================================
+HEADING: 10.2.4Thermalfronts
+TEXT (6732 chars): Justasanionizationfrontisaregionwherethelevelofionizationchangesdramaticallyovera smallscale,athermalfrontoccurswherethetemperaturechangesdramaticallyoverasmallscale. Thiscanbecausedbyarealphysicalchangeofstateofthegassuchasthosethatoccurnearthe peaksinthecoolingcurve. Anexampleofathermalfront,takenfromFerlandetal.(2002),is showninFigure10.4. Thistypeofjumpisphysical. Thegaschangesphaseandmovesto differentbranchesofthecoolingcurve. Thecodewillgenerateacautionorcommentifthe electrontemperaturechangesdiscontinuouslyfromonezonetothenext. Athermalfrontcanleadtopressureconvergencefailureswhenthesolutionjumpsbetweenthe highandlowtemperaturebranches. Figure10.5showsanexamplecase,takenfrom orion hii pdr pp.ininthetestsuite. Thisshowsthepressurehistory(outputwiththesave pressurehistorycommand). Thesolveradjuststhedensitytryingtomaketheresultingpressure agreewiththedesiredpressure. Thepressurechangescontinuouslywithdensityuptothepoint wherethetemperaturejumpsoverthepeakinthecoolingcurve. Nosolut
+
+============================================================
+HEADING: 10.2.5MapOutput
+TEXT (1883 chars): Theprogramstopsifanexcessivenumberoftemperaturefailuresoccur. Thedefaultlimitis20. It willproduceamapoftheheatingandcoolingasafunctionoftemperatureforthelastcomputed zoneifthemapoptiononthefailurescommandisgiven. Themapisdescribedhere. Thestartof theoutputfromthetestcasefunc map.inisshownbelow. 90.02x map of heating vs cooling te, heating, cooling. Cloudy punts, Te= 9.254E+03 HTOT= 9.123E-24 CTOT= 9.118E-24 nzone= 1 COOLNG array is H ff 0 0.022 S 3 33 0.020 Ne 3 15 0.019 Hefb 0 0.015 N 3 57 0.015 Ne 3 3869 0.013 S 3 18 0.013 Ne 5 24 0.010 Ne 5 14 0.009 C 3 1910 0.008 Heff 0 0.007 Si 2 34 0.006 Fe 5 3892 0.006 O 2 3727 0.005 Line heating array follows Te Heat-------------------> Cool----------------------> dH/dT dC/DT Ne NH HII Helium Theoutputbeginswithalistingofthestrongestcoolantsforthelastzone. Thentheprogram stepsthroughincreasingtemperaturesandprintstheheating,cooling,andionizationofthegas. Fromthisinformationitshouldbepossibletodeterminethetemperaturewheretheequilibrium thermalso
+
+============================================================
+HEADING: 10.3Convergenceproblemswithdust-freestaticsphere
+TEXT (1032 chars): Ionizationconvergenceproblemscanoccurwithadust-freestaticsphericalgeometry. Thedefault geometrywhenthespherecommandisenteredisforlinestofreelyescapeaftercrossingthe centralholeduetosomelevelofexpansion. Inastaticsphericalgeometry(setwiththesphere staticcommand)thetotalLα opticaldepthattheilluminatedfaceoftheshellwillbeverylarge sincethelineisscatteredbythematterthatliesacrosstheentireshell. Thelineisdestroyedwhen dustispresent. IfdustisnotpresenttheLα intensityJ willbecomeverylarge. Ifthetotaloptical depthinLα isalsolargethenthedominantescape/destructionprocessforthelinewillbe absorptionbyatomsofthird-rowelementsorthen=2levelofhydrogen. Thiscanleadto ionizationconvergenceproblemsduetotheextremelylargeLα intensityJ. Thefirstquestiontoaskiswhetherthisgeometryisappropriate. Dustisnearlyalwayspresent intheISM.Indensestellarenvironmentsitisunlikelythatasphericalgeometrywillbestatic. Includedust,usethedefaultexpandingsphericalgeometry,orawind,andtheproblemwillgo away. Tothebestofmyknowledget
+
+============================================================
+HEADING: 10.4Opticaldepthconvergenceproblems
+TEXT (365 chars): Thecodegenerallywillnotconvergeifithasnotdonesowithintenorsoiterations. Convergence problemsmostcommonlyoccurwhenthespecifiedcolumndensityorthicknessisveryneara prominentionizationfront. Inthiscaseverysmallchangesinthephysicalconditionsresultin largechangesintheopticaldepths. Thecodewillnothaveconvergenceproblemsifanoptical depthisusedasastoppingcriterioninstead.
+
+============================================================
+HEADING: 10.5Negativepopulations
+TEXT (279 chars): Itispossiblethatthecodewillstopbecausenegativelevelpopulationswerepredictedforatoms, ions,ormolecules. Thisisnotsupposedtooccur,butsometimeshappensbecauseofnumerical instabilitiesinthematrixinversionroutine. Pleaseposttheinputstreamandversionof CLOUDY onthecode’sdiscussionboard.
+
+============================================================
+HEADING: 10.6FloatingPointErrors
+TEXT (653 chars): Thecodeshouldbecompiledandlinkedwithoptionsenabledsothatthecodewillcrashon overflowordivisionbyzero,butignoreunderflow. ThecrashcommanddescribedinPart1tests this. Floatingpointerrorsshouldneveroccur. Thelogicwithinthecodeisdesignedtoidentify problems,andcomplain,butnotfail. Thelogicisonlyasgoodastheteststheyweredesignedto pass. Itisinevitablethatcircumstanceswilloccurforwhichthelogicnowinthecodeisnot sufficient. Itispossiblethatthecodewillfailwhenthesecircumstancesoccur. Iwouldbegrateful forreportsofanysuchfailures,sincetheyinevitablyidentifyshortcomingsinthecode,andlead toitsimprovement. Pleasepostcommentsonthediscussionboardonthecode’swebsite.
+
+============================================================
+HEADING: 10.7Wecan’tfixitifwedon’tknowit’sbroken11HISTORYANDACKNOWLEDGEMENTS
+TEXT (518 chars): Machinesaregrowingfasterfarmorerapidlythanpeoplearegettingsmarter. Reliabilityinthe faceofcomplexityisthemajorchallengetothedevelopmentofanylarge-scalecomputercode (Ferland,2001a). Therecanbelittledoubtthat CLOUDY containsbugs. Ifproblemsariseorthecodecrashesthenitislikelythatyoufoundaproblem. Wewould appreciatelearningaboutsuchproblemssincetheyidentifyshortcomingswhichusuallyleadto improvementsinthecode(orthedocumentation). Pleasepostqueriesandbugreportsonthe discussionboardonthecode’sdiscussionboard. Chapter 11
+
+============================================================
+HEADING: 11.1History
+TEXT (1361 chars): CLOUDY wasbornattheInstituteofAstronomy,Cambridge,inAugustof1978,inthecomputing environmentdescribedinthewebdocumenthttp://www.nublado.org/gary/computing1970s.htm. ItsdevelopmenthasbeencontinuedatTheUniversityofKentucky,TheOhioStateUniversity, andduringextendedvisitstotheJointInstituteforLaboratoryAstrophysics,theRoyalGreenwich Observatory,IOACambridge,CerroTololoInteramericanObservatory,andtheCanadianInstitute forTheoreticalAstrophysics. Thecodehasbeenthroughthreecomputerlanguages. ItwasoriginallywritteninFORTRAN IVandadvancedthroughseveraldialects,reachingFORTRAN77in1994(version84). Version 90waswritteninamixofFORTRAN77andMILSPECextensions. Thiswasthemostadvanced Fortranthatcouldbeusedwithopensourcecompilers. ItmovedtoANSI89Cin1999(version 96)andtoC++withthereleaseof07.02in2007. Moore’sLawisduetoGordonMoore,oneofthefoundersofIntelCorporation. Heobserved thatmodernCPU’sbecomeabouttwiceaspowerfulevery18months. Thistrendhasheldtruefor thepasttwentyyears,showsnosignoffailing,andseemstobe
+
+============================================================
+HEADING: 11.2Acknowledgments
+TEXT (9638 chars): Commentsorsuggestionswhichledtotheimprovementof CLOUDY weremadebythemany individualsacknowledgedonthewebsitehttp://www.nublado.org. PeterG.MartinandHagaiNetzerhadspecialrolesduringtheearlydevelopmentofthecode. Peteraddedseveralofthecommandsthatdealwithorderingofsupplementallinelistsandthe 1Beforemid-1995thesizewasthetotalnumberoflinesinthedistributedsource. After1995thesizeonlyincludes thenumberoflinesexcludingblockdata. WhenthecodewasconvertedtoCtheblockdatawereconvertedtoexternal datafiles. Theseexternalfilesarenowfarlargerthanthecodeitself. edoC fo seniL Year Figure11.1: Thesizeofthecodeasafunctionoftime. Thecodegrowsroughly7%largerperyear, with growth spurts and slowdowns at times. There are several changes in slope evident - the year and cause are: 1985 - mainframe to Unix; 1993 - Unix to windows; the jump at 1999 - the Fortran to C conversion and the Williams / van Hoof drop in 2006, due to the use of object-like structures andmovingconvertedfortranblockdataintoseparatefiles. lum
+
+============================================================
+HEADING: D.1Introduction
+TEXT (781 chars): Thecodemustbecompletelytestedeverytimeanythingischanged. Thisisdonewiththetest suitethatisincludedinthedistribution. Thefollowingpageslistthetestcasesincludedinthe autodirectorywithinthetestsuitedirectorytsuite. ThetestsuitecontainsaseriesofPerlscriptsthatautomateseveraltasks. The readme tests.htmfileincludedwiththetestsdescribesthesescripts. Thescript doc tsuite.plextractsthetestnamesandthedescriptionofeach,andcreatestwofiles, doc tsuite.htm,aformatteddescriptionofeachtest,anddoc tsuite.txt,thetablethat followsthisdiscussion. Thetestcasesincludealargenumberofmonitorcommandsthatallowthecodetobe automaticallytestedeverynight. Thesemonitorcommandshavebeenremovedfromthe examplesbelow. Thesimulationsformvariousclasses. Thenamesoftheclassesandtheirintentionisgivenin TableD.1.
+
+============================================================
+HEADING: D.2Organizationofcommands
+TEXT (1088 chars): Commandscan(mostly)occurinanyorderbutwehavemadeanefforttoenterthemintheorder shownbelow. Thisissothattheycanbestudiedtoseeexamplesofhowtousethecode. #commandscontrollingcontinuum #commandsfordensity&abundances #commandscontrollinggeometry #othercommandsfordetails #commandscontrollingoutput Asindicated,therearetheprintandsavecommandswhich controlthecode’soutput. #commandsgivingthemonitorsEachtestincludesanumberofmonitorcommands. These givevaluesofpredictedquantitiesthatthecodehasobtainedinthepast. Changestothecodemay causepredictedvaluestochange,andiftheydothemonitorcommandwillannounceit. TableD.1: KeywordsusedintheTestSuite. Class Function Blr BroademissionlineregionofAGN Coronal Collisionallyionizedgaswithpre-settemperature Dynamics Flow Function Testvariousfunctionsofthecode Geometry Testgeometricaspects,aperturecommand HII HIIregions IGM Intergalacticmedium ISM Interstellarmedium Limit Testlimitingcases NLR Narrow-linedregionofAGN Nova Aspectsoftheclassicalnovaexplosion Optimizer Te
+
+============================================================
+HEADING: D.3TheAutoTestSuite
+TEXT (416514 chars): TableD.2liststhesimulationsintheautotestdirectory. TableD.2: Thesimulationsintheautotestsuite. Class Function agn blr albedo measureRayleighscatteringofLya agn lex00 u0 intermediate-ionizationx-rayionizedcloudfromLexington2000 agn lex00 u1 high-ionizationx-rayionizedcloudfromLexington2000 agn lex00 um1 low-ionizationx-rayionizedcloudfromLexington2000 agn reflector modelofComptonreflector agn S curve grid temperatureacrossSpitzerthermalstabilityScurve agn warm absorber simplewarmabsorbermodel agn warm absorber hiU simplewarmabsorbermodel aperture beam int testaperturebeamcommandwithintensity aperture beam lum testaperturebeamcommandwithluminosity aperture slit testapertureslitcommandwithluminosity blr f92 standardblrcloudinFerlandetal. 1992 blr fp89 finalF+P1989BLRmodeltable3 blr hizqso highZquasarcloud blr kk81 oldblr blr level2 testdominantlevel2lines blr n09 p18 BLRmodel,density1e09cm-3,fluxofH-ionphots1e18cm2s-1 blr n09 p18 Z20 BLR model, density 1e09 cm-3, flux of H-ion phots 1e18 
+
+============================================================
+HEADING: D.4TheSlowTestSuite
+TEXT (54609 chars): TableD.3liststhesimulationsintheslowtestdirectory. TableD.3: Thesimulationsintheslowtestsuite. Class Function dynamics HII PDR fastH+He+metals(lowionizationparameter)009kms feii blr n09 p18 FeIImodel feii blr n09 p18 Z20 FeIImodel feii blr n11 p20 FeIImodel feii blr n11 p20 Z20 FeIImodel feii blr n12 p19 FeIImodel feii blr n12 p19 Z20 FeIImodel feii blr n12 p21 FeIImodel feii blr n12 p21 Z20 FeIImodel feii blr n13 p18 BLRmodel,density1e13cm-3,fluxofH-ionphots1e18cm2s-1 feii blr n13 p18 Z20 BLRmodel,density1e13cm-3,fluxofH-ionphots1e18cm2s-1 feii blr n13 p22 FeIImodel feii blr n13 p22 Z20 FeIImodel grid extreme exercisefullrangeofdensity,temperature h2 HTT91 Hollenbachetal. 1991low-densityPDR h2 orion bar TitleOrionBarwithmagneitcfieldwithequipartitioncosmicrays h2 orion hii pdr constantgaspressureorionintopdr h2 pdr leiden f2 lowdensityhighfluxmodel2asdefinedine-mail h2 pdr leiden f3 highdensitylowfluxmodel3asdefinedine-mail h2 pdr leiden f4 highdensityhighfluxmodel4asdefinedine-mail h
+
