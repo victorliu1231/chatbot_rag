@@ -168,7 +168,7 @@ TOOLS = [
     {
         "name": "search_manual",
         "description": (
-            "Search the loaded documentation manuals (PyXspec, XSPEC, CLOUDY, Chandra) "
+            "Search the loaded documentation manuals "
             "for sections relevant to the query. "
             "Always call this first before using any other knowledge. "
             "Returns the most similar manual sections with their similarity scores."
