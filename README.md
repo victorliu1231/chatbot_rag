@@ -6,3 +6,5 @@ You can clone this repo and get it onto your computer with
 ```bash
 git clone https://github.com/victorliu1231/chatbot_rag.git
 ```
+
+If you want to add documentation embeddings to the repo or improve upon the notebooks, feel free to make a pull request!
