@@ -1,0 +1,389 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>ftmeld HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+ftmeld - Merge (append) rows from multiple input tables into a 
+single output table, more flexible than ftmerge.
+
+<h2>USAGE</h2>
+
+<tt>ftmerge  infile1,infile2  outfile</tt>
+
+
+<h2>DESCRIPTION</h2>
+
+<p>
+ftmeld is a task that merges FITS two or more separate FITS tables.  It is
+similar to <a href="ftmerge.html">ftmerge</a> in that both of the tasks
+append (concatenate) the rows of the input tables, but ftmeld is much more flexible in
+handling situations where the input tables do not have exactly identical
+structures.
+
+<h3>Flexibility of ftmeld and Comparison to ftmerge</h3>
+<p>
+ftmeld is designed to be essentially a drop-in replacement for 
+ftmerge, but with added flexibility.
+<p>
+If you know that your input tables have identical column structures,
+then you should use ftmerge.  ftmerge will operate more efficiently
+and quickly.  However, if you are attempting to merge dissimilar tables
+ftmeld may be most useful.  Usually you wish to merge tabular files,
+(such as mission-specific "filter files") which have very similar but
+not exactly the same column structure.  However, ftmeld is flexible
+enough to handle any column structure, although that may not be advisable.
+
+<p>
+As mentioned, ftmeld is more flexible than ftmerge.  Here are the 
+differences.
+<ul>
+<li>ftmerge requires all input files to have exactly the same number of columns.  ftmeld does not.
+<li>ftmerge requires all input columns to be in exactly the same order.  ftmeld does not.
+<li>ftmerge requires all input columns to have exactly the same data type.  ftmeld does not.
+</ul>
+
+ftmeld will compare the columns of each input with the existing
+columns of the output file.  It copies data, column by column, from
+the input to the output, matching by column name.
+<p>
+ftmeld utilizes the capabilities of the CFITSIO library to transfer
+data between different numerical types seamlessly.  It handles all
+standard FITS data column types, including numbers, strings, bits,
+logicals, complex values, vectors and multiply-dimensioned fields, as
+well as variable-length vectors and variable-length strings.  In cases
+where no input column matches the output, a null value is used.
+
+<p>
+ftmeld does still enforce some restrictions upon the inputs for sanity's sake.
+<ul>
+<li>If an input column is vector, then the vector length must match in all input files.
+<li>ftmeld will refuse to transfer data between numerical and non-numerical column types.
+The exception here is when copying a string column to a numerical column (or vice versa),
+in which case ftmeld will use the string as the textual representation of a number.
+<li>Every column must have a null value assigned.
+</ul>
+
+<h3>Transfer of Numerical Values</h3>
+<p>
+When transferring data from the input to the output, the data type
+is not required to be the same between the two files.  For example,
+if the input file has column TIME stored as a 32-bit floating
+point number and the output file has TIME stored as a 64-bit floating
+point number, the 32-bit values will be converted to 64-bit values
+during the transfer.
+
+<p>
+FITS as a standard allows more complicated numerical storage techniques.
+The keywords TSCALn and TZEROn allow simple integer storage types to be 
+stored in the file, but have a scale and offset applied when reading or
+writing the values.  Thus, a column store as integer may "appear" to be
+a floating point data type.  ftmeld will attempt to transfer these values
+from input to output using the appropriate scalings.
+
+<p>
+However, if the transfer would result in loss of numerical precision or
+numerical overflow, inaccurate values may result.  This will normally
+result in an error message for the file in question.  If you wish to
+allow numerical degradation, set errdegrade=NO, and the task will
+silently proceed - with the understanding that numerical fidelity
+may be lost.
+
+
+<h3>Assignment of Null Values</h3>
+<p>
+Since null values must be assigned for every column, we discuss this
+topic more here.  For columns in the output file that do not exist in the
+input file, a null value is used.  Because ftmeld is designed with
+flexibility in mind, it must handle the possibility of missing data
+and for that reason null values must be assigned.  Here is now ftmeld
+assigns null values:
+<ul>
+<li>The first time a column appears, in the file order listed in 'infile', the null value
+is taken from that file.
+<li>If that file does not define a null value, then the list of 'nullvalues' is consulted.
+nullvalues is a comma-separated list of the form,<br>
+<pre>   COLUMN=VALUE,COLUMN=VALUE,...</pre><br>
+where column is the name of the column and VALUE is the desired null value.  Matches
+are checked for in list order, so more specific patterns should be listed first. nullvalues
+is a way for the user to supply a null value to columns without modifying the input files.
+The standard column-matching wildcards of CFITSIO are supported, i.e. '?' for a single
+wildcard character and '*' for any number of wildcard characters.  The single '*' wildcard
+pattern may be used to match "all" columns.
+<li>If a null value is still unknown after consulting the first listed input file and
+the 'nullvalues' parameter, then ftmeld assigns a null value using the following
+hueristics:<br>
+<table border="1">
+<thead>
+<tr><th>Data Type</th><th>Method or Value Used</th></tr>
+</thead>
+<tbody>
+<tr><td>'E' 32-bit floating point</td><td>NaN</td></tr>
+<tr><td>'D' 64-bit double precision</td><td>NaN</td></tr>
+<tr><td>'C' 32-bit floating complex </td><td>NaN</td></tr>
+<tr><td>'M' 64-bit double complex</td><td>NaN</td></tr>
+<tr><td>'L' logical</td><td>ASCII 0</td></tr>
+<tr><td>'X' bits</td><td>no null value possible</td></tr>
+<tr><td>'B' 8-bit byte (no TZEROn)</td><td>255</td></tr>
+<tr><td>'B' 8-bit byte (any TZEROn)</td><td>0</td></tr>
+<tr><td>'I' 16-bit short (no TZEROn)</td><td>-32768</td></tr>
+<tr><td>'I' 16-bit signed short (TZEROn=32768)</td><td>32767</td></tr>
+<tr><td>'J' 32-bit long (no TZEROn)</td><td>-2147483648</td></tr>
+<tr><td>'J' 32-bit signed long (TZEROn=2147483648)</td><td>2147483647</td></tr>
+<tr><td>'K' 64-bit long long (no TZEROn)</td><td>-9223372036854775808</td></tr>
+<tr><td>'K' 64-bit signed long long<br>(TZEROn=9223372036854775808)</td><td>9223372036854775807</td></tr>
+<tr><td>Integer storage with TSCALn/TZEROn scaling</td><td>Lowest integer value</td></tr>
+</tbody>
+</table>
+</ul>
+
+<p>
+For values stored as integers, ftmeld will typically choose the lowest possible integer
+value as the null value, except when "unsigned" integer types are used, in which case
+it uses the highest possible integer value.  Please note that the null values listed are
+the raw null value as stored on disk, before any TSCALn/TZEROn scalings are performed.
+
+<p>
+If you are confused by these heuristics, you are best off to use the 'nullvalues'
+parameter to explicitly designate null values for all columns of interest.
+
+<h3>Using the First File as a Template / How Keywords are Assigned</h3>
+<p>
+The initial file structure, including FITS keywords, is taken from the first
+listed tables in the 'infile' parameter.  This includes all table-level
+metadata keyword columns as well as HISTORY and COMMENT keywords.
+<p>
+FITS tables typically have descriptors for every column, such as TUNITn, 
+which provide additional data about the column. ftmeld will copy metadata
+for the column from the first listed file in the infile list in which
+the column appears.  
+<p>
+Since the above scheme can create ambiguity in how a FITS file is structured,
+you may wish to enforce some more structure.  The best way to do this is to
+use as the first input file a template file, which contains all desired 
+columns, with desired keywords, in their desired order.  The table itself
+can be empty (no rows), but the template will establish the data types, ordering
+and metdata keywords for the output file.  In addition to chosing a first template
+file, users may wish to select colmode='FIRST' as described below.
+
+<p>
+Like ftmerge, ftmeld also has a 'lastkey' parameter.  You may list keywords to
+be taken from the last listed input file and copied to the output file.  This is
+most useful for time-related keywords (and as long as the input file list is
+sorted in time order) such as TSTOP and DATE-END.
+
+<h3>Determining Which Columns Are Copied</h3>
+<p>
+The 'colmode' and 'columns' parameters determine which columns survive
+to the output file.
+<p>
+Use 'columns' to list which columns are desired to be included, or
+excluded.  The inclusion list is a comma-separated list of column
+names that will definitely be copied from each input file and others
+will be excluded.  The exclusion list is a comma-separated list of
+column names, preceded by a '-' character, each of which will not be
+copied.  You may either specify an inclusion list or exclusion list,
+but not both.
+<p>
+Another selection method is the 'colmode' parameter.  Here is how
+colmode changes the behavior of the task:
+<ul>
+<li>colmode='UNION' (default); all columns of all input files survive
+to the output file.  Input files that do not have a column will have that
+column filled by null values.
+<li>colmode='INTERSECTION'; only the columns that appear in all files survive
+to the output file.
+<li>colmode='FIRST'; only the columns that appear in the first file survive
+to the output file.  When using a first "template" file as described above,
+this is the preferred mode.
+</ul>
+<p>
+Because of the way the task works internally, the task only scans each
+input file once.  Therefore, it cannot know if columns are to be added
+or removed until it reaches a file which forces that decision.  This
+may have efficiency implications.  For example, when ftmeld'ing a long
+list of large files with colmode='UNION', and the last file has many
+additional columns, then the task will need to insert each of these
+columns in-place, resulting in a large amount of disk I/O.  The same
+reasoning would apply if many columns were to be deleted.  For this 
+reason, users may consider the technique of using a "template"
+file as the first file and colmode='FIRST'.
+
+<h3>Other Options for Combining Tables</h3>
+<p>
+Beyond ftmerge and ftmeld, there are other similar table-combining tasks to consider.  
+The tasks
+<a href="ftpaste.html">>ftpaste</a> and
+<a href="ftjoin.html">ftjoin</a>
+can combine two tables in a column-wise
+fashion, i.e. appending columns instead of rows.
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+
+<dd>List of filenames, and optional extension names or numbers, of the
+input tables to be merged.  This may be a comma-delimited list of
+names, or the name of a text file containing a list of file names, one
+per line, preceded by an '@' character.  If an explicit extension is
+not specified after each file name then the first 'interesting' table
+in the file that is not a GTI (good time interval) table will be merged
+into the output table.  Each table may be further filtered using the
+CFITSIO virtual file syntax enclosed in square brackets as shown in
+some of the examples.
+<p>
+
+<dt>outfile [filename]
+
+<dd>Output file name.   Precede it with an exclamation point, !, (or \!
+on the Unix command line), to overwrite a preexisting file with the
+same name (or set the clobber parameter to YES).
+<p>
+
+<dt>(columns = '*') [string]
+
+<dd>Optional list of columns to be merged (or excluded from the merge).
+This may be a comma-delimited list of columns, or the name of a text file
+containing a list of columns, one per line, preceded by an '@' character.
+The names of columns to be excluded should be preceded by a minus sign.  By
+default all the columns in the input tables will be merged. 
+Wildcards ('*' to match any string and '?' to match a
+single character) may be used in the list of column names.
+<p>
+
+<dt>(lastkey = ' ') [string]
+
+<dd>Optional list of keywords in the last input file to be updated or added
+to the output file.  This may be a comma-delimited list of keywords, or the
+name of a text file containing a list of keywords, one per line, preceded by
+an '@' character.  If the specified key exists, its value will be updated;
+if not, a new keyword will be written.
+<p>
+
+<dt>(minkey = ' ') [string]
+
+<dd>Optional list of keywords whose "minimum" value will be set in the
+output, based on all input files.  This may be a comma-delimited list
+of keywords, or the name of a text file containing a list of keywords,
+one per line, preceded by an '@' character.  If a given keyword is not
+present in a file, it is skipped without error.  Based upon the first
+file where the keyword is encountered, its data type is determined
+once only, and the appropriate comparison is used for determining the
+minimum value for subsequent comparisons.  If a given keyword is not found 
+in any of the inputs, the keyword is not changed in the output file.
+<p>
+
+<dt>(minkey = ' ') [string]
+
+<dd>Optional list of keywords whose "maximum" value will be set in the
+output, based on all input files.  This may be a comma-delimited list
+of keywords, or the name of a text file containing a list of keywords,
+one per line, preceded by an '@' character.  If a given keyword is not
+present in a file, it is skipped without error.  Based upon the first
+file where the keyword is encountered, its data type is determined
+once only, and the appropriate comparison is used for determining the
+maximum value for subsequent comparisons.  If a given keyword is not found 
+in any of the inputs, the keyword is not changed in the output file.
+<p>
+
+<dt>(copyall = YES) [boolean]
+
+<dd>If copyall = YES (the default) then all other HDUs in the input file
+will also be copied, without modification, to the output file.  If
+copyall = NO, then only the single HDU specified by infile will be
+copied to the output file.  Note that if an explicit extension name
+or number is not specified in the infile name, and if copyall = NO,
+then the first 'interesting' HDU in the input file will be copied
+(i.e., the first image HDU that has a positive NAXIS value, or the
+first table that is not a GTI (good time interval) extension).
+<p>
+
+<dt>(skipbadfiles = NO) [boolean]
+
+<dd>If this parameter is set to "YES", then any FITS tables in the
+input list that cannot be opened will be ignored, and processing
+will continue with the next file in the list.  If set to the default
+value of "NO", then ftmeld will instead exit with an error condition
+at that point.
+<p>
+
+<dt>(colmode="UNION") [string]
+
+<dd>Column selection mode, as described above.
+<p>
+
+<dt>(nullvalues = "NONE") [string]
+
+<dd>A comma-separated list of null value assignment
+patterns, as described above.
+<p>
+
+<dt>(errdegrade=YES) [boolean]
+
+<dd>Determine behavior of task in case when
+numerical quality of input would be degraded when
+transferred to the output.  If errdegrade=YES, a
+fatal error is issued for that file.  If errdegrade=NO,
+the degradation is permitted and the task 
+continues to operate.
+<p>
+
+<dt>(maxrowsize=0) [integer]
+
+<dd>An optimization parameter to set the maximum row size
+for transfers. The default of 0 will cause the task to
+query CFITSIO for an optimal size.  It is not recommended
+to change the default value.
+<p>
+
+<dt>(clobber = NO) [boolean]
+
+<dd>If the output file already exists, then setting "clobber = yes"
+will cause it to be overwritten.
+<p>
+
+<dt>(chatter = 1) [integer, 0 - 5]
+
+<dd>Controls the amount of informative text written to standard output.
+Setting chatter = 5 will produce detailed diagnostic output, otherwise
+this task normally does not write any output.
+<p>
+
+<dt>(history = NO) [boolean]
+
+<dd>If history = YES, then a set of HISTORY keywords will be written to the
+header of the output table to record the value of all the ftmeld task
+parameters that were used to produce the output file.
+
+</dl>
+<h2>EXAMPLES</h2>
+
+Please see <a href="ftmerge.html">ftmerge</a> for examples.
+
+<h2>SEE ALSO</h2>
+
+<a href="ftmerge.html">ftmerge</a>,
+<a href="ftcopy.html">ftcopy</a>,
+<a href="ftpaste.html">ftpaste</a>,
+<a href="ftjoin.html">ftjoin</a>,
+<a href="ftappend.html">ftappend</a>,
+<a href="filenames.html">filenames</a>,
+<a href="colfilter.html">colfilter</a>,
+<a href="rowfilter.html">rowfilter</a>
+
+<h2>LAST MODIFIED</h2>
+
+Aug 2020
+</body>
+</html>

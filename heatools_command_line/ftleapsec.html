@@ -1,0 +1,208 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>ftleapsec HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+ftleapsec - calculate number of leap seconds at requested epoch
+
+<h2>USAGE</h2>
+
+<tt>ftleapsec timeref offset</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+The ftleapsec task computes the number of seconds at a requested
+epoch.  One can optionally add a number of elapsed seconds since the
+epoch.
+
+<p>
+There are three probable use cases for ftleapsec.
+
+<p>
+<b>CASE 1: Calendar Date.</b> One use case is to calculate the number of leap seconds at a given
+UTC calendar date.  In this case, use
+<pre>
+  ftleapsec YYYY-MM-DDThh:mm:ss 0 relative=NO
+</pre>
+where YYYY-MM-DDThh:mm:ss is the UTC epoch of interest.  The 0 indicates
+no offset from the specified calendar date.  The hours minutes and seconds
+are optional.  The returned value is number of leap seconds since the
+start of atomic timekeeping.
+
+<p>
+<b>CASE 2: Mission Elapsed Time.</b> Another use case is to calculate the number of leap seconds at a given
+mission elapsed time (MET).  Typically X-ray astronomy missions have
+time systems that begin at a fixed UTC epoch, and then count number of
+seconds from that epoch.  In this case use
+<pre>
+  ftleapsec YYYY-MM-DDThh:mm:ss MET
+</pre>
+where YYYY-MM-DDThh:mm:ss is the mission epoch and MET is the mission
+elapsed time in seconds.  The returned value is the number of leap seconds
+since the specified mission epoch.  Use relative=NO if the total number
+of leap seconds is desired.
+
+<p>
+<b>CASE 3: Unix / POSIX Time.</b> The final use case is to calculate the number of leap seconds at a given
+Unix timestamp.  Unix times are seconds elapsed since 1970-01-01 (UTC).
+However, the rules for leap seconds are applied somewhat differently under
+the Unix POSIX rules.  To calculate correctly, use the following
+<pre>
+  ftleapsec 1970-01-01 unix_time offsetrule=POSIX
+</pre>
+where unix_time is the Unix timestamp in seconds.  The returned value is
+the number of leap seconds since 1970-01-01 (UTC).
+
+<h3>OUTPUT OPTIONS</h3>
+
+<p>
+ftleapsec has several output options, which are controled by the
+relative and chatter parameters.
+
+<p>
+If relative=NO then the task will report the total number of leap
+seconds since the start of atomic timekeeping. This is a cumulative
+number that accumulates over time.  If relative=YES, then the task
+will report the number of leap seconds that have elapsed since the
+requested calendar epoch.  By definition if offset=0, then the number
+of reported relative leap seconds is zero.
+
+<p>
+The chatter parameter governs how verbose the output is.  Script and program
+writers should use chatter=1.  In this mode, a single integer number is printed
+to standard output, which is the requested number of leap seconds, either
+relative or absolute.
+
+<p>
+However, if chatter=3, a more verbose report is printed.  This is 
+a handy diagnostic report for human inspection, but not so helpful for scripting.
+Here is an example.
+<pre>
+$ ftleapsec 2014-01-01 135478925 chatter=3
+ Reference date: 2014-01-01T00:00:00
+           Date: 2018-04-18T01:02:03
+   Leap seconds: 37 (since start of atomic timekeeping)
+   Leap seconds: 2 (since reference epoch)
+</pre>
+Note that in this mode, the task prints both the total number of leap
+seconds since atomic time keeping, as well as the relative number of 
+leap seconds since the 2014-01-01 epoch.  
+
+<h3>INPUT LEAP SECOND DATA</h3>
+
+<p>
+By default ftleapsec uses the leap second file distributed within
+HEASoft, which can be found in $LHEA_DATA/leapsec.fits.
+
+<p>
+However, the user can specify a different input file using the
+leapfile parameter.
+
+<h3>POSIX LEAP SECOND RULES</h3>
+
+<p>
+Unix (a.k.a. POSIX) has odd rules for leap seconds.  In a sense, leap
+seconds are ignored.  Every UTC midnight is treated as occurring at an
+integer multiple of 86400 seconds starting from 1970-01-01T00:00:00
+(UTC).  In reality this is not true because leap seconds create
+discontinuities when they are inserted.  However, POSIX rules "ignore"
+this oddity.
+
+<p>
+When the user desires to compute number of leap seconds using
+Unix/POSIX rules, the offsetrule=POSIX should be used.
+
+<h3>ACCURACY</h3>
+
+<p>
+The task is designed to report leap seconds accurately for input
+epochs within one second of leap second rollover.  Fractional input
+seconds are not supported.
+
+<p>
+In order to handle the case of input time near a leap second epoch,
+the task iteratively computes the number of leap seconds, in order to
+achieve the required accuracy.
+
+
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>timeref="2000-01-01" [string]</dt>
+<dd>
+Reference epoch specified as either YYYY-MM-DD, YYYY-MM-DDThh:mm
+or YYYY-MM-DDThh:mm:ss.  All times as UTC calendar dates.
+</dd>
+
+<dt>offset=0 [real]</dt>
+<dd>
+Offset from the reference epoch, in seconds.
+</dd>
+
+<dt>(offsetrule="MET") [string]</dt>
+<dd>
+Rule for computing time offsets when offset &gt; 0.  Either "MET"
+or "POSIX".
+</dd>
+
+<dt>(leapfile="FTOOLS") [string]</dt>
+<dd>
+Leap second file to use, or "FTOOLS".  If "FTOOLS" is specified,
+then the standard HEASoft reference leap second table is used.
+</dd>
+
+<dt>(relative=YES) [boolean]</dt>
+<dd>
+When chatter=1, the output is either relative number of leap seconds
+since epoch (relative=YES), or total number of leap seconds (relative=NO).
+</dd>
+
+
+<dt>(clobber = NO) [boolean]
+
+<dd>If the output file already exists, then setting "clobber = yes" will cause it to be overwritten.
+<p>
+
+<dt>(chatter = 1) [integer, 0 - 5]
+
+<dd>Amount of verbosity of the task.  For chatter=0, no output is
+printed.  For chatter=1, a single integer number of leap seconds is
+reported.  For chatter=3, a brief human-readable report is produced.
+For chatter=5, debugging output is
+printed.
+<p>
+
+<dt>(history = YES) [boolean]
+
+<dd>If history = YES, then a set of HISTORY keywords will be written to
+the header of the specified HDU in the output file to record the value
+of all the task parameters that were used to produce the output
+file.
+
+</dl>
+<h2>EXAMPLES</h2>
+
+<p>
+See above.
+
+<h2>SEE ALSO</h2>
+<p>
+<a href="sec2time.html">sec2time</a>,
+<a href="time2sec.html">time2sec</a>,
+<a href="barycorr.html">barycorr</a>
+
+</body>
+</html>

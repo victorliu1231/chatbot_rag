@@ -1,0 +1,259 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>ftmgtime HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+ftmgtime - merge two or more GTI FITS files
+
+<h2>USAGE</h2>
+
+<tt>ftmgtime ingtis outgti {AND,OR}</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+This task merges any number of input Good Time Interval (GTI) files, using
+either of two modes:
+<ul>
+<li>AND - output GTI file contains time intervals common to both files (also known as the intersection set)
+<li>OR  - output GTI file combines time intervals from both files (also known as the union set).
+</ul>
+<p>
+The input files are combined as specified, and the resulting GTI is
+written to a standard output FITS file.  This task is used for
+combining GTIs useful for screening by time.  As described below,
+ftmgtime is similar to, but different than, the original task mgtime.
+ftmgtime is designed to have improved behavior for special cases that
+might appear in automated batch processing.
+
+<h2>COMPARISON TO MGTIME TASK</h2>
+<p>
+This task is similar to the 'mgtime' task, which also merges GTI
+files, but is "better" in a number of ways.  Better also means
+different, which means that some care must be taken before simply
+substituting ftmgtime in place of mgtime.  However, some effort has
+been made to make the calling syntax compatible with mgtime to ease
+the transition.  ftmgtime handles special cases in a more systematic
+way which allows it to be used in automated batch processing with less
+special case wrapper code.  The original task 'mgtime' is not
+obsolete; it can still be used as it always has been used.
+
+<p>
+Here are the main differences and similarities between mgtime and ftmgtime.
+
+<p>
+Most importantly perhaps, the treatment of "empty" GTIs is different
+between mgtime, and ftmgtime.  See below for more information.
+
+<p>
+The command line parameters of mgtime can be used with ftmgtime as
+well (although some are ignored).
+
+<p>
+The underlying engines for both tasks are different code-bases that
+have a common history.
+
+<p>
+There is no limit to the number of input GTIs allowed by ftmgtime,
+while mgtime has an upper limit of 400 inputs.  You should use the
+@filename.lis notation to list large numbers of files reliably.  
+
+<p>
+It is also possible to specify only one single input file, and
+ftmgtime will process it.  A single input file is equivalent to the
+"identity" operation, and the single input is copied to the output.
+This allows the user to enter any number of GTI files (one or more)
+and reliably merge them without needing special case code (versus
+mgtime which requires at least two inputs).
+<p>
+The 'indates' and 'intimes' keyword parameters are allowed for command
+line compatibility with mgtime, but are ignored.  ftmgtime uses the
+first input file as the source of most timing related keywords.  The
+mjdref keyword parameter can be used to select a desired value of the
+MJDREF FITS keyword.
+
+<p>
+The output file will have the MJDREFI and MJDREFF keywords for maximum
+time precision.  Any existing MJDREF keywords (without the "I" or "F")
+will be removed so that MJDREFI/F are the only keywords present in the
+output.
+
+
+<h2>TREATMENT OF EMPTY GTIs</h2>
+<p>
+As mentioned above, the treatment of "empty" GTIs is different between
+the two tasks.  Here, "empty" GTIs are GTI extensions with no rows.
+In the past, the treatment of these files is ambiguous as some tasks
+interpret this as meaning all times are <i>good</i>, and others
+interpreting as all times are <i>bad</i>.  This ambiguous treatment
+has lead to numerous bugs, errors and special cases in HEASoft software.
+
+<p>
+ftmgtime has two ways to treat empty GTIs.  
+
+<p>
+If the keyword parameter emptygti=APPLY, which is the default, then
+empty input GTIs are considered as all times are bad.  This setting will
+produce the most reliable results for batch processing.  WARNING: this
+default behavior is different than the default behavior of mgtime, so
+users should take care for what they intend before using this setting.
+
+<p>
+If the keyword parameter emptygti=IGNORE, the behavior is similar to
+mgtime.  Any input files which are empty are simply ignored (passed
+over) and do not enter into the GTI computation.  This is mostly
+equivalent to treating an empty GTI as all times are "good."  WARNING:
+this can lead to unexpected results.
+
+<p>
+There is also the question of what happens if a resulting GTI is
+empty.  This would occur if the inputs are empty and emptygti=APPLY,
+or if an AND operation results in no intersecting good times.  In
+those cases, the output GTI will have a single tabular row, which has
+no good time.  (i.e. the row as START=STOP.) This will indicate to
+downstream software the true intention of an empty GTI and avoid the
+ambiguity of a truly empty GTI table.  This output occurs regardless
+of the emptygti parameter setting.
+
+<h2>TREATMENT OF GTIs FROM DIFFERENT SOURCES (MJDREF and TIMEZERO)</h2>
+<p>
+GTIs may come from different sources with different reference times.
+The reference times are captured in the standard MJDREF and TIMEZERO
+keywords.  Sources wih different references should have different
+values of the keywords.
+<p>
+ftmgtime will automatically apply a shift to put input times on a
+common time scale using each of the MJDREF and TIMEZERO keywords.  The
+output reference time is specified using the mjdref keyword parameter.
+If the mjdref parameter is set to 0, then the MJDREF keywords of the
+first input file are used to set the reference time for calculations.
+<p>
+To disable this time shifting operation, set indates="-" (which is how the original
+task mgtime also worked.)
+<p>
+In the case that some GTIs have MJDREF and some do not, the task will
+apply a hueristic and search for the first input file that has a valid
+MJDREF and use that for files with missing MJDREF keywords.  This
+checking goes in order that the input files are specified, so it is
+order dependent.  For that reason, when combining GTIs from different
+sources, there may be undefined behavior. It is strongly advised that
+all GTIs have valid time keywords.
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>ingtis [filename]
+
+<dd>
+The file names and extensions for input GTI FITS files to be merged.
+Optionally the list of file names can be placed in an ASCII file, one
+name per line, and then the name of the file, proceeded by an "@"
+character may be given to the "ingtis" parameter. </dd> 
+
+<dt>outgti [filename]
+
+<dd>
+The file name for merged output GTI FITS file.  The output file has a
+null primary extension, and a single GTI table extension with
+EXTNAME=STDGTI.
+</dd>
+
+<dt>merge [string]
+<dd>
+The type of merge operation to perform, either AND or OR, as described above.
+</dd>
+
+<dt>(instarts="START") [string]
+<dd>
+The name of the columns for start times in the input files.  Either specify
+one name that applies to all files, or a comma-separated list of names, one 
+for each input.
+</dd>
+<dt>(instops="STOP") [string]
+<dd>
+The name of the columns for stop times in the input files.  Either specify
+one name that applies to all files, or a comma-separated list of names, one 
+for each input.
+</dd>
+<dt>(outstart="START") [string]
+<dd>
+The name of the column for start times in the output file.
+</dd>
+<dt>(outstop="STOP") [string]
+<dd>
+The name of the column for stop times in the output file.
+</dd>
+
+<dt>(mjdref=0) [real]
+<dd>
+The value of MJDREF to use for the output GTI.  Input files will be shifted to
+this reference time base before processing.  The output file will have keywords
+named MJDREFI and MJDREFF to contain the integer and fractional parts of the 
+MJDREF value.  If MJDREF=0 (which is the default), then the MJDREF values are
+taken from the first input file.
+</dd>
+
+<dt>(indates="MJDREF") [string]
+<dd>
+Names of keywords for reference date of the times in the input files.
+This is <b>normally ignored</b> by ftmgtime, unless indates="-".
+When indates="-" or indates=" ", you indicate that the reference
+date information should be ignored.
+</dd>
+<dt>(intimes=" ") [string]
+<dd>
+Originally used by mgtime, but ignored by ftmgtime.  See the mjdref parameter.
+</dd>
+
+<dt>(clobber = NO) [boolean]
+<dd>
+If the output file already exists, then setting "clobber = yes" will cause it to be overwritten.
+</dd>
+
+<dt>(chatter = 1) [integer, 0 - 5]
+<dd>
+Controls the amount of informative text written to standard output.
+Setting chatter = 4 or higher will produce detailed diagnostic output; 
+chatter = 1 prints out a basic diagnostic message.  The default is to 
+produce a brief summary on output.
+</dd>
+
+<dt>(history = YES) [boolean]
+<dd>
+If history = YES, then a set of HISTORY keywords will be written to
+the header of the specified HDU in the output file to record the value
+of all the ftmgtime task parameters that were used to produce the output
+file.
+</dd>
+
+</dl>
+<h2>EXAMPLES</h2>
+
+<p>
+This is a typical invocation:
+<pre>
+ftmgtime file1.gti,file2.gti output.gti AND clobber=YES emptygti=APPLY
+</pre>
+The two files are combined using "AND" logic (i.e. intersection) and
+the result is written to output.gti.
+
+
+<h2>SEE ALSO</h2>
+<p><a href="mgtime.html">mgtime</a>, <a href="maketime.html">maketime</a></p>
+
+<h2>LAST MODIFIED</h2>
+
+Jul 2017
+</body>
+</html>

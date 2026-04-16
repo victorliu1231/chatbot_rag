@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file for burstt90t50</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+burstt90t50 - Calculate the T90 and T50 intervals and write results to GTI output file.
+ 
+<h2>USAGE</h2>
+
+<tt>
+burstt90t50 lcfile gtifile outfile
+</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+  Read a lightcurve and GTI which defines burst intervals. Calculate the 90% and 50%
+  total accumulated rate intervals (T90 and T50) within the burst. The input
+  lightcurve needs columns defining time and rate (or counts) set by parameters
+  <i>tcol</i> and <i>rcol</i> respectively. If the input parameter <i>gtifile</i>
+  does not specific which extension contains the GTI, it is assumed to be in the
+  4th extension (as is expected for burstfinder-type GTI files): the parameter
+  must explicitly specify the extension if this is not desired.</p>
+
+<p>
+The task computes the cumulative total intensity at each binned interval, and estimates
+the T90 and T50 times by finding those intervals where the 5% and 95% total (for T90) and
+25% and 75% (for T50) occur and interpolating within those intervals. In computing the
+cumulative total, only positive values are considered, unless <i>usenegative</i> is set to
+'yes'.
+
+<p>
+  The resulting intervals are written to an output GTI with two extensions, one for each
+of T90 and T50.  In the special case of a burstfinder-type input <i>gtifile</i>,
+T90 is written to the first extension and T50 to the second, filling in these extensions
+with the values found.</p>
+
+
+
+<h2>PARAMETERS</h2>
+
+<dl>
+  <dt>lcfile [filename]</dt>
+  <dd>The input lightcurve file.</dd>      
+<p>  
+
+<dt>gtifile [filename]</dt>
+<dd>The input GTI file. If no extension is specified, and <i>gtifile</i> is a
+  burstfinder-type file with six extensions, the total interval is read from the 4th extension
+  automatically; otherwise it reads the first extension.</dd>
+<p>
+
+<dt>outfile [filename]</dt>
+<dd>The output GTI file. If set to NONE or left blank, the new GTI information will
+  overwrite the input GTI file (This requires <i>clobber</i> to be 'yes').
+  If the input <i>gtifile</i> is a burstfinder-type file (6 extensions with total interval
+  in the 4th), <i>outfile</i> will contain T90 in the first extension, T50 in the second,
+  and all other extensions will be copied from the input <i>gtifile</i>. Otherwise
+  <i>outfile</i> will contain two extension with T90 and T50 respectively.</dd>
+<p>
+
+<dt>(rcol = "RATE") [string]</dt>
+<dd>Column in the input lightcurve containing count or rate information.
+ Default is "RATE".</dd>
+<p>
+
+<dt>(tcol = "TIME") [string]</dt>
+<dd>Column in the input lightcurve containing time information.
+  Default is "TIME".</dd>
+<p>
+
+<dt>(usenegative = no) [boolean]</dt>
+<dd>When computing T90 and T50 intervals, whether to include negative values in computing
+  accumulated totals. Default is "no".</dd>
+<p>
+
+<dt>(uselast = no) [boolean]</dt>
+<dd>If including negative values in computing accumulated totals, it is possible to cross
+  a T90 or T50 threshold more than once. If more than one starting time solution is found,
+  the earliest (first) is always considered. If 'uselast' is set to "yes", define the
+  interval end by the latest of all possible intervals. if set to "no" (default), use
+  the earliest.  Ignored if 'usenegative' is "no".
+<p>
+
+<dt>(cleanup = yes) [boolean]</dt>
+<dd>Remove all temporary files on completion if set to yes (default). Not used in this tool.</dd>
+<p>
+
+<dt>(clobber = no) [boolean]</dt>
+<dd>Overwrites pre-existing output files if set to yes. Default is no.</dd>
+<p>
+
+<dt>(chatter = 1) [integer, 0 - 3]</dt>
+<dd> Chatter level for output. Set to 0 to suppress output, or to 1 (default),
+          2, or 3 for increasing the chatter of the output. </dd>
+<p>
+
+<dt>(debug = no) [boolean]</dt>
+<dd> Diagnostic output is printed out on the screen if set to yes
+     (yes/[no]). </dd>
+<p>
+
+<dt>(logfile = !DEFAULT) [string]</dt>
+<dd>
+  Log filename. If set to DEFAULT, uses the name of the task (i.e. burstt90t50.log)
+  and, if preceded by "!" clobber any pre-existing log file. If set to
+  NONE, no log file is created. Default is "!DEFAULT"</dd>
+<p>
+
+<dt>(history = yes) [boolean]</dt>
+<dd>If set to yes, record the task parameters run in the header of the output file in the
+  HISTORY keywords. Not enabled in this current version.</dd>
+
+<p>
+<dt>(mode = ql) [string ql|hl|q|h]</dt>
+<dd>Mode to query the parameter file. Acceptable values include: "ql" (query and learn/remember), 
+"hl" (hidden and learn/remember), "q" (query but don't remember), "h" (hidden). </dd>
+<p>
+</dl>
+
+
+<h2>EXAMPLES</h2>
+
+<p>
+<ol>
+<li>
+  Define the T90 and T50 intervals for a burst in the
+  lightcurve "cgbm_sgm_1h_user.lc", and the total burst interval
+  contained in the GTI file "cgbm_sgm_1h_dur.gti", which has
+  six extensions, with the total burst interval defined by the 4th extension.
+  Read the column TIME for time and RATE for rates in the input lightcurve.
+  Replace the first and second extensions of "cgbm_sgm_1h_dur.gti"
+  with the computed T90 and T50 intervals respectively. Consider only the positive
+  values in the column RATE (default) when computing intervals.
+</p>
+
+<pre>
+burstt90t50 lcfile=cgbm_sgm_1h_user.lc gtifile=cgbm_sgm_1h_dur.gti outfile=NONE rcol=RATE tcol=TIME clobber=yes
+</pre>
+</li>
+
+<p>
+<ol>
+<li>
+  Define the T90 and T50 intervals for a burst in the
+  lightcurve "cgbm_sgm_025h_user.lc", and the total burst interval
+  contained in the GTI file "cgbm_sgm_025h_dur.gti" using the GTI
+  found in the 4th extension.  
+  Read the column TIME for time and RATE for rates in the input lightcurve. Include
+  all values in the interval for RATE, including negative values, when computing
+  the running total to define T90 and T50. If more than one solution for the end
+  of T90 and T50 is found, use the earliest solution (shortest interval; default).
+  Replace the first and second extensions of "cgbm_sgm_025h_dur.gti"
+  with the computed T90 and T50 intervals respectively. 
+</p>
+
+<pre>
+burstt90t50 lcfile=cgbm_sgm_025h_user.lc gtifile=cgbm_sgm_025h_dur.gti+4 outfile=NONE rcol=RATE tcol=TIME clobber=yes usenegative=yes
+</pre>
+</li>
+
+<li>
+  Define the T90 and T50 intervals using the columns TIME and RATE in the first extension
+  of "example.lc" and the total burst interval defined by the first extension
+  of "example_burst.gti". Write the T90 and T50 GTIs to a new file "example_t90t50.gti".
+</p>
+
+<pre>
+burstt90t50 lcfile=example.lc+1 gtifile=example_burst.gti+1 outfile=example_t90t50.gti rcol=RATE tcol=TIME  clobber=no
+</pre>
+</li>
+</ol>
+
+
+<h2>SEE ALSO</h2>
+burstfinder - Find the total burst interval in a lightcurve<br>
+cgbm_bstgti - Find the total burst interval in an event file
+<p>
+
+<h2>LAST MODIFIED</h2>
+
+July 2025 (burstt90t50 v0.7b)
+</body>
+</html>

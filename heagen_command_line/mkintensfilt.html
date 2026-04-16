@@ -1,0 +1,87 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>mkintensfilt HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+mkintensfilt - Makes a GTI containing times when the RATE in the input
+light curve file lies within the requested range.
+
+<h2>USAGE</h2>
+
+<tt>mkintensfilt infile rateselection outfile clobber</tt>
+
+<h2>DESCRIPTION</h2>
+
+This tool reads a FITS light curve from infile and writes a FITS GTI
+to outfile. The GTI specifies the times for which the RATE column in
+the light curve file lies within the range(s) requested in the
+rateselection parameter.
+
+Hidden parameters are available to change the names of the extensions
+containing the rate and gti data and the columns containing the time
+and rate data in the input file.
+<p>
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+
+<dd>The name of the input light curve file.
+<p>
+
+<dt>rateselection [string]
+
+<dd>The rate ranges to be selected. Low and high levels for a range
+   should be separated by a dash and separate ranges by a
+   comma. e.g. "0.0-0.5,1.0-1.5". If there are multiple ranges then
+   the parameter value must be enclosed by double quotes.
+  
+<dt>outfile [filename]
+
+<dd>The name of the output file. This will contain an extension with HDUNAME="GTI".
+
+<dt>rateExtension [string]
+
+<dd>The name of the extension with rate data in the input file.
+
+<dt>timeColumn [string]
+
+<dd>The name of the column with time data in the input file.
+
+<dt>rateColumn [string]
+
+<dd>The name of the column with rate data in the input file.
+
+<dt>gtiExtension [string]
+
+<dd>The name of the extension with gti data in the input file.
+
+<dt>clobber [bool]
+
+<dd>If clobber = yes then overwrite the output file if a file of this
+name already exists.
+
+</dl>
+<h2>EXAMPLES</h2>
+<p>
+<h2>SEE ALSO</h2>
+
+<p>
+
+<h2>LAST MODIFIED</h2>
+
+Jun 2022
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>ftmergesort HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+ftmergesort - Sort the rows in a very large FITS table
+
+<h2>USAGE</h2>
+
+<tt>ftmergesort infile[ext][filters] outfile columns</tt>
+
+
+<h2>DESCRIPTION</h2>
+
+<p>
+ftmergesort is designed to perform sorting operations upon very large files.
+Such inputs are larger than can be stored in computer memory at one time,
+or will exceed swap.  For smaller input files, use the task ftsort.
+
+<p>
+This task ftmergesort creates a sorted copy of the input table
+in which the rows are sorted in ascending or descending order based on
+the values in a specified column or set of columns in the table.  If
+more than one column is specified then the rows that have the same
+value in the first column are sorted in order of the value in the
+second column, and so on for any further specified columns.  Precede
+the column name with a minus sign to sort in descending order.
+
+<p>
+Internally, ftmergesort functions by creating a series of intermediate
+partial output files which are sorted.  These intermediate files are
+then sorted together using mergesort.  The sorting algorithms used by
+ftsort (heap, shell, insert) are available for the intermediate stage,
+but mergesort is always used for the merging phase.
+
+<p>
+ftmergesort may use a significant amount of temporary disk space.
+Users should be prepared for double the amount of the original file
+size.  ftmergesort uses a heuristic to determine how many intermediate
+files to create.  If only one file is needed, then operation is
+equivalent to ftsort.
+
+<h2>WARNINGS</h2>
+<p>
+Using any CFITSIO on-the-fly expressions will prevent the task
+from functioning as expected.  These include: specifying a compressed
+file; using a colfilter calculator expression; using a rowfilter
+selection expression.  
+
+<p>
+The input file should be an uncompressed file,
+and any filtering or column operations must have already been applied.
+
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+
+<dd>Input file name and optional extension name or number enclosed in
+square brackets of the table to be sorted (e.g., 'file.fits[events]').
+If an explicit extension is not specified, then the first
+'interesting' table in the input file will be sorted, i.e., the first
+table extension that is not a GTI (Good Time Interval) extension.
+Additional table filters (such as row or column filters) should NOT be
+appended to the file name, as noted above.
+<p>
+
+<dt>outfile [filename]
+
+<dd>Output file name for the sorted file.  Precede it with an
+exclamation point, !, (or \!  on the Unix command line), to overwrite a
+preexisting file with the same name (or set the clobber parameter to
+YES).
+<p>
+
+<dt>columns [string list]
+
+<dd>A comma separated list of the column names (or numbers) on which to
+sort the table.  To sort in reverse order (from largest to smallest)
+put a minus sign in front of the column name.  If more than one column
+is specified then the rows that have the same value in the first column
+are sorted in order of the value in the second column, and so on for
+any further specified columns.
+<p>
+
+<dt>(method = "heap") [string] 
+<dd>Sorting algorithm to be used for intermediate sorting.  The final
+sort will always be mergesort.  Supported algorithms are the "heap"
+(NlogN), "shell" (N**1.5) and "insert" (N**2) sort.  The shell sort
+gives better performance with midsize data sets.  The heap sort gives
+the best speed when dealing with large random datasets. The insertion
+sort works best when the dataset is very nearly sorted, i.e., one
+value out of place.
+<p>
+
+<dt>(memory = YES) [boolean]
+<dd>Ignored for ftmergesort, but present for drop-in compatibility
+with ftsort.  The partial sorts are done with memory=YES always.
+<p>
+
+<dt>(unique = NO) [boolean]
+<dd>Flag used to determine if rows with 
+identical sort keys should be purged, keeping only one unique row.
+Columns not included in the sort are not tested for uniqueness.
+<p>
+
+<dt>(copyall = YES) [boolean]
+
+<dd>If copyall = YES (the default) then all other HDUs in the input
+file will also be copied, without modification, to the output
+file. If copyall = NO, then only the single table HDU specified
+by infile will be copied to the output file along with the
+required null primary array.
+
+<p>
+
+<dt>(clobber = NO) [boolean]
+
+<dd>If outfile already exists, then setting 'clobber = yes' will
+cause it to be overwritten.
+<p>
+
+<dt>(startrow = 0) [integer]
+<dd>Starting row number to sort, or 0 to use first row.  Rows before
+startrow are not copied to the output.
+</dt>
+
+<dt>(nrows = 0) [integer]
+<dd>Number of rows to sort, or 0 to use all rows from startrow to the
+end of the file.  Rows after startrow+nrows are not copied to the output.
+</dt>
+
+
+
+<dt>(chatter = 1) [integer, 0 - 5]
+
+<dd>Controls the amount of informative text written to standard output.
+Setting chatter = 5 will produce detailed diagnostic output, otherwise
+this task normally does not write any output.
+<p>
+
+<dt>(history = NO) [boolean]
+
+<dd>If history = YES, then a set of HISTORY keywords will be written to the
+header of the sorted HDU to record the value of all the ftsort task
+parameters that were used to produce the output file.
+
+</dl>
+<h2>EXAMPLES</h2>
+
+See <a href="ftsort.html">ftsort</a> for examples. ftmergesort is a drop-in
+replacement for ftsort.
+
+<h2>SEE ALSO</h2>
+
+<a href="ftsort.html">ftsort</a>
+
+<h2>LAST MODIFIED</h2>
+
+Apr 2019
+</body>
+</html>

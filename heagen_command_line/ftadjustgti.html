@@ -1,0 +1,330 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>ftadjustgti HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+ftadjustgti - perform filtering and normalization of good time interval (GTI)
+
+<h2>USAGE</h2>
+
+<tt>ftadjustgti infile outfile [filtering options]</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+This task performs filtering and normalization of a Good Time Interval (GTI)
+file.  A GTI file contains a list of "good times" used for data analysis.  It
+is a list of entries, giving the start and stop time of each interval.
+This task performs various screening and filtering options on a GTI.
+
+<p>
+The situations where ftadjustgti might be used include dealing with
+occasionally noisy data, or to manipulate a GTI in a known way.
+Consider some examples:
+<ul>
+<li>Using 'maketime' on input data which occasionally has a noise
+spike.  This task can merge small gaps caused by noise, or remove
+small GTIs caused by noise.
+<li>Grouping GTIs into bigger groups.  For example, if a GTI might
+select multiple, nearly-contiguous intervals, this task can group these 
+into a single contiguous interval.
+<li>Removing known bad data at beginning or end of an interval.  For
+example if an observatory is known to have "bad" 10 seconds of data at
+the beginning of each pointing GTI entry, this task can be used to
+remove the first 10 seconds of each GTI.
+<li>Taking a GTI from a known source and making sure that it is a valid
+GTI, i.e. in time order, with no overlaps or duplicates.  This task
+will "normalize" a GTI to be sure that it conforms to expected standards.
+</ul>
+
+<p>
+This task accepts as input a single GTI file and creates a single
+output GTI file.  The basic column structure and keywords of the input
+are not changed.  However, if additional columns are present in the
+input, they will be filled with default/null values upon output.  If
+requested (copyall=YES), the other extensions of the input file are copied
+to the output.
+
+<p>
+This task performs the following operations, in order.  All, or some,
+of these operations are selectable.  With the exception of the
+initial GTI normalization, which is always performed, you can opt to
+perform, zero or more of these operations.
+<ul>
+<li>"Normalizes" the input GTI (always performed).
+<li>Performs erode-then-dilate operation if requested (erodedilate option; see below).
+<li>Performs dilate-then-erode operation if requested (dilateerode option; see below).
+<li>Enlarge or shrink start of each GTI entry start time if requested (preenlarge option).
+<li>Enlarge or shrink start of each GTI entry stop time if requested (postenlarge option).
+<li>Remove gaps smaller than maxgap if requested (maxgap option).
+<li>Remove GTI entries smaller than mingti if requested (mingti option).
+<li>Invert the GTI, turning a "GTI" into a "BTI" (invert option)
+</ul>
+<p>
+Performing no operations, which is actually the default, will cause
+ftadjustgti to read the input GTI file, normalize it, and write it to
+the output file.  Any other operations can be enabled by setting that
+option to a non-zero value, as described below.
+
+<p>
+Note that all input times are specified in the same units as the GTI
+file.  For example, if the GTI file start and stop columns are in
+seconds, than all input values for time parameters are in seconds as
+well.  In all the examples below, a time unit of seconds will be
+assumed, although the task will work equally well if all units are
+specified in days, years, etc.
+
+<p>
+All of the above operations are based on simple enlarge and/or shrink
+operations on a GTI. 
+
+<p>
+For example, if preenlarge=10, the start value of each GTI entry is
+enlarged by 10 seconds (subtract 10 seconds from start).  If this
+causes one GTI entry to overlap with its neighbor, then these entries
+will be merged into a single GTI.  This is what gives ftadjustgti its
+true power: the ability to "heal" small gaps.
+
+<p>
+It is also possible to specify preenlarge=-10, which will cause the
+start of each GTI entry to shrink by 10 seconds (add 10 seconds to
+start).
+
+<p>
+A similar logic applies to postenlarge.  If postenlarge=10, the stop
+of each GTI entry will be enlarged by 10 seconds (add 10 seconds to
+stop time); if postenlarge=-10, the stop of each GTI entry will shrink
+by 10 seconds (subtract 10 seconds from stop time).
+
+<p>
+The erode/dilate options are slightly more sophisticated, but provide
+a more powerful way to filter or smooth GTIs in a single pass.  If
+erodedilate is non-zero, then every GTI will shrink (erode) by 10
+seconds on <i>both</i> the start and stop ends (total of 20 seconds),
+and then enlarge (dilate) by 10 seconds on both start and stop.  At
+first, this non-sensical operation seems redundant.  Why shrink and
+then grow GTIs by the same amount?  The answer is that a
+"normalization" operation also occurs in between the erode and dilate
+operations.  Entries that become "empty" are removed.  Thus, this is
+not a completely redundant operation.
+
+<p>
+The erodedilate option will tend to remove small GTIs even if they are
+neighboring large GTIs.  Use this operation if you expect that smaller
+GTIs are always noise.
+
+<p>
+The dilateerode option will tend to combine multiple smaller GTIs into
+a single, larger GTI.  Use this operations if you expect that smaller
+gaps between GTIs are always noise, or if you want to group multiple
+smaller GTIs into a larger encompassing GTI.
+
+<p>
+As the next two steps, ftadjustgti can check for "outlier" GTIs more
+explicitly.  The maxgap option will search for GTI entries that have
+gaps between of less than maxgap; those gaps will be removed to make a
+continuous GTI.  The mingti option is the last check performed: any
+GTI entries smaller than mingti will be removed (note that similar
+results can be achieved by using erodedilate).
+
+<p>
+In the next and final step, ftadjustgti can invert the sense of a GTI.
+This effectively changes the sense of a "GTI" (Good Time Interval)
+into a "BTI" (Bad Time Interval).  Since an inverted GTI can be
+unbounded, the user has the capability to specify an overriding start
+and stop time using the tstart and tstop parameters.  If any of the
+BTI samples are outside the tstart/tstop boundaries, than the sampled
+values are used instead.
+
+
+<h2>TREATMENT OF EMPTY GTIs</h2>
+<p>
+The treatment of "empty" GTIs can be handled in two different ways.
+Here, "empty" GTIs are GTI extensions with no rows.
+
+<p>
+The emptygti parameter governs what happens if no good time intervals
+are selected by maketime.  By default, when no good times are found
+and emptygti=IGNORE, a GTI extension is created with no rows.
+Although this appears to be correct behavior, some downstream software
+tasks may mistakenly misinterpret an "empty" GTI as "all good" rather
+than "all bad."  This is in fact the opposite of desired behavior.  To
+prevent this unreliable behavior, set emptygti=APPLY (in analogy to
+ftmgtime's emptygti=APPLY parameter).  With this setting, a one-row
+GTI is created with no true good time.  This type of output will
+be understood by most downstream software with least ambiguity.
+
+For compatibility with older missions and previous versions of
+maketime, emptygti=IGNORE.  However for more reliable performance,
+emptygti=APPLY should be used for new development.
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+
+<dd>
+The input file name and optional extension.
+</dd>
+
+<dt>outfile [filename]
+
+<dd>
+The output file name for the resulting GTI.
+</dd>
+
+
+<dt>(mingti=0) [real]
+<dd>
+The minimum GTI interval size, in GTI file units.  A default 
+value of 0 indicates to preserve all GTIs, regardless of size.
+</dd>
+
+<dt>(maxgap=0) [real]
+<dd>
+The maximum gap between GTI intervals, in GTI file units.  Two
+intervals with a gap smaller than maxgap are combined into a single
+interval.  A default value of 0 indicates to preserve all gaps,
+regardless of size.
+</dd>
+
+<dt>(preenlarge=0) [real]
+<dd>
+The amount to enlarge (positive value) or shrink (negative value) 
+each GTI entry start time.
+</dd>
+
+<dt>(postenlarge=0) [real]
+<dd>
+The amount to enlarge (positive value) or shrink (negative value) 
+each GTI entry stop time.
+</dd>
+
+<dt>(erodedilate=0) [real]
+<dd>
+The number of seconds to be used for the erode-then-dilate operation
+as described above.  A value of 0 indicates no erode-then-dilate
+operation.
+</dd>
+
+<dt>(dilateerode=0) [real]
+<dd>
+The number of seconds to be used for the dilate-then-erode operation
+as described above.  A value of 0 indicates no dilate-then-erode
+operation.
+</dd>
+
+<dt>(invert=YES) [boolean]
+<dd>
+Invert the sense of the output file as described above
+</dd>
+
+<dt>(tstart=0) [real]
+<dd>
+Overriding tstart value to use when invert=YES.
+</dd>
+
+<dt>(tstop=1.0e308) [real]
+<dd>
+Overriding tstop value to use when invert=YES.
+</dd>
+
+<dt>(start="START") [string]
+<dd>
+The name of the "start" column.
+</dd>
+<dt>(start="STOP") [string]
+<dd>
+The name of the "stop" column.
+</dd>
+
+<dt>(emptygti="APPLY") [string]
+<dd>
+As described above, governs the output behavior of maketime when no
+good times are found.  Either "APPLY" or "IGNORE".
+</dd>
+
+<dt>(copyall=YES) [boolean]
+<dd>
+If YES, then copy all extensions.  If NO, then copy only the GTI
+extension to the output.
+</dd>
+
+
+<dt>(clobber = NO) [boolean]
+<dd>
+If the output file already exists, then setting "clobber = yes" will cause it to be overwritten.
+</dd>
+
+<dt>(chatter = 1) [integer, 0 - 5]
+<dd>
+Controls the amount of informative text written to standard output.
+Setting chatter = 4 or higher will produce detailed diagnostic output; 
+chatter = 1 prints out a basic diagnostic message.  The default is to 
+produce a brief summary on output.
+</dd>
+
+<dt>(history = YES) [boolean]
+<dd>
+If history = YES, then a set of HISTORY keywords will be written to
+the header of the specified HDU in the output file to record the value
+of all the ftadjustgti task parameters that were used to produce the output
+file.
+</dd>
+
+</dl>
+<h2>EXAMPLES</h2>
+
+<p>
+Normalize the input GTI and write to output file.
+<pre>
+ftadjustgti infile.gti outfile.gti
+</pre>
+
+<p>
+Remove GTI entries smaller than 10 seconds.
+<pre>
+ftadjustgti infile.gti outfile.gti mingti=10
+</pre>
+
+<p>
+Remove gaps between GTI entries smaller than 50 seconds
+<pre>
+ftadjustgti infile.gti outfile.gti maxgap=50
+</pre>
+
+<p>
+Perform the dilate-then-erode operation with a value of 60 seconds, which
+will tend to combine GTIs separated by gaps smaller than 60 seconds.
+<pre>
+ftadjustgti infile.gti outfile.gti dilateerode=60
+</pre>
+
+<p>
+Shrink GTIs by 20 seconds at the start
+<pre>
+ftadjustgti infile.gti outfile.gti preenlarge=-20
+</pre>
+
+
+<h2>SEE ALSO</h2>
+<p><a href="ftmgtime.html">ftmgtime</a>, 
+<p><a href="mgtime.html">mgtime</a>
+<a href="maketime.html">maketime</a></p>
+
+<h2>LAST MODIFIED</h2>
+
+Sep 2018
+</body>
+</html>

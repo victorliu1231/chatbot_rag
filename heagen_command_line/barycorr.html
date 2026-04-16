@@ -1,0 +1,308 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>barycorr HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+barycorr  -- Generalized multi-mission barycenter correction tool
+
+<h2>USAGE</h2>
+
+<tt>barycorr infile=&lt;filename&gt; outfile=&lt;filename&gt; orbitfiles=&lt;filename&gt;</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+barycorr is a multi-mission tool for applying barycenter corrections
+to X-ray timing data.  The tool is designed to apply to data from
+RXTE, Swift, Chandra/AXAF, NuSTAR and NICER.  
+
+<p>
+barycorr recognizes
+time-related columns and keywords within X-ray FITS files, and
+corrects these time values to the equivalent time at the solar system
+barycenter (SSB), expressed in TDB.  barycorr applies geometric
+light-time calculations, relativistic corrections, and mission
+specific clock offset corrections.  If a photon arrived at the given
+observatory timestamp, barycorr calculates the time that the same
+photon would have arrived at the solar system barycenter from the
+target.  
+
+<p>
+barycorr uses the observatory orbit ephemeris file orbitFile, target
+position (ra, dec), and refframe "FK5" or "ICRS."  When RA and Dec are
+not provided, an effort is made to retrieve the target information
+from the FITS file.
+
+<p>
+barycorr recognizes the mission-specific components of a FITS input
+file according by reading the MISSION keyword.
+
+<p>
+In principle, it is possible to modify an input file "in place" by
+specifying the same file name for infile and outfile.  This is not
+recommended however, since the original file is lost.  barycorr will
+create temporary files in the directory where the output file is
+intended to reside, and not move the output file into place until the
+barycenter correction operation is successful.
+
+<h2>PLANETARY EPHEMERIDES</h2>
+
+<p>
+By default, barycorr will choose JPL planetary ephemeris DE-200 if
+refframe="FK5" and DE-405 if refframe="ICRS".  The user can override
+this choice with another more recent ephemeris, and must specify
+refframe="ICRS" in that case.  The ephemeris file must be placed in
+$LHEA_DATA/JPLEPH.NNN where NNN is the ephemeris version, and set
+ephem="JPLEPH.NNN".  As of December 2024, the following ephemerides
+are available in the standard HEASoft release.  The required
+keyword parameters to barycorr are listed in parentheses to select
+the indicated ephemeris.
+<ul>
+<li>JPLEPH.200 (refframe=FK5) - released in 1981, this is the first
+JPL ephemeris in the J2000.0 reference frame.  It was the basis
+of the Astronomical Almanac's tables from 1984-2002.
+<li>JPLEPH.405 (refframe=ICRS ephem=JPLEPH.405) - released in 1997, this
+is the first ephemeris in the ICRS reference frame.  It was the basis of 
+the Astronomical Almanac's tables from 2003-2014.
+<li>JPLEPH.421 (refframe=ICRS ephem=JPLEPH.421) - released in 2008.
+<li>JPLEPH.430 (refframe=ICRS ephem=JPLEPH.430) - released in 2013, this
+ephemeris contains the most up to date data and analysis as of the
+writing of this document.  It has been the basis of the Astronomical
+Almanac's tables since 2015.
+<li>JPLEPH.440 (refframe=ICRS ephem=JPLEPH.440) - released in 2021, this
+ephemeris contains the most up to date data and analysis as of the
+writing of this document.
+</ul>
+Unless driven by other reasons, analysts are recommended to use
+JPLEPH.440 (refframe=ICRS ephem=JPLEPH.440).  A reason to choose a different
+ephemeris would be compatiblity with previous analysis or comparison
+to historical results.
+
+<p>
+The "barytime = no" option (default) will replace the values in the original
+TIME (case-insensitive) column from the input file with the
+barycenter-corrected times and update all time-related keywords and GTI
+values appropriately. Use of this option on binned (ie, light curve)
+data files is discouraged as it will preclude subsequent application of
+tools that expect evenly spaced time intervals to the modified datafile.
+
+<p>
+The "barytime = yes" option will simply append a new column, "BARYTIME", to
+a copy of the original file. No changes will be made to the time-related
+keywords or GTI table(s) in this case.  Thus, barytime=yes is in a sense 
+non-destructive, but will not allow one to fully utilize downstream software
+that requires time-related keywords or GTIs.  For that reason, it is 
+recommended to use "barytime=no" but not overwrite the original input file.
+
+<p>
+There is a subtle distinction between celestial reference frames and
+which JPL ephemeris is suitable.  As a summary, the FK5 reference
+frame refers to star catalog positions, and was commonly used before
+1998.  Many observatories, including most spacecraft observatories,
+use star catalogs as their reference system, and therefore they are
+commonly tied to the FK5 reference system.  The ICRS and its ICRF
+reference frame realizations are instead tied to distant extragalactic
+targets, which are commonly realized by radio observations of quasars.
+
+<p>
+For astronomers using barycorr, this distinction is difficult to manage
+In essence, to fully realize the difference between FK5 and ICRS,
+they have to know that their target postion in the most accurate
+reference system (i.e. ICRS), and in addition that the celestial
+reference for the spacecraft orbit ephemeris is in the same system.
+
+<p>
+Thankfully, in practice modern ephemerides such as DE4XX, which are
+in the ICRS reference system, can be used in conjunction with
+spacecraft orbit ephemerides expressed in the FK5 system.
+The maximum error is 2 ns for each earth radius that the spacecraft is
+removed from the geocenter.
+
+<p>
+All positions provided by Tempo are on the
+DE200 reference frame, however - closer to FK5.  This could introduce
+errors of up to 0.02 ms.  A function, c200to405, is provided to convert
+DE200 positions to ICRS.  Even so, it is recommended that DE200 is used
+for Tempo solutions that are based on DE200; apparently, efforts are
+underway to make Tempo support DE405.
+
+
+<h2>GEOCENTER-TO-BARYCENTER CORRECTION</h2>
+
+<p>
+Performing only geocenter-to-barycenter correction.  If spacecraft
+orbit files are not available, it is still possible to perform
+correction from the geocenter to the solar system barycenter, by
+setting orbitfiles=GEOCENTER.  In that case, all input timestamps
+will be considered measured at the geocenter, and only the
+correction from the geocenter to the solar system barycenter is
+computed.  This is really only useful when the errors in doing so
+(about 25 msec maximum error for low earth orbit satellites) are
+within scientific tolerances.  So for example, long period pulsars
+or orbits where a 25 msec error is insigificant, or long term light
+curves with bin sizes much longer than 25 msec, would be useful
+candidates for setting orbitfiles=GEOCENTER.
+  
+
+<h2>MISSION-SPECIFIC NOTES</h2>
+
+<b>Swift:</b> The Swift clock has drifted from true time by many tens of
+seconds.  A clock correction file must be used for all absolute
+timing.  If clockfile=CALDB, then CALDB will be queried for this
+information. (The user must keep CALDB up to date for this to function
+properly.)  If the clock correction file does not cover the requested
+data, then only a basic constant correction is applied.
+
+<p>
+<b>RXTE:</b> The barycorr tool applies a RXTE clock offset
+correction, which is normally stored in the file named
+$LHEA_DATA/tdc.dat.  The RXTE mission is now complete and no further
+clock offset corrections are expected.
+
+<p>
+<b>NuSTAR:</b> The barycorr tool applies a NuSTAR clock offset
+correction, if the clockfile parameter is supplied.  If the parameter
+is not supplied (clockfile='NONE'), then the user can expect
+accuracies of the magnitude +/- 100 msec.  As of early 2019, a new
+type of fine clock correction capable of reaching 20-30 usec precision
+is available; barycorr v2.2 or later will first try to use the fine
+correction and if not available, fall back to the coarser correction
+(with errors in the msec range).
+
+<p>
+<b>NICER:</b> The barycorr tool does not need to apply any special
+corrections since the on-board clock is synchronized to GPS.
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+<dd>Input FITS filename. All extensions with TIMESYS and TSTART
+keywords will be corrected, as well as mission-specific columns and
+extensions.  It is not recommended to specify an input file that is
+gzipped (or any use of column or row filtering).
+<p>
+
+<dt>outfile [filename]
+<dd>Output FITS filename. If barytime=no (default), a copy of the
+input file with the Time column overwritten and all time-related
+keywords modified appropriately. If barytime=yes, a copy of the input
+file with no changes other than a BARYTIME column appended.
+It is not recommended to specify an output file that has a gzip
+suffix.
+<p>
+
+<dt>orbitfiles [filename]
+<dd> File(s) containing orbit ephemeris information. If a list of
+orbit files may be input as either a comma-separated list, or using
+the @filename.lis convention.  The task will check for orbit file
+coverage.  If the specified orbit files do not cover the requested
+time range, then an error message is reported and the output file
+is not created.  The special value, "GEOCENTER", indicates that the
+task will not use a spacecraft orbit, and perform only geocenter to
+barycenter correction, as described above.
+<p>
+
+<dt>(clockfile = CALDB) [string]
+<dd><b>SWIFT and NuSTAR ONLY:</b>Provide the name of the clock correction file.
+This should either be the name of a file, "CALDB", or "NONE".  
+If the parameter is "CALDB", then the task will automatically retrieve the
+clock file from the Calibration Database.  The Swift ascii version of the
+file ($LHEA_DATA/swco.dat) can also be used if the CALDB is unavailable.
+A value of "NONE" means no clock correction (NuSTAR only).<br>
+<b>RXTE:</b>This parameter is ignored.  barycorr uses the file tdc.dat in HEASoft reference data.<br>
+<b>Chandra, and NICER:</b>This parameter is ignored.  No clock correction file is available, or needed.
+<p>
+
+<dt>(ra = -) [string]
+  <dd>Right Ascension, in decimal degrees. If not provided, barycorr
+    will search the input file for keywords named RA_NOM, RA_PNT,
+    RA_OBJ, or RA, in that priority order.  Note that the reference
+    coordinate system of the coordinates must match the coordinate
+    system of the solar system ephmeris.
+<p>
+
+<dt>(dec = -) [string]
+  <dd>Declination, in decimal degrees. If not provided, barycorr
+    will search the input file for keywords named DEC_NOM, DEC_PNT,
+    DEC_OBJ, or DEC, in that priority order.  Note that the reference
+    coordinate system of the coordinates must match the coordinate
+    system of the solar system ephmeris.
+<p>
+
+<dt>(refframe = ICRS) [string]
+<dd>Coordinate reference frame. Allowed values are "FK5" (DE200) or
+"ICRS" (default; DE405 or higher)
+<p>
+
+<dt>(ephem = DEFAULT) [string]
+<dd>Choose a JPL planetary ephemeris file name, or use DEFAULT to
+choose based on the reference frame.  The file must be named with the
+form JPLEPH.NNN where NNN is a number, placed in the $LHEA_DATA/
+directory, and the user must set refframe="ICRS".
+<p>
+
+<dt>(barytime = no)  [boolean]
+<dd>If yes, a separate BARYTIME column will be written in the output file?  Otherwise the routine will
+overwrite the TIME column with corrected times and all time-related keywords will be updated.
+<p>
+
+<dt>(tolerance = 3.0) [real]
+<dd>No longer used.
+<p>
+
+<dt>(chatter = 3) [enumerated integer]
+<dd>Standard HEAdas chatter parameter (1-5) controlling the verbosity of the task.
+<p>
+
+<dt>(clobber = no) [boolean]
+<dd>Standard HEAdas clobber parameter; controls whether an existing output file may be overwritten.
+<p>
+
+<dt>(history = yes) [boolean]
+<dd>Standard HEAdas history parameter; controls whether the runtime parameter values should be written in block of HISTORY keywords in the output file.
+<p>
+
+</dl>
+<h2>EXAMPLES</h2>
+
+The following examples illustrate running barycorr
+<p>
+1. run barycorr prompting for all required parameters:
+<p>
+
+<pre>
+      barycorr
+</pre>
+
+3. run barycorr specifying the RA/DEC (with required parameters prompted for):
+<p>
+<pre>
+      barycorr ra=272.4338 dec=-19.7495
+</pre>
+
+<h2>SEE ALSO</h2>
+FTOOLS: faxbary, CIAO: axbary
+<p>
+  <A HREF="http://heasarc.gsfc.nasa.gov/docs/swift/analysis/suppl_uguide/time_guide.html">Swift Timing Guide</A><br>
+  <A HREF="https://heasarc.gsfc.nasa.gov/docs/nicer/analysis_threads/time/">Definition of Time in NICER Data Files</A><br>
+  <A HREF="https://heasarc.gsfc.nasa.gov/docs/xte/abc/time_tutorial.html">RXTE Time Tutorial</a><br>
+  
+<p>
+
+<h2>LAST MODIFIED</h2>
+December 2024
+
+</body>
+</html>

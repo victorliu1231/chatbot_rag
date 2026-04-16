@@ -1,0 +1,99 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+sumvec - A Perl script to create a new column that is the sum of elements in a vector column
+
+<h2>USAGE</h2>
+
+<tt>sumvec infile colname elements outcol outfile [clobber]</tt>
+
+<h2>DESCRIPTION</h2>
+
+This Perl script is designed to add up specified elements of a vector column and write the value to a new
+column. The user specifies the vector column within the input FITS file they would like to use. The vector
+column consists of <i>n</i> elements (col[1,2,...,n]). A list of elements is given to be summed, either as
+a comma-separated list, a range, or a combination of the two. A new column, <i>outcol</i>, is written that
+contains the sum of the elements from the vector for each row.
+
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+
+<dd>Input filename
+<p>
+
+<dt>colname [string]
+
+<dd>Name of vector column in <i>infile</i> whose elements will be summed.
+<p>
+
+<dt>elements [string]
+
+<dd>The elements in <i>colname</i> to be summed. These can be given as a comma-separated list (e.g. 1,4,7),
+    a range (e.g. 2-10), or a combination of the two (e.g. 1,3-5,10). Also accepts 'all' as input. 
+    Values start from 1. Default: 'all' 
+<p>
+
+<dt>outcol [string]
+
+<dd>Name of the output column containing the sum of the elements.
+<p>
+
+<dt>outfile [string]
+
+<dd>Name of the output file. 
+<p>      
+
+<dt>(clobber = no) [boolean]
+
+<dd>Overwrite existing file(s)?
+<p>
+
+</dl>
+<h2>EXAMPLES</h2>
+
+The following examples illustrate
+<p>
+
+1. Adding the elements 1, 5, and 7 in the column COUNTS within file input.fits. The output file test.fits will contain the
+same columns as input.fits plus the additional column SUM, which contains the sum of the aforementioned elements.
+<p> 
+
+<pre>
+      sumvec infile=input.fits colname=COUNTS elements="1,5,7" outcol=SUM outfile=test.fits 
+</pre>
+
+2. Adding the elements 2 through 10 in the column PHA within file input.fits. The column SUM_1 containing the sum of all
+the elements is written to input.fits since outfile is set to the same name. Clobber is set to yes since the input file
+is being overwritten.
+<p>
+<pre>
+      sumvec infile=input.fits colname=PHA elements="2-10" outcol=SUM_1 outfile=input.fits clobber=yes 
+</pre>
+
+<h2>SEE ALSO</h2>
+
+<p>
+
+<p>
+
+<h2>LAST MODIFIED</h2>
+
+February 2025
+</body>
+</html>

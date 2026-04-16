@@ -1,0 +1,123 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>ftcmpheap HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+ftcmpheap - compress the heap in variable-length columns
+of a FITS table extension.
+
+<h2>USAGE</h2>
+
+<tt>ftcmpheap infile[ext]</tt>
+
+<h2>DESCRIPTION</h2>
+
+This simple program functions as a wrapper to the CFITSIO
+library routine fits_compress_heap(), which re-packs vectors
+in a binary table variable array heap to recover any unused
+space.
+
+<p>
+
+From the CFITSIO manual:
+
+<blockquote>
+All the data in a variable length field is written into an area
+called the <b>heap</b> which follows the main fixed-length FITS
+binary table.  The size of the heap, in bytes, is specified by the
+PCOUNT keyword in the FITS header.  When creating a new binary
+table, the initial value of PCOUNT should usually be set to zero.
+CFITSIO will recompute the size of the heap as the data is written
+and will automatically update the PCOUNT keyword value when the
+table is closed.  When writing variable length data to a table,
+CFITSIO will automatically extend the size of the heap area if
+necessary, so that any following HDUs do not get overwritten.
+</blockquote>
+
+<blockquote>
+Normally, when a vector in a variable length array column is
+rewritten, the previously written array remains in the heap as
+wasted unused space.  This routine [fits_compress_heap] will
+repack the arrays that are still in use, thus eliminating any
+bytes in the heap that are no longer in use.  Note that if
+several vectors point to the same bytes in the heap, then this
+routine will make duplicate copies of the bytes for each vector,
+which will actually expand the size of the heap.
+</blockquote>
+
+</ul>
+
+ftcmpheap may be useful after performing operations on
+variable-length columns in a FITS binary table.  For example,
+the ftcopy task could be used to delete variable-length columns
+from a table, but currently this leaves the PCOUNT keyword and
+file size unchanged (leading to warnings from e.g. ftverify).
+
+Running ftcmpheap on the affected extension frees up the unused
+space and fixes the PCOUNT keyword.
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]
+
+<dd>Input file name and optional extension name or number, e.g.
+'table.fits[3]', 'table.fits[events]', or 'table.fits+3'.  Note
+that if the extension name or number is omitted, the first table
+HDU in the file will be used.
+<p>
+
+<dt>(chatter = 1) [integer, 0 - 5]
+
+<dd>Controls the amount of informative text written to standard output.
+Setting chatter = 5 will produce detailed diagnostic output, otherwise
+this task does not normally write any output.
+<p>
+
+</dl>
+
+<h2>EXAMPLES</h2>
+
+Note that when commands are issued on the Unix command line, strings
+containing special characters such as '[' or ']' must be enclosed in
+single or double quotes.
+
+<p>
+
+1. Compress the heap in the third extension (named "EVENTS") of a
+FITS binary table:
+<p>
+<pre>
+      ftcmpheap table.fits+3
+</pre>
+or
+<pre>
+      ftcmpheap 'table.fits[3]'
+</pre>
+or
+<pre>
+      ftcmpheap 'table.fits[EVENTS]'
+</pre>
+or, if there is only one table HDU in the file:
+<pre>
+
+      ftcmpheap table.fits
+</pre>
+<p>
+
+<h2>LAST MODIFIED</h2>
+
+February 2021
+</body>
+</html>

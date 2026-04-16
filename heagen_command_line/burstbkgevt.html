@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file for burstbkgevt</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+burstbkgevt - Generate simulated background events based on input background lightcurve and spectra.
+
+<h2>USAGE</h2>
+
+<tt>
+burstbkgevt infile prespec postspec outroot 
+</tt> 
+
+<h2>DESCRIPTION</h2>
+
+<p>
+<tt>burstbkgevt</tt> reads the background rate from a lightcurve and background spectra
+and generates an event file to span the interval sampled by the lightcurve where the energy channels
+to each event are assigned based on the background spectra and the rate of events is determined by
+the background model in the lightcurve.
+
+<p>
+  The input lightcurve needs to have a time column, a background rate, and an error column. By default
+  the task searches for columns named TIME, BKGRATE and ERROR, otherwise the parameters
+  <i>timecol</i>,  <i>ratecol</i> and <i> errcol</i> maybe used to specify the names
+  of the columns. The lightcurve header must contain the keywords PHALCUT and PHAHCUT to specify the
+  minimun and maximum  channels over which the background rates where derived. If they are not found,
+  the tasks assumes that the rates are derived from the all channels in the input spectra.
+  The output lightcurve from <tt>burstfinder</tt> is compatible to the input lightcurve
+  of <tt> burstbkgevt<tt>.
+      
+  <br>
+<p>
+  The spectral files are used to derive the channel number associated to an event.
+  The task accepts up to two spectra that are input using parameters
+  <i>prespec</i> and <i>postspec</i>. They may represent the pre-burst and post-burst
+  background spectra and they are average within the task. A single spectrum may be input
+  by setting either parameter to NONE (or blank). The spectral file has to have two columns
+  with integer values corresponding to CHANNEL and COUNTS (or be set to other values with
+  parameters <i>chancol</i> and <i>cntcol</i> respectively) and must contain the full original
+  channel range for a given detector.
+<p>
+  The task assigns the number of events based on the bin rate and its error of the input lightcurve.
+  If the user provides a positive value for the parameter <i>stdv</i>, this fixed value
+  replaces the error column, and can be used if there is no error column.  The default error column
+  name is ERROR and be set to another value with the parameter <i>errcol</i>. The error is also
+  scaled by a multiplying factor <i>stdv_mult</i>. The time of each event is assigned randomly
+  within the time bin.
+  The channel for each event is assigned by randomly chosing from the weighted spectra and weight and
+  the channel corresponding to that weight.
+  
+<p>The output is an event file with the name <i>outroot</i>_simback.evt. If the input light
+ curve has a GTI extension, this is copied to the output event file.</p>
+
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]</dt>
+<dd>Input lightcurve with columns for time and background rate.</dd>
+<p>
+
+<dt>prespec [filename]</dt>
+<dd>Input for 1st  spectral file, typically a pre-burst spectra. May be set to NONE (or blank) if no
+  spectra file is defined. However, at least one of <i>prespec</i> or <i>postspec</i> must
+  be set. If both are set, the task makes an averge of the two.</dd> 
+<p>
+
+<dt>postspec [filename]</dt>
+<dd>Input fro 2nd spectral file, typically a post-burst spectra. May be set to NONE (or blank).</dd> 
+<p>
+
+<dt>outroot [string]</dt>
+<dd>The root name of the output event file <i>outroot</i>_simback.evt.</dd> 
+<p>
+
+<dt>(timecol = "TIME") [string]</dt>
+<dd>The name of the column containing time intervals in <i>infile</i>. Default is TIME.</dd>
+<p>
+
+<dt>(ratecol = "BKGRATE") [string]</dt>
+<dd>The name of the column containing the background rate in <i>infile</i>. Default is BKGRATE.</dd>
+<p>
+
+<dt>(errcol = "ERROR") [string]</dt>
+<dd>The name of the column containing the background subtracted rate error in <i>infile</i>.
+  Default is ERROR. Ignored if <i>stdv</i> is set to a positive value.</dd>
+<p>
+
+<dt>(chancol = "CHANNEL") [string]</dt>
+<dd>The name of the column containing the channel number in the input spectra.
+  Default is CHANNEL.</dd>
+<p>
+
+<dt>(cntcol = "COUNTS") [string]</dt>
+<dd>The name of the column containing the counts in each spectral channel
+  in the input spectra. Default is COUNTS.</dd>
+<p>
+
+<dt>(destcol = "PI") [string]</dt>
+<dd>The name of the destination column for events, corresponding to the <i>chancol</i>
+  input. Typical values might be PI (default) or PHA. Set to match <i>chancol</i> if
+  left blank or set to NONE.</dd>
+<p>
+
+<dt>(stdv=-999) [real] </dt>
+<dd>Set to a negative value (default is -999) to ignore and use scatter defined by <i>errcol</i>.
+  If set to a positive value, this fixed value is used to define scatter
+  in the background subtracted rate when generating simulated events.</dd>
+<p>
+
+<dt>(stdv_mult=1) [real] </dt>
+<dd>A multiplicative factor to apply to the error 
+  when determining the amount of scatter. The default value is 1.</dd>
+<p>
+
+<!-- Standard I/O settings -->
+
+<dt>(clobber = no) [boolean]</dt>
+<dd>Overwrites the existing output file if set to yes (yes/[no]).</dd>
+<p>
+
+<dt>(chatter = 1) [integer, 0 - 3]</dt>
+<dd> Chatter level for output. Set to 0 to suppress output, or to 1 (default),
+          2, or 3 for increasing the chatter of the output. </dd>
+<p>
+
+<dt>(debug = no) [boolean] </dt>
+<dd> Diagnostic output is printed out on the screen if set to yes
+     (yes/[no]). </dd>
+<p>
+  
+<dt>(logfile = !DEFAULT [string])</dt>
+<dd>
+  Log filename. If set to DEFAULT, it uses the name of this task (i.e. burstbkgevt.log)
+  and, if preceded by "!" will overwrite the file if it already exists. If set to
+  NONE, no log file is created. </dd>
+<p>
+
+  <dt>(history = no) [boolean]</dt>
+  <dd>
+    If set to yes, add HISTORY keywords to the output FITS files that record the parameters
+    used to create these files. Default is NO.</dd>
+  
+<p>
+<dt>(mode = ql) [string ql|hl|q]</dt>
+<dd>Mode to query the parameter file. Acceptable values include: "ql" (query and learn/remember), 
+"hl" (hidden and learn/remember), "q" (query but don't remember), "h" (hidden). </dd>
+<p>
+</dl>
+
+
+
+<h2>EXAMPLES</h2>
+
+  <ol>
+    <li><p>
+      Use a lightcurve cgbm_20180411_sgm_083733_1h_user.lc which contains columns TIME,
+      BKGRATE, and ERROR to define the time-dependent
+      component of modeled events. Use a pre-burst spectra file
+      cgbm_20180411_sgm_083733_1h_pre.pi and a post-burst spectra file
+      cgbm_20180411_sgm_083733_1h_post.pi to define the spectral shape of the modeled
+      background events. These spectra files contain columns CHANNEL and COUNTS.</p>
+
+      <p>
+	Record the results in cgbm_20180411_sgm_083733_1h_simback.evt, which has columns
+	TIME and PI (the default value for <i>destcol</i>) and include
+      HISTORY keywords to record the parameters used to generate the output FITS file.
+      The GTI in cgbm_20180411_sgm_083733_1h_user.lc (if any) is copied
+      to the output event file.
+      Record a log file cgbmbackevt_20180411_sgm_083733_1h.log. If the log file
+      exists, clobber it.</p>
+
+<pre>
+burstbkgevt infile="cgbm_20180411_sgm_083733_1h_user.lc" prespec="cgbm_20180411_sgm_083733_1h_pre.pi"
+  postspec="cgbm_20180411_sgm_083733_1h_post.pi" outroot="cgbm_20180411_sgm_083733_1h" ratecol="BKGRATE"
+  errcol="ERROR" chancol="CHANNEL" cntcol="COUNTS" chatter=3 history=yes
+  logfile="\!cgbmbackevt_20180411_sgm_083733_1h.log"
+</pre>
+</li>
+</ol>
+
+
+<h2>SEE ALSO</h2>
+
+burstfinder, cgbm_speclc, cgbm_bstgti, extractor
+
+<h2>LAST MODIFIED</h2>
+
+October 2024 (burstbkgevt 0.6b)
+</body>
+</html>

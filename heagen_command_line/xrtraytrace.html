@@ -1,0 +1,762 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+
+<html>
+
+<head>
+  <style type="text/css">
+    body { margin-left: 5%; margin-right: 5%; }
+    h1,h2,h3,h4 { margin-left: -5%;}
+  </style>
+  <title>HEADAS help file</title>
+</head>
+
+<body>
+
+<h2>NAME</h2>
+
+<p>xrtraytrace  - Perform raytracing simulations of thin-foil X-ray telescopes, calculating photon paths, PSF, EEF, and effective area</p>
+
+
+
+<h2>USAGE</h2>
+
+<tt>xrtraytrace mirrorfile[ext] obstructfile[ext] frontreffile[ext] backreffile[ext] pcolreffile[ext] scatterfile numphoton energy transmode scattermode source offaxis roll outeafile outpsffile psfpars outphistfile
+telescop instrume</tt>
+
+
+
+<h2>DESCRIPTION</h2>
+
+<p>The xrtraytrace task is a standalone raytracing code that simulates the
+passage of photons through a thin-foil-type X-ray telescope, from the
+aperture through to the focal plane.
+Several options are possible for generating the source photons that are
+injected into the telescope, and details of these are described below,
+under the description of the input parameter 'source'. The raytracing
+code can be used to generate grids of results corresponding to
+multiple source positions relative to the telescope optical axis. The
+code calculates the path of each photon, and the final impact
+coordinates on the focal plane if the photon survived to reach it. It
+also calculates the point spread function (PSF), encircled energy
+fraction (EEF), and effective area (EA). Intermediate impact
+coordinates along the photon paths can also be recorded in a photon
+history file (also referred to as an event file).
+This file also contains many aggregate and statistical
+quantities pertaining to the raytrace run. The raytracing code itself
+does not apply any specific instrumental masks, so the focal plane is
+effectively infinite in extent. Focal plane photons must be filtered
+for impact on a specific instrument or focal plane region. No detector
+efficiency effects are applied in the raytracing, so the effective
+area calculated is that for the telescope only (i.e. the effective
+area file is not an "ancillary response file", or ARF).
+Note that the effective area includes only
+paths that include a double reflection (i.e. exactly one front-side
+primary mirror reflection and exactly one front-side secondary mirror
+reflection). However, the path may include other interactions in
+addition to a double-reflection, such as
+transmission and pre-collimator reflection.</p>
+
+<p>The smallest mirror and pre-collimator foil unit that the
+raytracing code deals with is a section of a foil that is bound by
+two alignment bars in the support structure; these alignment bars
+define a "sector". The smallest foil unit is named a sub-foil,
+and each sub-foil corresponds to a unique row in the FITS telescope
+description file (TDF), whose columns define the sub-foil
+properties.</p>
+
+<p>The coordinate system used internally by xrtraytrace is inherited directly
+from the TDF. This system is "look-down", and the positions of the mirror foils are
+fixed by describing a point on a foil by its radius from a central
+axis, and its height from the focal plane. The focal plane is the x-y
+plane and the z-axis is the central axis of the cylindrical telescope
+structure. This Cartesian frame of reference is used for all telescope
+components and for all photon positions and direction vectors. When
+misalignments are applied to the various telescope components, the
+abstract coordinate system remains fixed in that the x-y plane is
+always the focal plane, and the z-axis is always the original central
+telescope axis. However, the directions of input and output photons
+are specified in the satellite coordinate system, which differs from the TDF system
+by a rotation around the z-axis. This rotation is specified by the keyword
+TELFPROT in the TDF.</p>
+
+<p>Note that versions of xrtraytrace prior to 1.10.4 suffered from a bug in which
+the pre-collimator reflectivity was inadvertently replaced by the back-side mirror
+reflectivity. Versions of xrtraytrace older than 1.20.0 do not support the input parameters
+externobjoff and externobjmapfile, nor do they support the more complex TDF format
+that was introduced with version 1.20.0 of xrtraytrace. The newer TDF format
+has the keyword TDFTYPE>0 in the header of the primary and MIRROR extensions.
+This TDF format enables
+more sophisticated modeling of external objects, such as the thermal shields, than was
+possible with the simpler TDF format. In addition, TDF with TDFTYPE>0 have
+the capability for including mirror foil positions that do not have a reflective coating
+or contain no foil. Older TDF formats (that have the TDFTYPE keyword missing, or set to 0)
+are back-compatible with all versions of xrtraytrace. The version number of xrtraytrace
+is written to all output FITS files as the keyword VERSION in the primary extension.
+</p>
+
+<h3>INPUT FILES</h3>
+
+<p>Required:</p>
+<ol>
+  <li>Telescope description file (TDF).<br />
+      <p>Examples:</p>
+ ah_sxs_mirror_20140101v002.fits (Hitomi SXT-S)<br/>
+ ah_hx1_mirror_20140101v002.fits (Hitomi HXT-1)<br/>
+ xa_rsl_mirror_20140101vh002.fits (XRISM Resolve)<br/>
+       <p>The TDF contains information on the full geometrical structure of the telescope, as well as details of the properties of the reflective surface coatings of the mirror foils (see parameter 'mirrorfile').</p>
+      <p>Note that the very "old-style" TDF (such as those for ASCA and Suzaku) do not work with xrtraytrace because the file format has evolved to become more complex.</p>
+  </li>
+  <li>Reflectivity/Transmission file.<br />
+       <p>Examples:</p>
+      ah_sxs_reftrans_20140101v002.fits (Hitomi SXT-S)<br/>
+      ah_hx1_reftrans_20140101v002.fits (Hitomi HXT-1)<br/>
+      xa_rsl_reftrans_20140101vh002.fits (XRISM Resolve)<br/>
+      <p>This file describes the reflectivity and transmission properties of the telescope mirror and pre-collimator foils as follows (see parameter 'frontreffile'):<br />
+	<br/>
+      1st Extension: Front-side mirror reflectivity and surface thin-film transmission.<br />
+      2nd Extension: Mass-absorption coefficients of all the materials making up the surface and bodies of mirror and pre-collimator foils.<br />
+      3rd Extension: Reflectivity of the back sides of mirror foils.<br />
+      4th Extension: Reflectivity of the pre-collimator foils.<br />
+	</br>
+      Note that xrtraytrace calculates the net transmission from the front side to the back side of foils using BOTH the transmission data in the 1st extension and the mass-absorption coefficient data in the second extension.<br />
+
+      <p>The file is generated by initially running the xrtreftable task, which uses the TDF to generate the first and second extensions. The third and fourth extension data cannot be calculated from theory and are based on measurements. The third and fourth extensions must be appended onto the file generated by xrtreftable.<br />
+
+      <p>The raytracing code can handle both eV and keV units of energy in the reflectivity file extensions.
+  </li>
+</ol>
+
+<p>Optional:</p>
+
+<ol>
+  <li><p>Energy grid file.<br />
+      One method for specifying the photon energies for xrtraytrace is to use a FITS file that contains an energy grid column. (See description of the input parameter 'energy' for the other methods of specifying photon energy.)
+    The name of the file and extension containing the energy grid are specified as a single parameter string for the input parameter 'energy'.</p></li>
+
+  <li><p>Photon source file.<br />
+      Photons that are to be raytraced can either be generated by xrtraytrace (for which there are several options), or their properties can be read from a file. See the description of the input parameter 'psrcfile' below for details on the expected file format for the two types of photon file inputs that are supported.</p></li>
+
+  <li><p>External object thickness maps file.<br/>
+      This optional FITS file consists of one or more images corresponding to thickness maps that model non-uniformity of external object components such as thermal shields. The geometrical components of an external object that are tabulated in the TDF can point to images in the thickness map file in order for xrtraytrace to calculate spatially-dependent transmisssion probabilities. See the description of the input parameter 'externobjmapfile' for additional details.
+</p>
+<p>
+Each geometrical component of an external object that is tabulated in the TDF AZIMUTHALSTRUCT extension can point to one of the images in the thickness map file. The thickness map is then used to calculate spatially-dependent transmission probabilities. If a geometrical component does not point to an image in the external object map file, transmission probabilities for that component are assumed to be spatially uniform.
+</p>
+</li>
+</ol>
+
+
+<h3>OUTPUT FILES</h3>
+
+<p>All of the output files are optional. However, if no output files are requested, xrtraytrace aborts.</p>
+
+<ol>
+<li>PSF or EEF file.
+<p>The xrtraytrace code writes either a PSF image file or an EEF file, depending on input parameter settings (see descriptions for the input parameters 'psfpars' and 'outpsffile' below).</li>
+
+<p>If there are 10 or fewer energy points in the input energy grid, a
+PSF image or EEF function is written to a separate extension for
+each energy, off-axis angle, and azimuthal (roll) angle. However, if
+more than 10 energies are in the energy list, then the PSF or EEF is
+summed over all photon energies for a given pair of off-axis and
+azimuthal angles. A unique extension is written for each unique pair
+of angles.</p>
+
+<p>The PSF image is normalized in order for the sum over all photons in the focal plane to be equal to 1.0. The EEF is normalized so that it is 1.0 at the radial position on the focal plane of the furthest photon impact from the optical axis.</p>
+
+<p>The PSF image always shows the source at the center of the image. The actual position of the center of the source can be found in the FITS header keywords XCENTER and YCENTER.</p>
+
+<li>EA file.
+<p>This file contains the effective area (of the telescope only) as a function of energy (see description for the input parameter 'outeafile' below for details).</li>
+
+<li>Photon history file.
+<p>This file, also known as the raytracing event file, records path history information for each photon, as well as aggregate and statistical quantities for the entire raytrace run. See description for the input parameter 'outphistfile' for more details about the history file contents and caveats.</li>
+</ol>
+
+<h2>PARAMETERS</h2>
+
+<dl>
+
+  <dt>mirrorfile = CALDB [filename CALDB|file name]</dt>
+  <dd><p>Name of the file and TDF extension that holds the geometrical description of the primary and secondary mirror foils. It is assumed that the name of the pre-collimator extension is COLLIMATOR. If CALDB is specified, the file is read from the calibration database based on the TELESCOP and INSTRUME keywords.</p></dd>
+
+  <dt>obstructfile = CALDB [filename CALDB|file name]</dt>
+  <dd><p>Name of the file and TDF extension that holds the geometrical description of the telescope support structures. If CALDB is specified, the file is read from the calibration database based on the TELESCOP and INSTRUME keywords.</p></dd>
+
+  <dt>frontreffile = CALDB [filename CALDB|file name]</dt>
+  <dd><p>Name of the reflectivity file and extension for the front-side reflectivity of the mirror foils. The extension also includes the thin surface film transmission. The names of the reflectivity and transmission columns are linked to groups of mirror foils that they apply to, by means of a column called FREFLECT in the TDF. The second extension in the reflectivity file contains mass-absorption coefficients that are used by xrtraytrace to calculate transmission probabilities of the "thick" materials (as opposed to thin films) in the telescope. If CALDB is specified, the file is read from the calibration database based on the TELESCOP and INSTRUME keywords.
+</p></dd>
+
+  <dt>backreffile = CALDB [filename CALDB|file name]</dt>
+  <dd><p>Name of the reflectivity file and extension for the back-side reflectivity of the mirror foils. If CALDB is specified, the file is read from the calibration database, based on the TELESCOP and INSTRUME keywords.
+</p></dd>
+
+  <dt>pcolreffile = CALDB [filename CALDB|file name]</dt>
+  <dd><p>Name of the reflectivity file and extension for the reflectivity of the pre-collimator foils. The pre-collimator reflectivity is the same for front-side and back-side reflection. If CALDB is specified, the file is read from the calibration database based on the TELESCOP and INSTRUME keywords.
+</p></dd>
+
+  <dt>scatterfile = CALDB [filename CALDB|file name]</dt>
+  <dd><p>Name of the file containing the scattering angle probability distributions for the direction of reflected rays relative to specular reflection in which the reflected angle is equal to the incident angle. The file contains data for the front side of mirror foils, the back side of mirror foils, and for the pre-collimator blades. In general, foils in different physical regions of the telescope can have different scattering distributions. The column names are indexed in the SCATTER column in the TDF. This field is only used if the 'scattermode' parameter is not NONE. If CALDB is specified, the file is read from the calibration database based on the TELESCOP and INSTRUME keywords.
+</p></dd>
+
+
+  <dt>numphoton = 10000 [integer]</dt>
+  <dd><p>For running modes that do not take input photons from a file (see parameter 'source'), 'numphoton' is the number of input photons entering the telescope aperture for each unique value of the energy (see 'energy' parameter), and off-axis and azimuthal angle pairs. For running modes that do take input photons from a file, each row of the input file corresponds to one photon and the 'numphoton' parameter is overridden by the number of rows in the photon file.</p>
+  </dd>
+
+  <dt>energy = "-1 2.0 10.0" [string]</dt>
+  <dd><p>In the case that the running mode does not take input photons from a file (see parameter 'source'), the 'energy' parameter specifies the energies of the input photons in a number of different ways as follows:</p>
+    <ol>
+      <li>If the 'energy' parameter consists of a series of numbers, and if the first number is equal to -1, the energy grid for input photons is taken from the energy grid of the reflectivity file between lower and upper boundaries that are specified by the second and third numbers in the string.</li>
+      <li>If the 'energy' parameter consists of a series of numbers, and if the numbers are all positive, the energy grid for input photons is taken to be the list of all the numbers in the string specified for 'energy' [keV].</li>
+      <li>If the 'energy' parameter is not a series of numbers, it is interpreted as a FITS file name and extension. The energy grid is read from a column called ENERGY from the extension that is included in the input parameter string. The units of the energy in the file must be keV or eV.</li>
+    </ol>
+    <p>For xrtraytrace runs that use a multilayer reflectivity file (e.g., for the Hitomi HXT-1 or HXT-2), all of the raytracing energies in the raytracing energy grid must have the exact values that are present in the energy grid of the reflectivity file. With option (1) above this is automatically satisfied but, for the other two options, this correspondence must be explicitly satisfied by the input list (option 2) or file (option 3). If there is a mismatch in the energy grids and the reflectivity file describes a multilayer mirror, the raytracing program stops because correct interpolation of the reflectivity cannot be guaranteed.</p>
+    <p>For running modes that do take input photons from a file, there are two options for the photon energies. First, if the keyword UNQELIST in the input photon FITS file is TRUE, an energy grid of unique values is read from the list of numbers specified in the 'energy' parameter. This unique list of energies is used to pre-interpolate reflectivity and transmission values (to reduce run time). Energy values in each row of the input photon file are then compared with the unique energy list. The second option is to use the energy values in each row of the energy column of the input photon file (one row corresponds to one photon), even if it means interpolating the reflectivity and transmission more than once for the same energy.</p>
+  </dd>
+
+  <dt>(seed = 0) [integer]</dt>
+  <dd><p>Random number generator seed. The system time is used if 'seed=0'.</p></dd>
+
+  <dt>(misalign = "1 1 1 1 1 1") [string]</dt>
+  <dd><p>This parameter controls turning on and off the tilt and twist angular misalignment offsets in the TDF columns SYSTILT and SYSTWIST. The six numbers correspond to the following: (1) tilt for pre-collimator, (2) tilt for primary mirrors, (3) tilt for secondary mirrors, (4)
+twist for pre-collimator, (5) twist for primary mirrors, and (6) twist for secondary mirrors.
+    <p>A negative value of any of the six numbers turns off the corresponding misalignment component for all sub-foils in the stated category. The tilt is an angular offset from the default foil position (in arcsec, a positive value specifying a rotation of the top of the foil towards the telescope symmetry axis). The tilt rotation requires a pivot axis and three such axes are defined for the pre-collimator, primary, and secondary mirror foils. A single number between 0.0 and 1.0 for each of the three categories of foil specifies the fractional distance of the axis from the bottom edge of a sub-foil, the axis being parallel to the bottom edge of the sub-foil. The keywords in the TDF that specify the three fractions are as follows:</p>
+    <ul>
+      <li>TLTPVPCL : for pre-collimators, in the COLLIMATOR extension of the TDF.</li>
+      <li>TLTPVPRI : for primary mirrors, in the MIRROR extension of the TDF.</li>
+      <li>TLTPVSEC : for secondary mirrors, in the MIRROR extension of the TDF.</li>
+    </ul>
+    <p>The twist angular offset [arcsec] is a rotation around an axis that is perpendicular to the tilt axis, intersecting it at the midpoint, and parallel to the optical axis of the telescope. The rotation is clockwise, looking down on the focal plane from the telescope aperture.</p>
+    <p>The 'misalign' parameter set should not be changed from the default setting, in order to maintain fidelity with the calibration of the telescope as embodied in the TDF. The only reason to adjust the misalign parameter set would be for fine-tuning the calibration.
+  </dd>
+
+ <dt>transmode = ALL [string NONE|ALL|MIRROR|PCOL]</dt>
+  <dd><p>Method for treating transmission of photons in the mirror and pre-collimator foils.</p>
+    <ul>
+      <li>NONE: Assume transmission is zero for all mirror and pre-collimator foils.</li>
+      <li>ALL: Calculate the transmission of photons for both mirror and pre-collimator foils.</li>
+      <li>MIRROR: Calculate the transmission of photons only for mirror foils; force transmission to be zero for pre-collimator foils.</li>
+      <li>PCOL: Calculate the transmission of photons only for pre-collimator foils; force transmission to be zero for mirror foils.</li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>scattermode = ALL [string NONE|ALL|MIRROR|PCOL]</dt>
+  <dd><p>Scattering switch for treating scattering of photons on mirror and pre-collimator foils.  If this parameter is not NONE, 'scatterfile' must be assigned the name of a valid file.</p>
+    <ul>
+      <li>NONE: No scattering for either mirror or pre-collimator foils; all reflection is purely specular.</li>
+      <li>ALL: Treat scattering for both mirror and pre-collimator foils.</li>
+      <li>MIRROR: Treat scattering for mirror foils only; assume specular reflection for pre-collimator foils.</li>
+      <li>PCOL: Treat scattering for pre-collimator only; assume specular reflection for mirror foils.</li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>source = POINT [string POINT|FLATCIRCLE|BETAMODEL|PHOTONLIST|GROUNDMODEL|DIAGNOSTICMODE]</dt>
+  <dd><p>Method for generating input photons for the raytracing.</p>
+    <ul>
+      <li>POINT: Point source at infinity. Photons arrive at random points on the active region of the telescope aperture.</li>
+      <li>FLATCIRCLE: Extended source at infinity that has a spatial distribution with uniform flux over a circular region with a radius specified by the parameter 'flatradius', and zero flux outside of the circle.</li>
+      <li>BETAMODEL: Extended source at infinity that has a spatial distribution described by the beta model (see 'betapars' parameter).</li>
+      <li>PHOTONLIST: Read input photon energy and direction from the FITS file specified by the input parameter 'psrcfile' (see below for details). The source is at infinity and need not be a point source. Each row in the input file corresponds to one photon.</li>
+      <li>GROUNDMODEL: Read input photon energy, direction, and three-dimensional position of the photon origin point, from the FITS file specified by the input parameter 'psrcfile' (see below for details). The source is at a finite distance, defined by the position of the origin of source X-rays in each row of the input FITS file. This mode is useful for ground calibration.</li>
+      <li>DIAGNOSTICMODE: Inject photons at a single entry point on the telescope aperture. The parameters defining the entry position are specified by the input parameter string 'diagpars' (see below for details).</li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>(betapars = "0.50 0.60 5.0") [string]</dt>
+  <dd><p>Parameters of the beta model if 'source=BETAMODEL' is specified. Only the first three values in the string will be used. </p>
+    <ul>
+      <li>1st number in 'betapars': beta model core radius [arcmin].</li>
+      <li>2nd number in 'betapars': the power-law index beta of the beta model.</li>
+      <li>3rd number in 'betapars': the maximum radius [arcmin] of the source spatial distribution.</li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>(flatradius = 10.0) [double]</dt>
+  <dd><p>The radius [arcmin] of the extended source for the flat spatial distribution option,
+'source=FLATCIRCLE'.</p></dd>
+
+  <dt>(psrcfile) [filename]</dt>
+  <dd><p>Name of the input photon file and extension for the options 'source=PHOTONLIST' and 'source=GROUNDMODEL'. In both cases the extension containing the data must be specified as part of the input file name. Each row of the file corresponds to one photon. The columns describe various attributes of the input photons. Note that the telescope coordinate system is such that the x-y plane coincides with the focal plane, and the z-axis corresponds to the telescope rotational symmetry axis.</p>
+
+    <ul>
+      <li>
+        For 'source=PHOTONLIST', the columns of the FITS file are:
+        <ol>
+          <li>Energy [keV].</li>
+          <li>Off-axis angle [radians] of the direction of the incoming photon relative to the optical axis.</li>
+          <li>Azimuthal angle [radians] made by the incoming photon direction relative to the x-axis.</li>
+        </ol>
+      </li>
+      <li>
+        For 'source=GROUNDMODEL', the columns of the FITS file are:
+        <ol>
+          <li>Energy [keV.]</li>
+          <li>Initial x-position [mm] of the photon.</li>
+          <li>Initial y-position [mm] of the photon.</li>
+          <li>Initial z-position [mm] of the photon.</li>
+          <li>x-component of unit vector corresponding to the photon direction.</li>
+          <li>y-component of unit vector corresponding to the photon direction.</li>
+          <li>z-component of unit vector corresponding to the photon direction.</li>
+        </ol>
+      </li>
+      <li>
+        For both the 'source=PHOTONLIST' and 'source=GROUNDMODEL' options, the file 'psrcfile' must have the following keywords:
+        <ul>
+          <li>UNQELIST: A Boolean variable that is true if the user intends to specify (in the xrtraytrace parameter 'energy') the unique list of energies that occur over all rows of the file 'prscfile.' If false, the raytracing code interpolates reflectivity and transmission grids for every row of 'psrcfile', even if it means repeating the interpolation for the same energy. The run time for UNQELIST = F may be significantly greater than the run time with UNQELIST = T.</li>
+          <li>MINENERG: Minimum energy amongst all rows of 'psrcfile'.</li>
+          <li>MAXENERG: Maximum energy amongst all rows of 'psrcfile'.</li>
+        </ul>
+      </li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>(diagpars = "2 5 174 0.70 0.50") [string]</dt>
+  <dd><p>A five-element string containing parameters that define the entry point on the telescope aperture for single-point injection for 'source=DIAGNOSTICMODE'. The definitions of the numbers are as follows:</p>
+    <ul>
+      <li>1st number: (a) The telescope segment number in which the entry point is located, or (b) any negative number, meaning that the user enters the initial x and y coordinates [mm] in the fourth and fifth numbers.</li>
+      <li>2nd number: The sector number in which the entry point is located.  If the 1st number is negative, this number is ignored.</li>
+      <li>3rd number: The shell number closest to the telescope optical axis of the pair of shells between which the photon entry point is located.  If the 1st number is negative, this number is ignored.</li>
+      <li>4th number: The radial location of the entry point, in terms of the fraction of the radial gap between the outer radius of the foil in the lower shell, and the outer radius of the foil in the upper shell.  If the 1st number is negative, this number is instead the desired direct initial photon x-coordinate [mm].</li>
+      <li>5th number: The location of the entry point, in terms of the fraction of the angle between the boundaries of the sector defined by the second number.  If the 1st number is negative, this number is instead the desired initial photon y-coordinate [mm].</li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>offaxis = 0.0 [string]</dt>
+  <dd><p>For running modes that do not take input photons from a file, the list of numbers in the string 'offaxis' corresponds to off-axis input photon source positions (angular deviation from the telescope optical axis in arcmin). </p>
+    <p>For extended sources, the off-axis angle corresponds to the offset of the center of the source.</p>
+    <p>For each off-axis angle, the raytracing code injects 'numphoton' photons into the telescope for each energy in the specified energy grid, for a given value of the roll angle parameter. For each off-axis angle and energy pair, the roll angle can take a single value, or it can take several values, either forming a nested loop, or associating one roll angle value with each off-axis angle (see parameter 'roll' below).</p>
+    <p>For each triple set of numbers consisting of energy, off-axis angle, and roll angle, xrtraytrace injects 'numphoton' photons.
+    <p>The raytraced events appear in a single output file regardless of the photon energy, off-axis angle, and roll angle (see description of the input parameter 'outphistfile' below).</p>
+  </dd>
+
+  <dt>roll = 0.0 [string]</dt>
+  <dd><p>For running modes that do not take input photons from a file, the list of numbers in the string 'roll' corresponds to input photon source directions that have the same angular offset (parameter 'offaxis') from the optical axis, but have a photon direction vector that makes different (counter-clockwise) rotation angles relative to the telescope x-axis. The units of the azimuthal, or 'roll', angle are degrees.</p>
+    <p>For the extended source options 'source=FLATCIRCLE' and 'source=BETAMODEL', the roll angle corresponds to the counter-clockwise rotational offset of the direction of the ray to the center of the source, relative to the telescope x-axis.</p>
+    <p>For each triple set of numbers consisting of energy, off-axis angle, and roll angle, xrtraytrace injects 'numphoton' photons.
+    <p>There are two modes of operation:</p>
+<ol>
+	<p>
+	<li>Normal Mode: If all of the numbers in the 'roll' list are positive, a raytracing run is performed for each off-axis angle for every value of roll angle in the list (i.e. by means of a nested loop, the total number of runs per energy is equal to the number of off-axis angles multiplied by the number of roll angles). </li>
+</p><p>
+	<li>Pair Mode: If the first value of 'roll' in the list is negative, then for each value of off-axis angle, the value of the roll angle is taken from the corresponding position in the list (i.e. the nth off-axis angle run is performed for only the nth roll angle). </li>
+</p>
+<p>
+In the latter mode the total number of runs per energy is simply equal to the number of off-axis angles. The values of roll angle used are the absolute values of the list members. The code checks that the number of roll angle values is exactly equal to the number of off-axis angle values. If this is not the case, the program stops.</p>
+</ol>
+    <p>If xrtraytrace is to be run in Pair Mode, and the first roll angle desired in the list is 0.0, the actual value that should be used is -360.0, because -0.0 is not interpreted correctly.</p>
+    <p>The actual roll angle used for any of the numbers in the 'roll' parameter list is the modulus of the absolute value of that number with 360 degrees. Thus, one should never require any of the roll angles for actual input to a xrtraytrace run to be negative; a genuinely negative roll angle should have 360 degrees added to it before putting it in the list.</p>
+    <p>The raytraced events appear in a single output file regardless of the photon energy, off-axis angle, and roll angle (see description for the input parameter 'outphistfile' below).</p>
+    <p>The roll angle in xrtraytrace is not the same quantity as the satellite roll angle and the two should not be confused with each other.</p>
+  </dd>
+
+  <dt>(annulus = "-1 100000.0 0.0 360.0") [string]</dt>
+  <dd><p>This parameter defines a partial annular region on the telescope aperture that effectively restricts the entry of photons relative to the full aperture. It is used to compare raytracing simulations with ground-based experimental results, since a telescope generally does not have its aperture restricted in this way in-flight. The four numbers in the input parameter string 'annulus' are defined as follows:</p>
+    <ul>
+      <li>1st number: Either (a) the minimum radius [mm] of a partial annulus, or (b) a negative value, in which case xrtraytrace uses the inner housing radius for the inner radius of an annular aperture.  Note that the inner radius of the aperture is allowed to go to zero, in which case photons entering at smaller radii than the inner housing radius impact the cover of the central "hole" in the telescope.</li>
+      <li>2nd number: Either (a) the maximum radius [mm] of a partial annulus, or (b) a negative value, in which case xrtraytrace does not use an annulus for the aperture and attempts to use the parameters of a rectangular aperture (however, if the rectangular option is turned off, an annular aperture is used by default).</li>
+      <li>3rd number: Start angle [degrees] of partial annulus relative to the x-axis.</li>
+      <li>4th number: End angle [degrees] of partial annulus relative to the x-axis.</li>
+    </ul>
+
+    <p>If the upper radius of the annulus is greater than the outer housing radius (as defined by the keyword PMAXRAD in the TDF), the outer radius is internally set equal to the outer housing radius by xrtraytrace.</p>
+
+    <p>If a rectangular aperture is requested, the outer annulus radius should be set to a negative value (see description for the input parameter 'rectangle'). Note that both the partial annulus and rectangular aperture can be turned off in this way, in which case the full telescope aperture is used (which is an annulus).</p>
+  </dd>
+
+  <dt>(rectangle = "0.0 0.0 -40.0 -50.0") [string]</dt>
+  <dd><p>This parameter defines a rectangular region on the telescope aperture that effectively restricts the entry of photons to a rectangular region instead of the full aperture. It is used to compare raytracing simulations with ground-based experimental results, since a telescope generally does not have its aperture restricted in this way in-flight. The four numbers in the input parameter string 'rectangle' are defined as follows:</p>
+    <ul>
+      <li>1st number: x-coordinate of the center of the rectangle [mm].</li>
+      <li>2nd number: y-coordinate of the center of the rectangle [mm].</li>
+      <li>3th number: Width (x-dimension) of rectangle [mm].</li>
+      <li>4rd number: Height (y-dimension) of rectangle [mm].</li>
+    </ul>
+
+    <p>If any corner of the rectangle does not lie inside the annulus that corresponds to the full telescope aperture, xrtraytrace simply uses the full annulus-shaped aperture.</p>
+
+    <p>The rectangular aperture can be switched off by setting either (or both) of the values of the rectangle height and width to a negative value. If the rectangular aperture is turned off, an annular aperture is used with the parameters defined by the input parameter string 'annulus', unless the outer annulus radius is negative, in which case the full annular aperture is used.</p>
+  </dd>
+
+  <dt>outeafile [filename NONE|file name]</dt> 
+  <dd>
+    <p>Name of the output effective area (EA) FITS file. This file is only written if the input photons to the raytracing code are not from a file. Each extension contains the effective area vs. energy function for each pair of values of the off-axis angle and the roll angle for which the raytracing run was performed.</p>
+    <p>Only photon paths that include exactly one primary mirror reflection and exactly one secondary mirror reflection (i.e. a double reflection) contribute to the EA. The path may or may not include reflection on the pre-collimator surfaces, back-side mirror surfaces, and transmission events. Paths that do not include a double reflection (often referred to as stray light), are likely to appear as noise or background in real data, and do not in general contribute to the principal focused image.
+</p>
+  </dd>
+
+  <dt>outpsffile [filename NONE|file name]</dt> 
+  <dd>
+    <p>Name of the output file containing the PSF images or the EEF. This file is only written if the input photons to xrtraytrace are not from a file. Two types of files can be written:</p>
+<p>
+    <ul>
+      <li>Type 1: An image in each extension corresponding to a pair of off-axis and roll angles, and each energy, if there are 10 or fewer energies in the input energy grid. If there are more than 10 energies, the PSF is summed over all energies for each pair of offset angles.</li>
+      <li>Type 2: A function that is the EEF vs. radial distance [arcsec] from the central peak, in each extension, corresponding to a unique pair of off-axis and roll angle values, and a unique energy if there are 10 or fewer energies in the input energy grid. If there are more than 10 energies, the EEF is constructed using all energies for each pair of offset angles.</li>
+    </ul>
+</p>
+  </dd>
+
+  <dt>psfpars = "1 100 0.25" [string]</dt>
+  <dd>
+    <p>Numbers in the input parameter string specifying parameters for the PSF or EEF calculation as follows:</p>
+    <ul>
+      <li>1st number (integer): 1 = Type 1 file, PSF images; 2 = Type 2 file, EEF functions.</li>
+      <li>2nd number (integer): For Type 1 files, the number of pixels on the x and y axes is 2N+1 for both x and y, where N is the second number in the string 'psfpars'. For Type 2 files, this number is equal to the number of radial bins centered on the peak of the photon distribution on the focal plane.</li>
+      <li>3rd number: For Type 1 files, this number is the size of the pixels [arcsec] in the PSF image. For Type 2 files, this number is equal to the size of the radial bins [arcsec] for the EEF.</li>
+    </ul>
+    <p></p>
+  </dd>
+
+  <dt>(resultsplanez = 0.0) [double]</dt>
+  <dd><p>The z-coordinates [mm] of the x-y plane that are recorded as
+  part of the final impact coordinates for photons that successfully
+  emerge from the telescope pre-collimator, mirror, and support
+  structure without being absorbed. The default value means
+  that this "results plane" is the focal plane.</p></dd>
+
+  <dt>(resplaneonly = no) [boolean yes|no]</dt>
+  <dd><p>If 'resplaneonly=yes', xrtraytrace will write results to the photon history file only for those photons that impact the results plane (each row of the history file event data corresponds to one photon).</p></dd>
+
+  <dt>outphistfile [filename NONE|file name]</dt>
+  <dd>
+    <p>Name of the output photon history (event) file.  This is a FITS file that contains detailed information about the photons that were traced, and their paths.
+    The history file can be suppressed by specifying NONE for the file name.</p>
+
+    <p>The history file has two extensions:</p>
+    <ul>
+    <li>Extension 1 (PHOTONHISTORY) contains between 12 and 45 columns, as described below.</li>
+    <li>Extension 2 (INPUTPHOTONS) contains 4 columns as follows:
+      <ul><li>Column 1 = INITIALTHETA: off-axis angle of the incident photon direction vector.</li>
+      <li>Column 2 = INITIALAZIMDIR: azimuthal angle of the incident photon direction vector.</li>
+      <li>Column 3 = ENERGY: photon energy [keV].</li>
+      <li>Column 4 = NUMPHOTONS: number of input photons for a given INITIALTHETA, INITIALAZIMDIR, and ENERGY.</li>
+</ul>
+</ul>
+    </li>
+    <p>The photon direction vector is referenced to the telescope coordinate frame, in which the z-axis coincides with the optical axis, and the focal plane coincides with the x-y plane. The history file contains many quantities in FITS header keywords that are aggregates or statistical constructions of useful information about the raytraced photon path histories through the telescope.</p>
+
+    <p>There are three options for the amount of detail that is written to the PHOTONHISTORY extension, selectable with the 'phisttype' parameter described below. Each row of data in the history file corresponds to one photon that was input to xrtraytrace. Depending on the selection for the 'resplaneonly' parameter, the extension can contain information about every photon that was input to xrtraytrace, regardless of the eventual fate of that photon, or it can contain information on only those photons that impacted the results plane (see parameter description for 'resultsplanez' for definition of the results plane).</p>
+    <p>The history file contains up to 45 columns. If all 45 columns are selected to be written ('phisttype=full') there are 21 columns corresponding to the x, y, and z coordinates of up to 7 interactions between the photon corresponding to a particular row and the telescope components. The 7 sets of coordinates do not include the initial position or the final position (these are contained in separate columns) and are written in the TDF frame, not in the physical telescope frame as the other coordinate columns are.</p>
+
+    <p>Note that for events that do not reach the focal plane, the final impact coordinates are not always calculated by the code in the interest of keeping the run time as low as possible. Any coordinates in the history file columns that are not computed by the code are given the dummy value of -1.0e30, or a similarly large negative number.</p>
+
+    <p>Note also that there are no columns giving the initial z-coordinates of the photons because, except when the source is not at infinity, they all have a single value corresponding to the z-coordinate of the aperture, which is given by the FITS header keyword, ZAPRTURE in the history file. (In the case of the 'source=GROUNDMODEL' option, the initial z-coordinates of the photons are specified individually, and they are already in the photon list input file that must be supplied for the 'source=GROUNDMODEL' option.)</p>
+
+    <p>The 45 columns in the history file are as follows:</p>
+    <ol>
+      <li>ENERGY (1D, double): Input photon energy [keV].</li>
+      <li>INITIALRAD (1D, double): Original radial position [mm] of the incident photon impact location on the telescope aperture, relative to the optical axis, in a plane perpendicular to the optical axis (i.e. parallel to the x-y plane).</li>
+      <li>INITIALAZIMPOS (1D, double): Original rotational angle or azimuthal angle [degrees] of the incident photon impact location on the telescope aperture.</li>
+      <li>INITIALX (1D, double):  Original telescope x-coordinate of the position [mm] of the incident photon on the telescope aperture.</li>
+      <li>INITIALY (1D, double): Original telescope y-coordinate of the position [mm] of the incident photon on the telescope aperture.</li>
+      <!-- ^5^ -->
+      <li>INITIALTHETA (1D, double): Original off-axis angle [arcmin] of the direction vector to the source with respect to the telescope optical axis.</li>
+      <li>INITIALAZIMDIR (1D, double): Original rotational angle [degrees] of the direction vector to the source with respect to the x-axis in the plane perpendicular to the  optical axis.</li>
+      <li>FINALXPOS (1D, double):  Photon impact x-coordinate on the results/focal plane [mm] relative to the origin. Photons that do not make it to the results/focal plane can be filtered using the value of the Boolean variable in the RESULTSPLANE column.</li>
+      <li>FINALYPOS (1D, double):  Photon impact y-coordinate on the results/focal plane [mm] relative to the origin. Photons that do not make it to the results/focal plane can be filtered using the value of the Boolean variable in the RESULTSPLANE column.</li>
+      <li>FINALXPSF (1D, double): Photon impact x-coordinate on the results/focal plane [mm] relative to the source center position on the results/focal plane. Photons that do not make it to the results/focal plane can be filtered using the value of the Boolean variable in the RESULTSPLANE column. The FINALXPSF coordinate has the source at the origin (FINALXPOS is the actual x-coordinate). If there is no defined source center, as in 'source=GROUNDMODEL' or 'source=PHOTONLIST', FINALXPSF has the dummy value of 0.0 for all photons.</li>
+      <!-- ^10^ -->
+      <li>FINALYPSF (1D, double): Photon impact y-coordinate on the results/focal plane [mm] relative to the source center position on the results/focal plane. Photons that do not make it to the results/focal plane can be filtered using the value of the Boolean variable in the RESULTSPLANE column. The FINALYPSF coordinate has the source at the origin (FINALYPOS is the actual y-coordinate). If there is no defined source center, as in 'source=GROUNDMODEL' or 'source=PHOTONLIST', FINALYPSF has the dummy value of 0.0 for all photons.</li>
+      <li>PATHCODE  (32A, string): Photon path history coded as a single 32-character string per photon. Each group of four characters corresponds to an integer that contains encoded information about an interaction between the photon and a telescope component. Up to eight interaction events are recorded, starting with the first interaction. If there were more than 8 interactions in a path, including the final interaction, only the first 8 interactions are recorded.
+
+        <p>Designating the 4 characters of the PATHCODE portion for each interaction as ABCD, the definitions are as follows:</p>
+        <p>A=(interaction type)</p>
+        <ul>
+          <li>1=absorption, or end of path on the results (or focal) plane.</li>
+          <li>2=reflection not followed by scattering.</li>
+          <li>3=reflection followed by scattering.</li>
+          <li>4=transmission.</li>
+          <li>9=photon path incurred an error or anomalous condition.</li>
+        </ul>
+        <p>BC=(impacted object)</p>
+        <ul>
+          <li>01=results plane (default = focal plane).</li>
+          <li>02=inner housing.</li>
+          <li>03=outer housing.</li>
+          <li>04=segment/sector side wall.</li>
+          <li>05=pre-collimator foil.</li>
+          <li>06=primary mirror foil.</li>
+          <li>07=secondary mirror foil.</li>
+          <li>08=support structure.</li>
+          <li>09=top external object (e.g., top thermal shield).</li>
+          <li>10=bottom external object (e.g., bottom thermal shield).</li>
+        </ul>
+        <p>D=(impacted face)</p>
+        <ul>
+          <li>1: mirror, pre-collimator foils: back (facing outer housing).<br/>
+                obstructions: top.<br/>
+                results/focal plane: top.</li>
+          <li>2: mirror, pre-collimator foils: front (facing optical axis).<br/>
+                obstructions: bottom (unlikely).</li>
+          <li>3: mirror, pre-collimator foils: top face/edge.</li>
+          <li>4: mirror, pre-collimator foils: bottom face/edge.</li>
+          <li>5: mirror, pre-collimator foils: sides.</li>
+          <li>6: undetermined (but neither back nor front).</li>
+        </ul>
+        <p></p>
+      </li>
+      <li>RADIALDIR (1D, double): In cylindrical coordinates, this is the radial component of the unit vector of the radial direction of the photon if it impacts the results/focal plane. For photons that do not make it to the results/focal plane, it is the value at the last interaction (i.e. the last absorption event).</li>
+      <li>AZIMUTHDIR (1D, double): In cylindrical coordinates, this is the azimuthal angle [degrees] made by the unit vector corresponding to the direction of the photon if it impacts the results/focal plane. For photons that do not make it to the results/focal plane, it is the value at the last interaction (i.e. the last absorption event).</li>
+      <li>FINALXDIR (1D, double): In Cartesian coordinates, this is the x-component of the unit vector of the direction of a photon if it impacts the results/focal plane. For photons that do not make it to the results/focal plane, it is the value at the last interaction (i.e. the last absorption event).</li>
+      <!-- ^15^ -->
+      <li>FINALYDIR (1D, double): In Cartesian coordinates, this is the y-component of the unit vector of the direction of a photon if it impacts the results/focal plane. For photons that do not make it to the results/focal plane, it is the value at the last interaction (i.e. the last absorption event).</li>
+      <li>FINALZDIR (1D, double): In Cartesian coordinates, this is the z-component of the unit vector of the direction of a photon if it impacts the results/focal plane. For photons that do not make it to the results/focal plane, it is the value at the last interaction (i.e. the last absorption event).</li>
+      <li>NUMINT (1J, integer): Total number of interactions between the photon and X-ray telescope components, including results/focal plane impact if there was one.</li>
+      <li>The content of this column depends on the value of the parameter 'resplaneonly'. <br/>
+	If 'resplaneonly=no', the column is:<br/>
+	RESULTSPLANE (Boolean): True/T if the photon's path ended with an impact on the results plane (focal plane by default), false/F otherwise.<br/>
+	If 'resplaneonly=yes', the column is:<br/>
+	ROWINDEX (1J, integer): The value in each row is equal to the row number this photon would be in if xrtraytrace had been run with 'resplaneonly=no'. In other words, it is the photon number in the raytracing sequence that counts all raytraced photons regardless of whether they impacted the results plane (focal plane by default) or not.
+      <li>ERRORCODE (1J, integer): An integer indicating any anomalous situations or error conditions encountered by the photon anywhere along the path. A value of zero means that no errors or anomalous situations were encountered. Currently, the only error code is 999, covering all anomalies. </font></li>
+
+      <!-- ^20^ -->
+      <li>EVENT1X (1D, double): x-coordinate of 1st interaction [mm].</li>
+      <li>EVENT1Y (1D, double): y-coordinate of 1st interaction [mm].</li>
+      <li>EVENT1Z (1D, double): z-coordinate of 1st interaction [mm].</li>
+      <li>EVENT2X (1D, double): x-coordinate of 2nd interaction [mm].</li>
+      <li>EVENT2Y (1D, double): y-coordinate of 2nd interaction [mm].</li>
+      <!-- ^25^ -->
+      <li>EVENT2Z (1D, double): z-coordinate of 2nd interaction [mm].</li>
+      <li>EVENT3X (1D, double): x-coordinate of 3rd interaction [mm].</li>
+      <li>EVENT3Y (1D, double): y-coordinate of 3rd interaction [mm].</li>
+      <li>EVENT3Z (1D, double): z-coordinate of 3rd interaction [mm].</li>
+      <li>EVENT4X (1D, double): x-coordinate of 4th interaction [mm].</li>
+      <!-- ^30^ -->
+      <li>EVENT4Y (1D, double): y-coordinate of 4th interaction [mm].</li>
+      <li>EVENT4Z (1D, double): z-coordinate of 4th interaction [mm].</li>
+      <li>EVENT5X (1D, double): x-coordinate of 5th interaction [mm].</li>
+      <li>EVENT5Y (1D, double): y-coordinate of 5th interaction [mm].</li>
+      <li>EVENT5Z (1D, double): z-coordinate of 5th interaction [mm].</li>
+      <!-- ^35^ -->
+      <li>EVENT6X (1D, double): x-coordinate of 6th interaction [mm].</li>
+      <li>EVENT6Y (1D, double): y-coordinate of 6th interaction [mm].</li>
+      <li>EVENT6Z (1D, double): z-coordinate of 6th interaction [mm].</li>
+      <li>EVENT7X (1D, double): x-coordinate of 7th interaction [mm].</li>
+      <li>EVENT7Y (1D, double): y-coordinate of 7th interaction [mm].</li>
+      <!-- ^40^ -->
+      <li>EVENT7Z (1D, double): z-coordinate of 7th interaction [mm].</li>
+      <li>PRIOBJID (1J, integer): ID number of the first front-side primary mirror impacted. If no primary mirrors were impacted by a photon in a particular row, the value is set to -1.</li>
+      <li>SECOBJID (1J, integer): ID number of the first front-side secondary mirror impacted. If no secondary mirrors were impacted by a photon in a particular row, the value is set to -1.</li>
+      <li>PRIINCANGLE (1D, double): Grazing incidence angle [degrees] for the first front-side primary mirror impacted. If no primary mirrors were impacted by a photon in a particular row, the value is set to 0.0.</li>
+      <li>SECINCANGLE (1D, double): Grazing incidence angle [degrees] for the first front-side secondary mirror impacted. If no secondary mirrors were impacted by a photon in a particular row, the value is set to 0.0.</li>
+    </ol>
+    <p></p>
+  </dd>
+
+  <dt>(phisttype = FULL) [string FULL|BASIC|BRIEF]</dt>
+  <dd><p>If 'phisttype= FULL', all 45 columns listed for 'outphistfile' are written to the history file.<br/>
+         If 'phisttype=BASIC', only 20 columns are written. The 21 of the 25 columns that are not written are those for the photon path coordinates (EVENT1X, etc. ). The other 4 columns not written are object ID and incident angle for the first primary and secondary mirror foils impacted.<br />
+         If 'phisttype=BRIEF', only the following 12 columns are written (see original descriptions above for the full set):</p>
+<p>
+          <ul>
+            <li>ENERGY</li>
+            <li>INITIALX</li>
+            <li>INITIALY</li>
+            <li>INITIALTHETA</li>
+            <li>INITIALAZIMDIR</li>
+            <li>FINALXPOS</li>
+            <li>FINALYPOS</li>
+            <li>PATHCODE</li>
+            <li>FINALXDIR</li>
+            <li>FINALYDIR</li>
+            <li>FINALZDIR</li>
+            <li>RESULTSPLANE (if 'resplaneonly=no') <br/>
+		 or<br/>
+		ROWINDEX (if 'resplaneonly=yes')</li>
+          </ul>
+</p>
+  </dd>
+
+  <dt>(externobjects = ALL) [string NONE|ALL|TOP|BOTTOM]</dt>
+  <dd><p>Treatment of objects that are situated above and below the telescope body that are described in the AZIMUTHALSTRUCT extension of the TDF (for example, thermal shields and central cover).</p>
+<p>
+        <ul>
+          <li>ALL: include both top and bottom objects in the raytracing.</li>
+          <li>TOP: include only those objects that lie above the main telescope.</li>
+          <li>BOTTOM: include only those objects that lie below the main telescope.</li>
+          <li>NONE: exclude all external objects.</li>
+        </ul>
+</p>
+  </dd>
+
+
+  <dt>(externobjoff = NONE) [string NONE|"1 2 3 ..."]</dt>
+  <dd><p>This parameter allows the user to "switch off" (effectively remove) numbered external objects. For example, the user could decide to remove the film and mesh layers from a thermal shield. The parameter is either set to "NONE", or it consists of a string of integers (e.g. "1 2 3 ..."), where each integer corresponds to the integer value of the label for an object, in the OBJECT column in the AZIMUTHALSTRUCT extension of the TDF.</p>
+</dd>
+
+ <dt>(externobjmapfile = NONE) [string NONE|file name]</dt>
+<dd><p>This parameter is either "NONE" or it is the name of a FITS file that consists of one or more images corresponding to thickness maps that model non-uniformity of external object components (such as thermal shields). Each geometrical component of an external object that is tabulated in a row of the TDF AZIMUTHALSTRUCT extension can point to one of the images in the thickness map file. The thickness map is then used to calculate spatially-dependent transmission probabilities. The value of the GEOMETRY column in the AZIMUTHALSTRUCT extension in a given row links the row to an extension in the thickness map file. The extension number is given by the integer in the GEOMETRY column minus 10. If a geometrical component does not point to an image in the external object map file (i.e. if the value in the GEOMETRY column is &lt;10), transmission probabilities for that component are assumed to be spatially uniform.</p>
+</dd>
+
+  <p>
+  <dt>(fastmode = yes) [boolean yes|no]</dt>
+  <dd><p>If 'fastmode=yes', xrtraytrace runs a factor of a few times faster (depending on input parameters) than if 'fastmode=no'. However, with 'fastmode=yes', the results may not be accurate when the off-axis angle is large, the transmission is significant, or misalignment is severe. The 'fastmode=yes' option is intended for a fast calculation of effective area for nominal pointing positions.</p></dd>
+
+<p>
+<dt>(telescop = HITOMI) [string]</dt>
+<dd>Mission name.</dd>
+</p>
+
+<p>
+<dt>(instrume = SXS) [string]</dt>
+<dd>Instrument name.</dd>
+</p>
+
+  <dt>(validdate = "2999-01-01") [string]</dt>  
+  <dd><p>If any xrtraytrace output files are to become calibration files, 'validdate' is the earliest UTC date (in YYYY-MM-DD format) for which this calibration data is valid. This date is written to all output files in the keyword CVSD0001, which is required for any file entered into CalDB.</p></dd>
+
+  <dt>(validtime = "00:00:00") [string]</dt> 
+  <dd><p>If any raytracing output files are to become calibration files, 'validtime' is the UTC time (in hh:mm:ss format) on the day 'validdate', which together represent the earliest date and time for which this calibration data is valid. This date is written to all output files in the keyword CVST0001, which is required for any file entered into CalDB.</p></dd>
+
+  <p>
+<dt>(clobber = no) [boolean yes|no]</dt>
+<dd>Overwrites the existing output file if set to yes. </dd>
+</p>
+
+<p>
+<dt>(chatter = 1) [integer 0|1|2|3] </dt>
+<dd>Chatter level for output. Set to 0 to suppress output,
+or to 1, 2, or 3 for increasing the chatter of the output. </dd>
+</p>
+
+<p>
+<dt>(logfile = !DEFAULT) [string DEFAULT|NONE|file name]</dt>
+<dd>Log file name. If set to DEFAULT, uses the name of the task and, if
+preceded by "!", overwrites the file if it exists. If set to NONE, no
+log file is created. </dd>
+</p>
+
+<p>
+<dt>(debug = no) [boolean yes|no]</dt>
+<dd>Diagnostic output is printed to the screen if set to yes.</dd>
+</p>
+
+<p>
+<dt>(history = yes) [boolean yes|no]</dt>
+<dd>Records tool parameters in HISTORY.</dd>
+
+</dl>
+
+
+
+<h2>EXAMPLES</h2>
+
+<p>1. The following example runs xrtraytrace for the case of the Hitomi SXT-S with a point source at infinity, on-axis, full aperture illumination, 5 keV photon energy, and other options as detailed in the parameter list below.</p>
+
+<pre>
+xrtraytrace mirrorfile="ah_sxs_mirror_20140101v003.fits[MIRROR]"
+	obstructfile="ah_sxs_mirror_20140101v003.fits[OBSTRUCT]"
+	frontreffile="ah_sxs_reftrans_20140101v002.fits[AH_SXT_FRONT]"
+	backreffile="ah_sxs_reftrans_20140101v002.fits[REFPROBBACK]"
+	pcolreffile="ah_sxs_reftrans_20140101v002.fits[REFPROBPCOL]"
+	scatterfile=ah_sxs_scatter_20140101v001.fits
+	numphoton=10000
+	energy="5.0"
+	seed=29075
+	misalign="1 1 1 1 1 1"
+	transmode=ALL
+	scattermode=ALL
+	source=POINT
+	betapars="0.50 0.60 5"
+	flatradius=5.0
+	psrcfile=NONE
+ 	diagpars="2 5 174 0.70 0.50"
+	offaxis="0.0"
+	roll="0.0"
+	annulus="-1 100000.0 0.0 360.0"
+	rectangle="0.0 0.0 -40.0 -50.0"
+	outeafile=xrtraytrace_ea.fits
+	outpsffile=xrtraytrace_psf_img.fits
+	psfpars="1 100 0.25"
+	resultsplanez=0.0
+	outphistfile=xrtraytrace_history.fits
+	validdate="2999-01-01"
+	validtime="00:00:00"
+	clobber=no
+	chatter=2
+	logfile=xrtraytrace.log
+	debug=no
+	history=yes
+	mode=ql
+</pre>
+
+<p>This example run produces the following output files:</p>
+  <ul>
+    <li>EA file: xrtraytrace_ea.fits</li>
+    <li>PSF file: xrtraytrace_psf_img.fits</li>
+    <li>History file: xrtraytrace_history.fits</li>
+    <li>Log file: xrtraytrace.log</li>
+  </ul>
+
+<p>2.
+In the following example, xrtraytrace is run for an  extended source with a beta-model spatial distribution (with parameters as listed for 'betapars'), whose center is 5' off-axis, with an azimuthal angle of 65 degrees. The raytracing energies are obtained from a file called rtenergies.fits in an extension called "ENERGYGRID". The TDF includes a thermal shield, whose non-uniformity is encoded in the thickness map file TSimg_xtd_uniform_XpmSC_F1ii.fits. However, the film and mesh of the thermal shield is turned off by means of the parameters externobjoff. The instrument is Xtend, aboard XRISM.
+</p>
+<pre>
+xrtraytrace telescop=XRISM 
+        instrume=XTEND
+	mirrorfile="xa_xtd_mirror_typ1_withDF_s004TS_F1ii.fits[MIRROR]"
+	obstructfile="xa_xtd_mirror_typ1_withDF_s004TS_F1ii.fits[OBSTRUCT]"
+	frontreffile=CALDB
+	backreffile=CALDB
+	pcolreffile=CALDB
+	scatterfile=CALDB
+	numphoton=100000
+	energy="rtenergies.fits[ENERGYGRID]"
+	seed=29075
+	misalign="1 1 1 1 1 1"
+	transmode=ALL
+	scattermode=ALL
+	source=BETAMODEL
+	betapars="0.50 0.60 5"
+	flatradius=5.0
+	psrcfile=NONE
+ 	diagpars="2 5 174 0.70 0.50"
+	offaxis="5.0"
+	roll="65.0"
+	annulus="-1 100000.0 0.0 360.0"
+	rectangle="0.0 0.0 -40.0 -50.0"
+	outeafile=xrtraytrace_ea2.fits
+	outpsffile=xrtraytrace_psf_img2.fits
+	psfpars="1 100 0.25"
+	resultsplanez=0.0
+	outphistfile=xrtraytrace_history2.fits
+	externobjoff="7 8"
+	externobjmapfile=TSimg_xtd_uniform_XpmSC_F1ii.fits
+	validdate="2999-01-01"
+	validtime="00:00:00"
+	clobber=no
+	chatter=2
+	logfile=xrtraytrace2.log
+	debug=no
+	history=yes
+	mode=ql
+</pre>
+
+<p>This example run produces the following output files:</p>
+  <ul>
+    <li>EA file: xrtraytrace_ea2.fits</li>
+    <li>PSF file: xrtraytrace_psf_img2.fits</li>
+    <li>History file: xrtraytrace_history2.fits</li>
+    <li>Log file: xrtraytrace2.log</li>
+  </ul>
+
+
+<h2>SEE ALSO</h2>
+<a href="xrtreftable.html">xrtreftable</a>
+
+
+<h2>LAST MODIFIED</h2>
+
+February 22, 2024
+
+</body>
+</html>

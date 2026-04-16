@@ -1,0 +1,262 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file for hpextract</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+hpextract
+
+<h2>USAGE</h2>
+
+<tt>
+ hpextract evtlist outfstem object ra dec radius</tt> 
+
+<p>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+  Create a merged output event file from a list of input event files (such as
+  HEALPixel files), selecting only events in the input files that fall within a
+  given radius of a sky location.
+  Optionally, a column may be selected (such as "CCDID") to make multiple output event
+  files, one for each value in the selected column. Optionally, specified keywords
+  and/or columns in the input event files can be excluded by the output file(s).
+</p>
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<p>
+<dt>evtlist [filename]</dt>
+<dd>
+  A list of input event files to be merged.
+  This may be a comma-delimited list of files, or the name of a text file
+  containing a list of files, one per line, preceded by an '@' character.</li>
+</dd>
+</p>
+
+<p>
+<dt>outfstem [string]</dt>
+<dd>
+  Output file rootname. If no 'cameracol' set, the output will be a single event file
+  "outfstem.evt". If 'cameracol' is set, the output will be a set of files named
+  "outfstem#.evt" where "#" indicates which value of 'cameracol' the
+  events match.
+</dd>
+</p>
+
+<p>
+<dt>object [string]</dt>
+<dd>
+String value for the OBJECT keyword to set in the output event file(s). 
+</dd>
+</p>
+
+<p>
+<dt>ra [real] (J2000; degrees]</dt>
+<dd>Right Ascension of sky position at the center of the output projection plane.
+</dd>
+</p>
+
+<p>
+<dt>dec [real] (J2000; degrees)</dt>
+<dd>Declination  of the sky position at the center of the output projection plane.
+</dd>
+</p>
+
+<p>
+<dt>radius [real] (degrees</dt>
+<dd>Radius around the specified sky position to be included in the output event file(s).
+    Events outside this radius are exluded from the output file(s).</dd>
+</p>
+
+<p>
+<dt>(cameracol = "NONE") [string]</dt>
+<dd>
+  Separate events into multiple output event files, one of each
+  value found in 'cameracol'. Ignored if set to "NONE" (default).</dd>
+</p>
+
+<p>
+<dt>(coldellist = "NONE") [string]</dt>
+<dd>
+  List of columns to be excluded from the output event file(s).
+  This may be a comma-delimited list of columns, or the name of a text file
+  containing a list of columns, one per line, preceded by an '@' character.
+  Ignored if set to "NONE" (default).</dd>
+</dd>
+</p>
+
+<p>
+<dt>(keydellist = "NONE") [string]</dt>
+<dd>
+  List of keywords to be excluded from the output event file(s).
+  This may be a comma-delimited list of keywards, or the name of a text file
+  containing a list of keywords, one per line, preceded by an '@' character.
+  Ignored if set to "NONE" (default).</dd>
+</dd>
+</p>
+
+<p>
+<dt>(leapsecfile = "REFDATA") [filename]</dt>
+<dd>Name of the leap second file. If set to "REFDATA" (default), the
+  leap second file in the directory set by the REFDATA environment
+  setting will be used.</dd>
+</p>
+
+<p>
+<dt>(nx = -99) [integer]</dt>
+<dd>The number of pixels in the x-direction to include in the X column.
+  If set to a negative value (default), the value of 'nx' is set to
+  match the input event files or 2 x 'radius' / 'pixsize', whichever is larger.</dd>
+</p>
+
+<p>
+<dt>(ny = -99) [integer]</dt>
+<dd>The number of pixels in the y-direction to include in the Y column.
+  If set to a negative value (default), the value of 'ny' is set to
+  match the input event files or 2 x 'radius' / 'pixsize', whichever is larger.</dd>
+</p>
+
+<p>
+<dt>(pixsize = -99) [real] (degrees)</dt>
+<dd>The size of the pixels in degrees. If set to a negative number (default),
+  the output pixel size is identical to the input event files.</dd>
+</p>
+
+<p>
+<dt>(cleanup = no) [boolean]</dt>
+<dd>Determines whether to delete temporary files. When set to no (default),
+  intermediate files will be retained.
+  NOTE: this feature is not implimented in this tool.
+</dd>
+</p>
+
+<p>
+<dt>(clobber = no) [boolean]</dt>
+<dd>Overwrites any existing output file(s) if set to yes. Default is no.</dd>
+</p>
+
+<p>
+<dt>(chatter = 1) [integer]</dt>
+<dd>Sets the amount of output from the code. Values range from 0 (little to no
+  output) to 3 (verbose: provides considerable output). Default value of 1 provides
+  basic details as the code runs.</dd>
+</p>
+
+<p>
+<dt>(logfile = "!DEFAULT") [string] </dt>
+<dd>Record output from running this tool in a logfile. If set to DEFAULT, the output
+  logfile will
+  be named <b>hpextract.log</b>. If preceded by the "!", any existing file
+  with the same name will be overwritten; otherwise this output will be appended to
+  any existing file. No log file made if set to "NONE" (or blank). Default setting is
+  "!DEFAULT".</dd>
+</p>
+
+<p>
+<dt>(history = yes) [boolean]</dt>
+<dd>Records tool parameters in HISTORY keywords if set to yes (default).
+</dd>
+</p>
+
+<p>
+<dt>(debug = no) [boolean]</dt>
+<dd>
+  If set to "yes", the code will provide detailed logging of variables and settings.
+  This can be useful when debugging features in the code or
+  deciphering unexpected error conditions. Default is "no".</dd>
+
+<p>
+<dt>(mode = ql) [string ql|hl|q]</dt>
+<dd>Mode to query the parameter file. Acceptable values include: "ql" (query and learn/remember), 
+"hl" (hidden and learn/remember), "q" (query but don't remember), "h" (hidden).</dd>
+</p>
+</dl>
+
+
+<h2>EXAMPLES</h2>
+
+<p>
+  Read a set of MAXI GSC HEALPixel event files, separated by values found in the
+  CAMERAID column. Output files will be named "crab_g0.evt..crab_gb.evt"
+  (for GSC cameras 0-9, "a", and "b"). The new event files contain all events in
+  the listed files in "crab_gsc_tiles.list" which are within 8.0 degrees of the sky position
+  ra=83.633083, dec=22.0145: output files are only made for cameras found with at least one
+  event within this radius.
+  Set the keyword OBJECT in output files to "Crab".
+  Place event X and Y in a 200 x 200 grid with square pixels 0.1 deg wide in a
+  tangent plane projection centered on ra and dec. Record the input parameters for
+  this tool in HISTORY keywords.
+  The output files will not include the keyword EXPOSURE nor the columns COLPHI, DEL_CTHA,
+  and DEL_CPHI. Pre-existing files with the same name as the output files will be replaced.<br>
+  Note that although event files have been separated based on values in the CAMERAID column,
+  each output file still contains that column. A log file named <b>hpextract.log</b> will be
+  made (default), clobbering any previous log file with the same name.</p>
+
+<p>
+<pre>
+hpextract @crab_gsc_tiles.list crab_g Crab 83.633083 22.0145 8.0 cameracol=CAMERAID \
+  nx=200 ny=200 pixsize=0.1 coldellist="COLPHI,DEL_CTHA,DEL_CPHI" keydellist="EXPOSURE" \
+  clobber=yes chatter=1 history=yes
+</pre>
+<p>
+
+<p>
+  Extract a set of MAXI SSC event files for the SSCH camera from a list of HEALPixel files.
+  Makes a single output event file 
+  named "crab_sh.evt". Events are included if they are within 8.0 degrees of the input
+  sky coordinate with nx, ny, and pixsize all copied from the source event files.
+  No history or log file is created.
+  The columns COLPHI, DEL_CTHA, DEL_CPHI, SUN_CTH, SUN_CPH, MON_CTH, MON_CPH, and
+  MOON_PHS are all
+  removed. Chatter is set to maximum (3) for more output to the terminal, but no
+  logfile is recorded.
+
+<p>
+<pre>
+hpextract @crab_ssch_tiles.list crab_sh Crab 83.633083 22.0145 8.0 \
+ coldellist="COLPHI,DEL_CTHA,DEL_CPHI,SUN_CTH,SUN_CPH,MON_CTH,MON_CPH,MOON_PHS" \
+ clobber=yes chatter=3 history=no logfile=NONE
+</pre>
+<p>
+
+
+
+<h2>SEE ALSO</h2>
+mxproduct, mxpipeline, mxextract
+
+<h2>CAVEATS</h2>
+Although written to be mission-independent, there are some assumptions which may not be
+valid for some misison event files:
+<ol>
+  <li>The columns RA, DEC, X, Y, and TIME are required to be present.</li>
+  <li>The input event files are presumed to be in celestial coordinates in RADECSYS FK5
+    (J2000). A future
+    version of this code might support additional standard coordinate systems.</li>
+  <li>The event file format is consistent amongst all input files.</li>
+  <li>There must be either an MJDREF keyword or MJDREFI and MJDREFF keyword pair present.</li>
+  <li>Any extensions in the original event file files other than EVENTS will NOT copied: This
+    may be addressed  in a future version.</li>
+  <li>The code ONLY reprojects the coordinate system in the X and Y columns. If there are
+    additional columns containing projection-dependent settings (e.g. theta and phi angles),
+    these should be updated elsewhere or discarded. 
+</ol>
+    
+
+<h2>LAST MODIFIED</h2>
+July 2025  (hpextract 0.101b)
+
+</body>
+</html>

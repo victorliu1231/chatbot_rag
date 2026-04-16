@@ -1,0 +1,254 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+
+<html>
+
+<head>
+  <style type="text/css">
+    body { margin-left: 5%; margin-right: 5%; }
+    h1,h2,h3,h4 { margin-left: -5%;}
+  </style>
+  <title>HEADAS help file</title>
+</head>
+
+<body>
+
+<h2>NAME</h2>
+
+<p>dustmodeleffarea - For X-ray point sources with dust halos, makes an effective area correction (or modifier) file, with the option of inputting raytracing event files made by the tool dustyarfmod.</p>
+
+<h2>USAGE</h2>
+
+<tt>dustmodeleffarea rtfile1 rtfile2 dustmodelfile nh regionfile rootname</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+An X-ray source surrounded by dust can appear in X-ray images as having an extended halo, whereas without the dust it may appear as a point source.
+The halo modifies the X-ray telescope effective area, and the spatial distribution of the image on the focal plane, compared to a point source. The spatial distribution of the extended halo emission is in general energy-dependent, and depends on the distribution and other properties of the dust in the interstellar medium. The tool dustmodeleffarea generates a file that calculates a function of energy that modifies the point-source effective area. This file can be input to aharfgen or xaarfgen to generate an ARF (Ancillary Response File), containing the net effective area, as if the source were a point source. The tool dustmodeleffarea takes as input a dust model FITS file in a specified format (see parameter 'dustmodelfile' below), and event files from raytracing simulations, in order to calcluate the modifier function for the effective area. Alternatively, dustmodeleffarea can calculate a theoretical limit function (see below) without raytracing input files. In most applications, the tool dustyarfmod would be used, as it makes the raytracing event files, and calls dustmodeleffarea. However, dustmodeleffarea can also be run in a standalone mode, using raytracing files that were made previously, either by dustyarfmod or xrtraytrace. The dustmodeleffarea tool creates several output files in addition to the principal effective area modifier file, and uses the input parameter 'rootname' as a root for the names of the output files. The output file that should be input to aharfgen or xaarfgen will be referred to as an "auxtran" file, and has a name that ends in "_auxtran.fits". The aharfgen or xaarfgen input parameter 'auxtransfile' should be set to the name of this file. The other output files created by dustyarfmod are for diagnostic purposes and/or theoretical invesitgations (see description of the parameter 'rootnme' for details). 
+</p>
+
+<p>
+The statistical quality of the output of dustmodeleffarea depends on the number of photons used in the raytracing simulations. However, a higher statistical quality can be achieved by dustyarfmod, which can call dustmodeleffarea many times, each time with additional raytracing results, and create mean outputs constructed from all of the calls to dustmodeleffarea. There is also a mode of operation of dustmodeleffarea that does not use raytracing at all (and is therefore very quick to run), because this mode calculates a theoretical limit function that is mission-independent, and independent of off-axis angle. The output in this mode is not statistical, and represents the maximum possible deviation of the effective area relative to a point source, for a given dust model and column density. This is useful for assessing whether raytracing is needed: if this worst-case estimate is acceptable for a given application and energy range, then raytracing can be skipped. The theoretical limit function can also inform if there is a "safe" energy range in which the effects of dust scattering on the effective area are negligible. In some applications, low-statistics raytracing may be sufficient if only quantitative estimates of effects on the effective area are required, as opposed to applications that require a high-quality ARF for spectral-fitting purposes.
+</p>
+
+<p>
+Two different raytracing input files are needed for a full calculation of the effective area modifier function (in the output auxtran file). One is for a point source, and the other is for a diffuse, uniform-emission source. The latter does not correspond to the actual dust halo model, but is used by dustmodeleffarea to internally create a halo raytracing model using weights calculated from the input dust model file. Nevertheless, the diffuse raytracing file and releated files are referred to as halo files. The same raytracing files can be used for runs of dustmodeleffarea with different dust model files, different values of the column density parameter ('nh'), and different focal-plane selection regions. All of the of pointing and attitude information is encoded in the input raytracing files (see help file for dustyarfmod), so there are no input parameters to dustmodeleffarea that control source position, pointing, or attitude. Even the mission and instrument names are obtained from the input raytracing files, not from input parameters to dustmodeleffarea.
+</p>
+
+<p>
+The input parameters 'rtfile1' and 'rtfile2' are the names of the two input raytracing files. However, it is possible to specify NONE for one or both of these input files. If one of the file names is set to NONE, dustmodeleffarea will not make an auxtran file, but will simply make an effective area file corresponding to the one input raytracing file. The primary raytracing file, 'rtfile1', is for the diffuse emission, and the secondary raytracing file, 'rtfile2', is for the point source. If both file names are set to NONE, then dustmodeleffarea will make an auxtran file with the theoretical limit function. The different modes of operation of dustmodeleffarea are summarized below.
+
+<p>
+(1) 'rtfile1 = NONE', 'rtfile2 = NONE': Calculate theoretical limit function only (no raytracing input files required). Principal output is an auxtran file, which contains the theoretical lower limit function. 
+</p>
+<p>
+(2) 'rtfile1 = NONE', 'rtfile2 = file name': Create an effective area file corresponding to the raytracing input file 'rtfile2'. No axutran file is created.
+</p>
+
+<p>
+(3) 'rtfile1 = file name', 'rtfile2 = NONE': Create an effective area file corresponding to the raytracing input file 'rtfile1'. No auxtran file is created. Note that the effective area file is for a flat, uniform source, not the dust halo, because it does not include the weights calculated from the dust model file.
+</p>
+
+<p>
+(4) 'rtfile1 = file name 1', 'rtfile2 = file name 2': Create effective area files for both input raytracing files, and create an auxtran file.
+</p>
+
+
+<h2>PARAMETERS</h2>
+
+<dl>
+
+<p>
+<dt>(teldeffile = CALDB) [filename CALDB|file name]</dt>
+<dd>Name of the telescope definition (teldef) file appropriate for the mission and instrument. If the parameter is set to CALDB, the file is read from the calibration database. The mission and instrument names are obtained from the input raytracing files. In the case that dustmodeleffarea calculates the theoretical limit function, the parameter 'teldef' is ignored.
+</dd>
+</p>
+
+<p>
+<dt>rtfile1 = NONE [filename NONE|file name]</dt>
+<dd>Primary raytracing event file name, used for calculations involving the diffuse emission component of the source. This file is produced from an independent xrtraytrace run, or output from running dustyarfmod.</dd>
+</p>
+
+<p>
+<dt>rtfile2 = NONE [filename NONE|file name]</dt>
+<dd>Secondary raytracing event file name, used for calculations involving the point-source. This file is produced from an independent xrtraytrace run, or output from running dustyarfmod.
+</dd>
+</p>
+
+<p>
+<dt>dustmodelfile [filename NONE|file name]</dt>
+<dd>
+<p>The name of the input dust model FITS file. The file contains data corresponding to an energy-dependent spatial distribution model of the dust halo, specifically quantifying the spatial distribution of the emission from the halo for a set of discrete energies. Only azimuthally-symmetric, circular halos are supported. The format of the dust model file must be as follows: 
+</p>
+<p>
+(1) The primary extension contains a 2D array that models the dust halo emission, with radial distance from the center along the "X" axis of the image, and energy along the "Y" axis. The value in each pixel is, for a given energy, the number of halo photons per arcsec^2, or per arcmin^2, as a fraction of the total number of point-source photons at that energy. 
+</p>
+<p>
+(2) Extension 1, called ENERGYGRID, contains a column called ENERGY, that has data type 1D. The energy values must be in units of keV. 
+</p>
+<p>
+(3) Extension 2, called RADIUS, contains a colum called THETA, that has a data type 1D. The values in the array are distance to the center of the halo, in units of arcsec or arcmin. The pixel values in the primary extension image must be consistent with the units in extension 2. The number of rows in this extension is equal to the "X" dimension of the image in the primary extension.
+</p>
+<p>
+(4) Extension 3, called TAUABS, contains a column called TAUNH22, that has a data type 1D. The values in this array correspond to the optical depth to absorption along the line-of-sight, per 10^22 cm^-2 of column density, for each energy value in extension 1. The number of rows in this extension is equal to the "Y" dimension of the image in the primary extension. The values of TAUNH22 multiplied by the column density in units of 10^22 cm^-2 (the 'nh' input parameter to dustmodeleffarea), is the dimensionless extinction optical depth.
+</p>
+</dd>
+</p>
+<p>
+<dt>(maxradius = -1) [double]</dt>
+<dd>The maximum dust halo integration radius [arcmin] to use. If 'maxradius=-1', the maximum radius in the dust model file ('dustmodelfile') is used.
+</dd>
+</p>
+
+<p>
+<dt>nh = 1.0 [double]</dt>
+<dd>The dust halo extinction column density in units of 10^22 cm^-2.</dd>
+</p>
+
+<p>
+<dt>(auxtransfile = NONE) [filename NONE|file name]</dt>
+<dd>This is the name of the optional input auxtran file that is to be combined with the auxtran function calculated for the dust halo. The two auxtran functions are multiplied together for the output auxtran file. However, the energy grid of the input auxtran file can be arbitrary. If it does not cover the full energy range that is in the dust halo model file, the input auxtran function outside the energy range in the input auxtran file is assigned a value of unity. If no auxtran input file is to be used, the parameter 'auxtransfile' is set to NONE.
+</dd>
+</p>
+
+<dt>regionfile [filename NONE|file name]</dt>
+<dd>This parameter is either set to NONE, or to the name of a region file. The region file should have the standard SAO ds9 region file format. The region file must be in DET coordinates. For Hitomi SXI or XRISM Xtend, a region file in RA, DEC coordinates may be input into the tool dustyarfmod, which converts the region file to DET coordinates before passing it on to dustmodeleffarea. If 'regionfile=NONE', then all raytracing photons that impact the (infinite) focal plane contribute to the effective area, and therefore to the auxtran file. The region file input to dustmodeleffarea must be the same region file that was used to extract a spectrum, and input into ahsxtarfgen or xaxmaarfgen. The region must lie entirely within the detector field of view, otherwise the outputs of dustmodeleffarea will not be correct.
+</dd>
+</p>
+
+<p>
+<dt>(smoothing = no) [boolean yes|no]</dt>
+<dd>If 'smoothing=yes', the ratio of dust halo effective area to point-source effective area calculated from the raytracing files is fitted with a polynomial. The polynomial is evaluated on a finer energy grid than the raytracing energy grid, in order to calculate the auxtran functions on the finer energy grid. Since the effective area ratios are slowly varying functions of energy, 'smoothing=yes' enables runs to be performed with a coarser raytracing energy grid than with 'smoothing=no'. It is recommended to first perform a run with 'smoothing=no', in order to check that the statistical quality is not too poor (in which case smoothing may give misleading results). The run can then be repeated with 'smoothing=yes', using the same raytracing files. 
+</dd>
+</p>
+
+<p>
+<dt>(polydeg = DEFAULT) [string DEFAULT|1|2|3|4|5|6|7|8|9|10]</dt>
+<dd>Polynomial degree for fitting effective area ratios on a coarse energy grid (if 'smoothing=yes').
+The value DEFAULT causes dustmodeleffarea to find the optimum polynomial order up to a maximum of 10, or one less than the number of data points, whichever is smaller. Otherwise, an integer (specified as a string) between 1 and 10 inclusive, will force the polynomial order to be that value.
+</dd>
+</p>
+
+<p>
+<dt>rootname = [string]</dt>
+<dd>
+<p>Root name for constructing output file names.</p>
+<p>
+The output files have the names listed below.
+</p>
+<ul>
+<li>
+<p>
+{rootname}_ptsrc_ea.fits : Point-source effective area.
+</p>
+</li>
+
+<li>
+<p>
+{rootname}_halo_ea.fits: Dust halo effective area.
+</p>
+</li>
+
+<li>
+<p>
+{rootname}_auxtran.fits: The auxtran file. This is the file that should be input to an ARF generator tool to convert a point-source
+effective area to a net point-source and halo effective area.
+</p>
+</li>
+
+<li>
+<p>
+{rootname}_haloratio.fits: The ratio of the halo effective area to the point-source effective area.
+</p>
+</li>
+</ul>
+
+<p>
+The effective area files have the same FITS format as the effective area files produced directly by xrtraytrace (see help file for xrtraytrace). They are not ARF files. The name of the extension is EFFAREA. There are two columns: one is called ENERGY (units keV), and another is called EFFAREA (in units of cm^2). Note that the halo effective area file, and the halo ratio file, does not include the effects of dust extinction changing the spatial distribution of the halo emission as a function of energy, but these effects are included in the calculation of the function in the auxtran file.
+</p>
+</dd>
+</p>
+
+<p>
+<dt>(clobber = no) [boolean yes|no]</dt>
+<dd>Overwrites the existing output file if set to yes. </dd>
+</p>
+
+<p>
+<dt>(chatter = 1) [integer 0|1|2|3] </dt>
+<dd>Chatter level for output. Set to 0 to suppress output,
+or to 1, 2, or 3 for increasing the chatter of the output. </dd>
+</p>
+
+<p>
+<dt>(logfile = !DEFAULT) [string DEFAULT|NONE|file name]</dt>
+<dd>Log file name. If set to DEFAULT, uses the name of the task and, if
+preceded by "!", overwrites the file if it exists. If set to NONE, no
+log file is created. </dd>
+</p>
+
+<p>
+<dt>(debug = no) [boolean yes|no]</dt>
+<dd>Diagnostic output is printed to the screen if set to yes.</dd>
+</p>
+
+<p>
+<dt>(history = yes) [boolean yes|no]</dt>
+<dd>Records tool parameters in HISTORY.</dd>
+
+</dl>
+
+
+
+<h2>EXAMPLES</h2>
+
+<ol>
+<li>
+<p> 
+For the dust model file dust_uniform_model1.fits, calculate, for a column density of 10^21 cm^-2, the worst-case modification of the effective area compared to a point source.
+
+<pre>
+dustmodeleffarea rtfile1=NONE rtfile2=NONE dustmodelfile=dust_uniform_model1.fits nh=0.1 regionfile=NONE \
+rootname=dust_uniform_model1_tlimit
+</pre>
+
+The output effective modifier function will be in the auxtran file dust_uniform_model1_tlimit_auxtran.fits.
+</p>
+</li>
+
+<li>
+<p>
+A point source with a dust halo with a column density of 5 x 10^21 cm^-2 is observed by the XRISM Xtend instrument. Raytracing files ptsrc.fits and diffusesrc.fits were made using xrtraytrace, for the point-source and diffuse emission respectively. A spectrum from the Xtend data was extracted using the region file src.reg (in DET coordinates). The dust model file is dust_model2.fits. Create an auxtran file, for input into xaarfgen, that gives the modification function to convert the point-source effective area to the net effective area that includes the halo. Use the smoothing option.
+</p>
+<pre>
+dustmodeleffarea rtfile1=diffusesrc.fits rtfile2=ptsrc.fits dustmodelfile=dust_model2.fits nh=0.5 \
+regionfile=src.reg smoothing=yes rootname=dust_model2
+</pre>
+
+<p>
+The output auxtran file is dust_model2_auxtran.fits.
+</p>
+</li>
+
+</ol>
+
+<h2>SEE ALSO</h2>
+<a href="xrtraytrace.html">xrtraytrace</a> <br>
+<a href="dustyarfmod.html">dustyarfmod</a><br>
+<a href="aharfgen.html">aharfgen</a><br>
+<a href="ahsxtarfgen.html">ahsxtarfgen</a><br>
+<a href="xaarfgen.html">xaarfgen</a><br>
+<a href="xaxmaarfgen.html">xaxmaarfgen</a><br>
+<a href="ahexpmap.html">ahexpmap<a/><br>
+<a href="xaexpmap.html">xaexpmap<a/>
+
+
+<h2>LAST MODIFIED</h2>
+
+October 13, 2023
+
+</body>
+</html>

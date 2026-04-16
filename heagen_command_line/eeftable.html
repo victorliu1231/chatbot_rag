@@ -1,0 +1,147 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+eeftable - Create an encircled energy fraction (EEF) file based on the output event file from the raytracing task xrtraytrace
+
+
+<h2>USAGE</h2>
+
+<tt>eeftable infile outfile numRadVals deltaRadVals</tt> 
+
+
+<h2>DESCRIPTION</h2>
+
+<p>The eeftable script creates an EEF FITS file from an output event file (also referred to as a photon history file), from the xrtraytrace task. This script allows the user to create several EEF files with different choices of parameters for the same raytracing parameters, without needing to run the xrtraytrace task repeatedly. The task reads each row in the input event file and determines which rows are valid double reflections (meaning the photon described by that row had a single reflection from a primary mirror, a single reflection from a secondary mirror, and hit the results plane). The radii and energy of those photons are then used to calculate the EEF.</p>
+
+
+<h3>INPUT</h3>
+
+<p>The input file must be in the same format as the output from the xrtraytrace task that contains information about the event history of every raytraced photon and details of its path. The event file must be large enough to contain at least one valid photon for each radius.</p>
+
+<h3>OUTPUT</h3>
+
+The output file can have just one EEF if all events in the input file are merged together for each radial value, regardless of event energy, off-axis angle, or azimuthal angle. If the EEF is not merged for any of these three variables, the output file has an extension containing the EEF for each off-axis angle, azimuthal angle, and energy that is covered by the input event file. Each row in a given extension in the output file contains the EEF for a radial value. Off-axis angle, azimuthal angle, and/or energy may be merged in the output file using the 'mgOffaxis', 'mgAzimuth', and 'mgEnergy' parameters.  If any of these are set to yes, EEF values across that parameter are merged.  For example, if 'mgEnergy=yes', instead of one extension for each energy, all extensions correspond to a single energy band. In this case, the EEF values for each off-axis and azimuthal angle are averaged across all energies. Each extension in the output file contains keywords listing the values of important parameters that were used to create the file. Three of these keywords are OFFAXIS, AZIMUTH, and ENERGY. If no parameters are merged, these keywords have the exact values of the off-axis angle, azimuthal angle, and energy appropriate for each extension. If any of these quantities are merged, the appropriate keyword value reflects the range. There are additional keywords that have the form CBDnnnnn, and they contain the range from the first individual value to the last of one of the three quantities off-axis angle, azimuthal angle, or energy. The OFFAXIS, AZIMUTH, and ENERGY keywords are the averages of the individual values. The TOTCTS keyword contains the total number of photons that contributed to an EEF in a particular extension. If any quantities are merged, the sum of the photons for each parameter is used. For example, if energy is merged, then all the photons that contributed to each energy iteration are summed. 
+
+For cases that merge the EEF functions for different energies, a weighted average of the EEF is performed, whereby a contributing EEF is given a weight that is proportional to a power-law function of energy. The power-law index is equal to the negative of the input parameter 'alpha', and the normalization of the power-law is unity at the smallest energy in the input raytracing event file. A value of 0.0 for the power-law index gives an equal weight to the EEF functions at all energies so is equivalent to a simple average over energy. 
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<p>
+<dt>infile [filename]</dt>
+<dd>Name of the input raytracing photon event file (i.e., an output event file from the task xrtraytrace).</dd>
+</p>
+
+<p>
+<dt>outfile [filename]</dt>
+<dd>Name of the output file that will contain the EEF arrays corresponding to the input history file and requested merging options.</dd>
+</p>
+
+<p>
+<dt>numRadVals = 100 [integer]</dt>
+<dd>Number of radial values to use in generating the circles for which the EEF arrays will be calculated. Each circle is centered on the peak of the photon distribution on the focal plane.</dd>
+</p>
+
+<p>
+<dt>deltaRadVals = 2.0 [double]</dt>
+<dd>The interval in radius [arcsec] between successive circles used to calculate the EEF arrays.</dd>
+</p>
+
+<p>
+<dt>(alpha = 0.0) [double]</dt>
+<dd>Index of power-law energy-dependent weighting factors for the EEF arrays, when more than one energy is specified. A value of 'alpha=0.0' is equivalent to a simple average of an EEF over all of the raytracing energies. This parameter is ignored if 'mgEnergy=no'.</dd>
+</p>
+
+<p>
+<dt>(mgOffaxis = no) [boolean yes|no]</dt>
+<dd>Merge EEF arrays with different off-axis angles if mgOffaxis=yes.</dd>
+</p>
+
+<p>
+<dt>(mgAzimuth = no) [boolean yes|no]</dt>
+<dd>Merge EEF arrays with different azimuthal angles if mgAzimuth=yes.</dd>
+</p>
+
+<p>
+<dt>(mgEnergy = no) [boolean yes|no]</dt>
+<dd>Merge EEF arrays with different energies if mgEnergy=yes.</dd>
+</p>
+
+<p>
+<dt>(cleanup = yes) [boolean yes|no]</dt>
+<dd>Delete temporary files if 'cleanup=yes'.</dd>
+</p>
+
+<p>
+<dt>(clobber = no) [boolean yes|no]</dt>
+<dd>The task overwrites the existing output file if set to 'clobber=yes'. </dd>
+</p>
+
+<p>
+<dt>(chatter = 1) [integer 0|1|2|3]</dt>
+<dd>Chatter level for output. Set to 0 to suppress output,
+or to 1, 2, or 3 for increasing the chatter of the output. </dd>
+</p>
+
+<p>
+<dt>(logfile = !DEFAULT) [string DEFAULT|NONE|file name]</dt>
+<dd>Log file name. If set to DEFAULT, uses the name of the task as file root name, and if
+preceded by "!", overwrites the file if it exists. If set to NONE, no
+log file is created. </dd>
+</p>
+
+<p>
+<dt>(debug = no) [boolean yes|no]</dt>
+<dd>Diagnostic output is printed to the screen if set to yes.</dd>
+</p>
+
+<p>
+<dt>(history = yes) [boolean yes|no]</dt>
+<dd>Records tool parameters in HISTORY.</dd>
+</p>
+
+</dl>
+
+
+<h2>EXAMPLES</h2>
+
+<ol>
+
+<li>Create an EEF file from a raytracing photon event file, without any merging. The input file (in.fits) is an event file with off-axis angles 0, 15, and 30 arcmin, azimuthal angles of 0 and 45 deg, and energy values of 0.5, 2.0, 3.0, and 4.0 keV. The output file contains 24 extensions. Each extension contains the radial EEF values for each unique combination of off-axis angle, azimuthal angle, and each energy.
+<pre>
+   eeftable in.fits out.fits 100 2.0
+</pre>
+</li>
+
+<li>Create an EEF file from a raytracing event file, merging over energy only. The input file (in.fits) is an event file with off-axis angles 0, 15, and 30 arcmin, azimuthal angles of 0 and 45 deg, and energy values of 0.5, 2.0, 3.0, and 4.0 keV. The output file contains 6 extensions. Each extension contains the radial EEF values for each unique combination of off-axis angle and azimuthal angle. By default ('alpha=0.0'), the merged EEF is constructed from individual EEF that are assigned equal weights for all energies, and is therefore a simple average over energy.
+<pre>
+   eeftable in.fits out.fits 100 2.0 mgEnergy=yes
+</pre>
+</li>
+</ol>
+
+
+<h2>SEE ALSO</h2>
+<a href="xrtraytrace.html">xrtraytrace</a>, 
+<a href="arftable.html">arftable</a>
+
+
+<h2>LAST MODIFIED</h2>
+
+November 1, 2023
+
+</body>
+</html>

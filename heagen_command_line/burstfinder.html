@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file for burstfinder</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+burstfinder - Search for burst(s) and calculate the time intervals using a binned lightcurve an input.
+
+<h2>USAGE</h2>
+
+<tt>
+burstfinder infile outroot timewin numsdv fraction polyorder numsdv2 timewin2 mufactor
+</tt> 
+
+<h2>DESCRIPTION</h2>
+
+<p>
+<tt>burstfinder</tt> searches in a equally binned lightcurve in FITS format for bursts and outputs files
+with the burst time interval as well as other diagnostic files. By default the task expects
+an input lightcurve with columns named TIME and RATE, containing the time in seconds and rate as count/s,
+otherwise the parameters <i> tcol</i> and <i> rcol </i> maybe used to specify the names of the columns.<br>
+
+The task searches for the burst in the lightcurve with four steps.<br>
+
+In the first step the lightcurves is
+scanned with a sliding window technique to detect major deviation from an average.
+The  average of the RATE values within a time window (parameter <i>timewin</i>) is calculated by sliding
+the window by one point. If the difference of the previous average with current RATE value is greater
+than a threshold (parameter <i> numsdv</i>), the rate of the current point is substituted with the average
+multiple by factor (see parameter <i>fraction</i>) and the following average uses the latter value
+if the parameter <i> fill</i> is set to yes else it is ignored.<br>
+
+The second step uses the rates calculated from the first step and fits a polynomial with the order is defined
+by parameter <i> polyorder</i>. By default, the polynomial fitting also uses the errors on the rates
+(parameter <i>use_covar</i> set to yes).<br>
+
+At the third step, the original rate in the lightcurve is compared to the polynomial.
+The lightcurve is first smoothed (see parameter <i>timewin2</i>) and each bin is compared with the
+polynomial searching for deviations larger than a threshold (see parameter <i> numsdv2 </i>).
+If the deviation larger than the threshold, it assumes that there is a burst and starts a fine search
+for the start and stop of the burst by looking backward and forward for points that are below a
+threshold defined by the parameter <i>mufactor</i>.
+If there are multiple bursts detected, and their time intervals are significantly close to each other
+(see parameter <i>min_int</i>), they are combined into a single interval.<br>
+
+The fourth step is executed if the parameter <i> refit</i> is set to yes where the rates of the
+original lightcurve are clipped for the time interval associated to the burst found in step three and
+a new polynomial fit is executed and step three is repeated with the new fit only if there is a
+significant difference in the sigma of the two fits (see parameter <i>pdiff</i>).
+
+<p>
+The task outputs a Good Time Interval file, a lightcurve file, and a summary file.
+The GTI file (suffix 'dur' in filename) contains up to 6 extensions that are:
+first and second extensions are reserved for the time intervals corresponding to
+the 90% and 50% of the burst respectively but are not populated (see task <tt>burstt90t50</tt>);
+the third extension is populated with the time interval for the peak of the burst;
+the fourth extension is populated with the time interval for the total burst;
+the fifth and sixth extensions are populated with the pre- and/or post-background interval if both
+intervals exist else only with the one that exists. Each extension has a header keyword GTITYPE
+with value of GTI_90, GTI_50, GTI_PEAK, GTI_TOT, GTI_BKG1, GTI_BKG2) to identify the extension
+it contains.
+The lightcurve (suffix 'user' in filename) contains the original total non-background subtracted
+rate taken from the input
+lightcurve (TOTRATE and TOTRATE_ERROR), the background rates (BKGRATE and BKGRATE_ERROR) and the
+background subtracted rates (RATE and ERROR). The summary file (suffix 'summary' in filename)  contains
+for each burst one line with
+summary information and is provided as FITS file and ASCII file
+If no bursts are found, the GTI and summary files are not output, but lightcurve file is always
+output .</p> 
+<p>
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<dt>infile [filename]</dt>
+<dd>Input lightcurve. The lightcurve is expected to be equally binned containing the columns RATE and TIME.</dd>
+<p>
+
+
+<dt>outroot [filename]</dt>
+<dd>Root name for the output files. The filenames for the lightcurve, gti and summary are made by adding to the root "user.lc", "dur.gti"
+  "summary.fits" or "summary.txt" respectively  </dd> 
+<p>
+
+<dt>(leapfile = "REFDATA") [string]</dt>
+<dd>Name of the leap second file. If set to REFDATA (default), the leap second file in
+  FTOOLS reference data directory is used.</dd> 
+<p>
+
+<!-- Settings for the first step -->
+
+<dt>timewin [real] (seconds)</dt>
+<dd>Time window (in seconds) to calculate the average in the first step. The value should be larger of the original binning.</dd>
+<p>
+
+<dt>(gap_interval=100.0) [real] (seconds)</dt>
+<dd>If the lightcurve has a large gap, this parameter allows to restart the sliding window
+  average from the first valid point after the gap. 
+  The default is 100 s. 
+<p>
+
+<dt>numsdv [real] </dt>
+<dd>Number of standard deviations used in the first step  to calculate the threshold 
+between the current value and moving average. </dd>
+<p>
+
+<dt>(fill=yes) [boolean]</dt>
+<dd> If set to "no", exclude values that are above the standard deviation defined
+  by <i>numsdv</i> in the average caculation.
+  If set to "yes" (default), the points above the standard deviation are replaced
+  by the average*(1-frac), where the average is the value of the rate average calculated for
+  the <i>timewin</i> interval including the preceeding point and frac is defined   
+  by the parameter <i>fraction</i></dd>
+<p>
+  
+<dt>(fraction=0.01) [real]</dt>
+<dd>Fraction used to calculate the rate to be replaced in the original lightcurve if <i>fill</i>=yes.
+  Value range between 0 and 1, default is 0.01.</dd>
+<p>
+
+  <!-- Settings for the second step -->
+  
+<dt>(polyorder=3) [integer]</dt>
+<dd>The order of the polynomial used to fit data to model background.
+  Default is 3 (i.e. cubic fit).</dd>
+<p>
+
+  <dt>(use_covar=yes) [boolean]</dt>
+  <dd>If set to "yes" (default), the polynomial fit model
+    takes error in rate into account when fitting.
+    If set to "no", error on rate are not used </dd>
+<p>
+
+ <!-- Setting for third step  -->
+
+ <dt>timewin2 [real]</dt>
+ <dd>Time window (in seconds) to calculate the average in the third step. The value should be larger
+   of the original binning.</dd>
+<p>
+  
+  <dt>numsdv2 [real]</dt>
+  <dd>Number of standard deviations used in the third  step  to calculate the threshold
+  between the polynomial fit and the smooth rates. Above numsdv2 is considr a burst. </dd>  
+<p>
+
+  <dt>mufactor [real]</dt>
+  <dd>Multiplicative factor to the standard deviation obtained from the polynomial fit
+    and the smooth rate. This factor is used to search for the start and stop of a burst.</dd>
+  
+<p>
+
+  <dt>(min_int = 30.0) [real] (seconds)</dt>
+  <dd>The minimum time between adjacent bursts. If
+    two bursts are detected within <i>min_int</i> seconds of each other, they are
+    merged and consider a single burst. Default is 30.0 seconds</dd>
+
+<p>
+<!-- Setting for four step  -->  
+  
+<dt>(refit=yes) [boolean]</dt>
+<dd>Execute the fourth step if set to "yes" (default), where burst intervals found in the third step 
+  are excluded from the lightcurve and the data are refit.
+  If set to  "no", the fourth step is not executed no refitting.</dd>
+<p>
+
+<dt>(maxiter=10) [integer]</dt>
+<dd>If set (default is 10), the maximum number of times to iterate to potentially improve the 
+  polynomial fit solution. Ignored if <i>refit</i> is set to no.</dd>
+<p>
+
+<dt>(pdiff=0.1) [real]</dt>
+<dd> Define the minimum difference in sigma between two subsequeent polynomial fits and is valid only if
+  the parameter <i> refit</i> is set to yes. If the fit has improved
+  sigma by more than <i>pdiff</i> times sigma, the new polynomial fit has improved and step two and three are remade. <dd>
+<p>
+
+
+<!-- other settings -->
+
+<dt>(time_min = "NONE") [string]</dt>
+<dd>The earliest time in the lightcurve to consider when searching for bursts. 
+ The time values may be provided as :
+  <ul>
+    <li>Mission Elapsed Time (MET), the number of seconds from the
+      start of the mission time, defined by keywords MJDREF (or
+    MJDREFI and MJDREFF) in the input lightcurve; or</li>
+    <li>UTC date in the form "YYYY-MM-DDThh:mm:ss.ff"</li>
+   </ul>
+ If set to NONE (or blank: default), the input lightcurve search starts with the first data point.
+</dd>
+<p> 
+
+<dt>(time_max = "NONE") [string] </dt>
+
+<dd>The latest time in the lightcurve to consider when searching for 
+  bursts. The time values may be provided as :
+
+  <ul>
+    <li>Mission Elapsed Time (MET), the number of seconds from the
+      start of the mission time, defined by keywords MJDREF (or
+      MJDREFI and MJDREFF) in the input lightcurve; or</li>
+    <li>UTC date in the form "YYYY-MM-DDThh:mm:ss.ff"</li>
+       </ul>  
+
+ If set to NONE (or blank: default), the input lightcurve search ends at the last data point. 
+</dd>     
+<p>
+
+<dt>(trigtime = "NONE") [string] </dt>
+
+<dd>Trigger time. The value is informative only and written in the output files but not used in
+  computations. The default setting is NONE (i.e. do not set TRIGTIME).
+</dd>                                                 
+<p>
+  
+<dt>(tcol = TIME) [string] </dt>
+<dd>Column name in the input lightcurve containing the time information.
+  Default is TIME.</dd>
+<p>
+
+<dt>(rcol = RATE) [string])</dt>
+<dd>Column name in the input lightcurve containing the count or rate information.
+  Default is RATE.</dd>
+<p>
+
+
+<!-- Standard I/O settings -->
+
+<dt>(clobber = no) [boolean]</dt>
+<dd>Overwrites the existing output file if set to yes (yes/[no]).</dd>
+<p>
+
+<dt>(chatter = 1) [integer, 0 - 3]</dt>
+<dd> Chatter level for output. Set to 0 to suppress output, or to 1 (default),
+          2, or 3 for increasing the chatter of the output. </dd>
+<p>
+
+<dt>(debug = no) [boolean]</dt>
+<dd> Diagnostic output is printed out on the screen if set to yes. Also, a diagnostic
+  FITS file with polynomial fitting  is written out. (yes/[no]). </dd>
+<p>
+  
+<dt>(logfile = NONE) [string]</dt>
+<dd>
+  Log filename. If set to DEFAULT, use the name of this task (i.e. burstfinder.log). If
+  preceded by "!" overwrite the file if it exists. If set to
+  NONE (default), no log file is created. </dd>
+<p>
+
+<dt>(history = no) [boolean]</dt>
+  <dd>
+    If set to yes, add HISTORY keywords to the output files that record the parameters
+    used to create them. Default is NO.</dd>
+<p>
+  
+<dt>(mode = ql) [string ql|hl|q]</dt>
+<dd>Mode to query the parameter file. Acceptable values include: "ql" (query and learn/remember), 
+"hl" (hidden and learn/remember), "q" (query but don't remember), "h" (hidden). </dd>
+<p>
+</dl>
+
+
+
+<h2>EXAMPLES</h2>
+
+<ol>
+  <li>Search the lightcurve testfile.lc for bursts using for the first step timewin = 10 s, with replace points
+    (fill=yes) that have a standard deviation > 3 (numsdv=3) with an average decrease by 0.01
+    (fraction=0.01).  
+    Fit the lightcurve from the first step  with a cubic polynomial model (polyorder=3)
+    using the error on rate
+    (use_covar=yes).  For the third step use a timewin2=1 s and a threshold of 2 (numsdv=2) when
+    comparing
+    the lightcurve with the polynomial fit and a value of  mufactor=0.2 when fine searching the start
+    and stop of the burst. The output files have root names starting with "burst_test".
+    Do not attempt to refit after making an initial estimate of the burst
+    interval (refit=no)).
+<p>
+
+<pre>
+burstfinder infile=testfile.lc outroot=burst_test timewin=10.0 numsdv=3 fraction=0.01 polyorder=3  numsdv2=3.0 
+            timewin2=1.0 mufactor=0.2 fill=yes refit=no use_covar=yes
+</pre>
+</li>
+
+  <li>Same as the example 1) but the lighcurve is only searched in the time interval defined by
+    <i>time_min</i> and <i>time_max</i> provided in MET and record terminal output to a
+    logfile "burst_test2.log".
+<p>
+
+<pre>
+burstfinder infile='testfile.lc' outroot='burst_test' timewin=10.0 numsdv=3.0 fraction=0.01 polyorder=3 numsdv2=3.0 
+timewin2=1.0 mufactor=0.2 time_min=6.80012E+08 time_max=6.80018E+08 logfile=burst_test2.log fill=yes
+refit=no use_covar=yes 
+</pre>
+  </li>
+  
+  <li>Same as the example 1) but after step 3 refit (refit=yes) the polynomial on the lightcurve
+    is clipped by the burst intervals
+    and iterated up to 10 times (maxiter=10) to find the best solution. Exit if the fit improves by
+    less than 10% between iterations (pdiff=0.1). Write to a log file
+    "burst_test3.log" and clobber any previous logfile of the same name.
+<p>
+
+<pre>
+burstfinder infile='testfile.lc' outroot='burst_test' timewin=10.0 numsdv=3.0 fraction=0.01 polyorder=3 numsdv2=3.0 
+            timewin2=1.0 mufactor=0.2 fill=no refit=yes maxiter=10 pdiff=0.1 logfile="\!burst_test3.log"
+</pre>
+      
+
+<h2>SEE ALSO</h2>
+
+batblocks, cgbm_bstgti
+
+
+<h2>LAST MODIFIED</h2>
+
+February  2025 (burstfinder 1.951b)
+</body>
+</html>

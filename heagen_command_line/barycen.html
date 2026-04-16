@@ -1,0 +1,324 @@
+<!--=======================================-->
+<!--  HEADAS HTML HELP FILE TEMPLATE, v1.1 -->
+<!--=======================================-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<style type="text/css">
+  body { margin-left: 5%; margin-right: 5%; }
+  h1,h2,h3,h4 { margin-left: -5%;}
+</style>
+<title>HEADAS help file</title>
+</head>
+<body>
+
+<h2>NAME</h2>
+
+barycen - Apply barycenter corrections to X-ray timing data 
+
+
+<h2>USAGE</h2>
+
+<tt>barycen infile outfile orbfile ra dec</tt>
+
+<h2>DESCRIPTION</h2>
+
+<p>
+The barycen task is a mission-independent task to calculate barycenter 
+corrections to X-ray timing data. The task can take a single input FITS events file, or it 
+can take multiple input FITS files listed in a plain text file (using "@" preceeding
+the list file name for the input parameter 'infile'). If more than one input
+FITS file is specified, each input file requires an orbit file (the orbit files
+can be similarly listed in a plain text file), and there will be an output file
+for each input file. An input FITS file must contain a column specified by the parameter 'timecol'
+(by default set to TIME), assumed by 
+barycen to be the column to be corrected. Other time-related keywords in the 
+initial FITS file header are also corrected. In all GTI extensions, any column 
+name specified by the parameters 'startcol' (TSTART by default) and
+'stopcol' (TSTOP by default), are also corrected. If the same names are specified for
+the input and output files, the corrected output columns are 
+overwritten in the input file. 
+<p>
+The barycen task also needs the observatory orbit ephemeris file (defined in the 
+'orbfile' parameter), 
+the target position ('ra' and 'dec' parameters), and the reference frame ('refframe' parameter).
+If 'ra' and 'dec' are not provided or are out of range, 
+the task extracts this information from the input FITS file header. 
+ 
+<p>
+The task computes the time expressed by clocks at the Solar System Barycenter (SSB) 
+(i.e. in Barycentric Dynamical Time, or TDB) and 
+writes the corrected 'timecol' column in the output file specified by the 
+parameter 'outfile'. 
+This correction requires both geometric corrections 
+(the projected light travel time to the SSB), and
+relativistic corrections, such as the Shapiro time
+delay and correction of clocks from the geocenter frame, to the SSB
+frame.  
+
+<p>
+This task is unsuitable for any mission with a clock time that has 
+already been corrected; 
+thus it should not be used for data from Swift or NuStar. 
+
+<p>
+If the parameter 'debug' is set to yes,
+the following quantities are printed for each row of the input table: 
+<li>TIME, 
+(uncorrected time); 
+</li>
+<li>BARYTIME (barycenter-corrected time); 
+</li>
+<li>VEARTH (total 
+barycentric Earth velocity); 
+</li>
+<li>VEARTHX, VEARTHY, and VEARTHZ, 
+(X, Y, and Z components of the barycentric Earth velocity respectively); 
+</li>
+<li>
+ERADVEL (projection 
+of Earth velocity onto the unit vector toward the observed target); 
+</li>
+<li>
+TOTCORR (total 
+barycenter time correction); 
+</li>
+<li>and the four terms that sum to TOTCORR.
+</li>
+</p>
+<p>
+The four terms that sum to TOTCOTT are
+<li>
+TTtoTDB, which is the difference between Terrestrial Time (TT) and Barycentric Dynamic Time (TDB), 
+</li>
+<li>
+S/C_SSBC (light travel time from the spacecraft to solar system barycenter),
+</li>
+<li>
+S/C_EARTH (correction due to Earth velocity), 
+</li>
+<li>and GRAV (correction due to
+the gravitational field of the Sun). 
+</li>
+</p>
+<p>
+The (X,Y,Z) system is a right-handed
+Equatorial system where X points toward the Vernal Equinox and Z toward 
+the North Celestial Pole.  Velocity is in units of km s^{-1}.
+</p>
+
+<h2>PARAMETERS</h2>
+<dl>
+
+<p>
+<dt>infile [filename]</dt>
+<dd>Name of input file.  
+</dd>
+</p>
+
+<p>
+<dt>outfile [filename]</dt>
+<dd>Name of output file.  The output file can be the same
+as the input file as long as the parameter 'clobber' is set to yes.  
+In addition to the corrected columns and keywords listed in the task 
+description, the following keywords are added or modified: 
+RA_TDB, DEC_TDB, TIMEREF, and TIMESYS.
+</dd>
+</p>
+
+<p>
+<dt>orbfile [filename]</dt>
+<dd>Name of a FITS satellite orbit file. This file provides the 
+satellite orbital position and velocity as a function of time 
+that are used in calculating the barycenter correction. 
+The orbit format of 'orbfile' must 
+match the value of the 'orbform' parameter. 
+</dd>
+</p>
+
+<p>
+<dt>ra = 0.0 [double]</dt>
+<dd> Right ascension [degrees] of the nominal pointing.
+This must be in the range 0 <= ra <= 360 degrees; if it is not in range,
+the value will be taken from RA_NOM in the 'infile' header, or RA_PNT if
+RA_NOM is not given.
+</dd>
+</p>
+
+<p>
+<dt>dec = 0.0 [double]</dt>
+<dd> Declination [degrees] of the nominal pointing,
+This must be in the range -90 <= dec <= +90 degrees; if it is not in range,
+the value will be taken from DEC_NOM in the 'infile' header, or DEC_PNT if
+DEC_NOM is not given.
+</dd>
+</p>
+
+<p>
+<dt>(orbext = ORBIT) [string]</dt>
+<dd>
+Name of the FITS orbit file extension containing satellite orbit data. 
+</dd>
+</p>
+
+<p>
+<dt>(orbform = KEPLERIAN) [string VECTOR|COMPONENTS|KEPLERIAN]</dt>
+Format in which the orbital velocity is provided in the orbit file. 
+For the VECTOR format, the position and
+velocity in the Earth-Centered Inertial (ECI) system are provided as
+two vector columns with three elements each.
+For the COMPONENT format, the position and velocity in the ECI system
+are provided in 
+three separate position columns and three separate velocity columns.
+For the KEPLERIAN format, six separate columns contain the six
+Keplerian elements for the orbit solution.
+</dd>
+</p>
+
+<p>
+<dt>(orbcol = "A,E,I,AN,AP,MA"|"X,Y,Z,VX,VY,VZ") [string]</dt>
+<dd>
+Names of the FITS columns containing orbit values in the 'orbext'
+extension of the orbit file. If 'orbform=VECTOR', 'orbcol' 
+is a string containing the names of the FITS columns 
+containing the position and velocity vectors, respectively
+(e.g., 'orbcol=POSITION,VELOCITY').  
+If 'orbform=COMPONENTS', 'orbcol' is a string 
+containing six comma-separated column names, specifying
+the x, y, and z components of the orbital position and the 
+vx, vy, vz components of the orbital velocity, respectively (e.g., 'orbcol=X,Y,Z,VX,VY,VZ'). 
+If 'orbform=KEPLERIAN', 'orbcol' is a string 
+containing six comma-separated column names, specifying
+the Keplerian orbital elements semi-major axis, eccentricity,
+inclination, longitude of the ascending node, argument of periapsis,
+and mean anomaly, respectively (e.g., 'orbcol=A,E,I,AN,AP,MA').
+</dd>
+</p>
+
+<p>
+<dt>(refframe) [string FILE|FK5|ICRS]</dt>
+<dd>
+Coordinate reference frame.  Determines the solar system ephemeris that is used.
+If 'refframe=FILE', the task uses the value of the RADECSYS keyword in the input file.
+For FK5, the JPL DE200 ephemeris is used, and for ICRS, the JPL DE440 ephemeris is used.
+If the nominal source position is specified via the 'ra' and 'dec' parameters,
+then 'refframe' also describes this position.
+</p>
+<p>
+In practice modern solar system ephemerides in the ICRS reference system,
+including DE440, can be used in conjunction with
+spacecraft orbit ephemerides expressed in the FK5 system.
+The maximum error is 2 ns for each earth radius that the spacecraft is
+removed from the geocenter.
+</dd>
+</p>
+
+<p>
+<dt>(orbinterp = WEIGHTED) [string NEAREST|WEIGHTED|TAYLOR]</dt>
+<dd>
+Method used to interpolate the position values in the orbit file.
+If 'orbinterp=WEIGHTED', the task calculates a
+weighted average of either the Keplerian elements (for 'orbform=KEPLERIAN') 
+or the position values (for 'orbform=VECTOR' or 
+'orbform=COMPONENTS'). If 'orbinterp=TAYLOR', 
+the task uses a second-order Taylor expansion involving the position,
+velocity, and time-derivative of the velocity to interpolate the orbital
+position. The value 'orbinterp=TAYLOR' is incompatible with 'orbform=KEPLERIAN';
+if TAYLOR is specified in this case, the WEIGHTED method is used instead.
+If 'orbinterp=NEAREST', the task does not interpolate the 
+orbital position, but instead uses the orbital position value closest
+in time to the event time being corrected.
+</dd>
+</p>
+
+<p>
+<dt>(timecol = TIME) [string]</dt>
+<dd> 
+Name of the FITS column in the event table containing time values.
+</dd>
+</p>
+
+<p>
+<dt>(startcol = START) [string]</dt>
+<dd> 
+Name of the FITS column in the GTI table containing start time values.
+</dd>
+</p>
+
+<p>
+<dt>(stopcol = STOP) [string]</dt>
+<dd> 
+Name of the FITS column in the GTI table containing stop time values.
+</dd>
+</p>
+
+<p>
+<dt>(useweights = yes) [boolean yes|no]</dt>
+<dd>
+Determines whether the code uses the values in the WEIGHTS column of 
+the orbit file when combining multiple orbit rows with the same time
+values.  If 'useweights=yes', the task derives a weighted
+average of the orbital positions and velocities for two rows with the
+same time. If 'useweights=no', or if the orbit file does not
+have a WEIGHTS column, the task uses only the 
+values in the first row found of the two rows that have the same time.  
+</dd>
+</p>
+
+<p>
+<dt>(clobber = no) [boolean yes|no]</dt>
+<dd>Overwrites the existing output file if set to yes. </dd>
+</p>
+
+<p>
+<dt>(chatter = 1) [integer 0|1|2|3] </dt>
+<dd>Chatter level for output. Set to 0 to suppress output,
+or to 1, 2, or 3 for increasing the chatter of the output. </dd>
+</p>
+
+<p>
+<dt>(logfile = !DEFAULT) [string DEFAULT|NONE|file name]</dt>
+<dd>Log file name. If set to DEFAULT, uses the name of the task and, if
+preceded by "!", overwrites the file if it exists. If set to NONE, no
+log file is created. </dd>
+</p>
+
+<p>
+<dt>(debug = no) [boolean yes|no]</dt>
+<dd>Diagnostic output is printed to the screen if set to yes.</dd>
+</p>
+
+<p>
+<dt>(history = yes) [boolean yes|no]</dt>
+<dd>Records tool parameters in HISTORY.</dd>
+<p>
+
+</dl>
+
+<h2>EXAMPLES</h2>
+<ol>
+<li>Run barycen using the default weighted orbit interpolation method and 
+Keplerian orbital elements. </li>
+<pre>
+  barycen infile="xa300016010xtd_p0300000a0_uf.evt" outfile="xa300016010xtd_p0300000a0_uf_corrected1.evt" \
+    orbfile="xa300016010.orb" ra=187.67682 dec=12.43481
+</pre>
+
+<li>Run barycen using the Taylor orbit interpolation method and orbital
+positions and velocities supplied as component columns.</li>
+<pre>
+  barycen infile="xa300016010xtd_p0300000a0_uf.evt" outfile="xa300016010xtd_p0300000a0_uf_corrected2.evt" \
+    orbfile="xa300016010.orb" ra=187.67682 dec=12.43481 orbinterp=TAYLOR orbform=COMPONENTS orbcol=X,Y,Z,VX,VY,VZ clobber=yes</pre>
+</ol>
+
+<h2>SEE ALSO</h2>
+
+<a href="barycorr.html">barycorr</a>, 
+<a href="aebarycen.html">aebarycen</a>
+
+<h2>LAST MODIFIED</h2>
+
+September 2, 2025
+
+</body>
+</html>
